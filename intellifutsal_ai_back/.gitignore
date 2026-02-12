@@ -1,0 +1,47 @@
+# Python environment directories (virtual environments)
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Configuration files and credentials (should not be tracked)
+# *.env
+*.DS_Store
+instance/
+config.json
+
+# Flask-specific files (logs, database files)
+*.log
+*.sqlite3
+instance/
+
+# IDE-specific directories and files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Pytest-generated files and code coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache/
+.pytest_cache/
+
+# Local database files and migration directories (if using Flask-Migrate)
+migrations/
+*.db
+*.sqlite
+
+# Distribution and packaging directories
+build/
+dist/
+*.egg-info/
+.eggs/
+MANIFEST
+
+# Other generated files (temporary or backup files)
+*.bak
+*.swp

@@ -1,0 +1,120 @@
+import { MigrationInterface, QueryRunner } from "typeorm";
+
+export class MigrationV61769011607360 implements MigrationInterface {
+    name = 'MigrationV61769011607360'
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE "credentials" DROP COLUMN "createdAt"`);
+        await queryRunner.query(`ALTER TABLE "coaches" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "coaches" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "credentials" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "credentials" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "player_clusters" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "player_clusters" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "players" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "players" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "teams" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "teams" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_plans" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_progress" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "clusters" DROP COLUMN "creation_date"`);
+        await queryRunner.query(`ALTER TABLE "clusters" ADD "creation_date" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" DROP COLUMN "assignment_date"`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" ADD "assignment_date" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" DROP COLUMN "end_date"`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" ADD "end_date" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "join_requests" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "join_requests" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "join_requests" DROP COLUMN "reviewed_at"`);
+        await queryRunner.query(`ALTER TABLE "join_requests" ADD "reviewed_at" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "join_requests" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "join_requests" ADD "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "player_teams" DROP COLUMN "entry_date"`);
+        await queryRunner.query(`ALTER TABLE "player_teams" ADD "entry_date" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "player_teams" DROP COLUMN "exit_date"`);
+        await queryRunner.query(`ALTER TABLE "player_teams" ADD "exit_date" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" DROP COLUMN "expires_at"`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" ADD "expires_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "start_date"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "start_date" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "end_date"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "end_date" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "approved_at"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "approved_at" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "cancelled_at"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "cancelled_at" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_plans" DROP COLUMN "approved_at"`);
+        await queryRunner.query(`ALTER TABLE "training_plans" ADD "approved_at" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "training_plans" DROP COLUMN "rejected_at"`);
+        await queryRunner.query(`ALTER TABLE "training_plans" ADD "rejected_at" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "training_plans" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "training_plans" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_progress" DROP COLUMN "verified_at"`);
+        await queryRunner.query(`ALTER TABLE "training_progress" ADD "verified_at" TIMESTAMP WITH TIME ZONE`);
+        await queryRunner.query(`ALTER TABLE "training_progress" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "training_progress" ADD "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE "training_progress" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "training_progress" ADD "created_at" TIMESTAMP NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_progress" DROP COLUMN "verified_at"`);
+        await queryRunner.query(`ALTER TABLE "training_progress" ADD "verified_at" TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "training_plans" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "training_plans" ADD "created_at" TIMESTAMP NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_plans" DROP COLUMN "rejected_at"`);
+        await queryRunner.query(`ALTER TABLE "training_plans" ADD "rejected_at" TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "training_plans" DROP COLUMN "approved_at"`);
+        await queryRunner.query(`ALTER TABLE "training_plans" ADD "approved_at" TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "created_at" TIMESTAMP NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "cancelled_at"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "cancelled_at" TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "approved_at"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "approved_at" TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "end_date"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "end_date" date`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "start_date"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" ADD "start_date" date`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" ADD "created_at" TIMESTAMP NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" DROP COLUMN "expires_at"`);
+        await queryRunner.query(`ALTER TABLE "refresh_tokens" ADD "expires_at" TIMESTAMP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "player_teams" DROP COLUMN "exit_date"`);
+        await queryRunner.query(`ALTER TABLE "player_teams" ADD "exit_date" date`);
+        await queryRunner.query(`ALTER TABLE "player_teams" DROP COLUMN "entry_date"`);
+        await queryRunner.query(`ALTER TABLE "player_teams" ADD "entry_date" date NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "join_requests" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "join_requests" ADD "updated_at" TIMESTAMP NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "join_requests" DROP COLUMN "reviewed_at"`);
+        await queryRunner.query(`ALTER TABLE "join_requests" ADD "reviewed_at" TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "join_requests" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "join_requests" ADD "created_at" TIMESTAMP NOT NULL DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" DROP COLUMN "end_date"`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" ADD "end_date" date`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" DROP COLUMN "assignment_date"`);
+        await queryRunner.query(`ALTER TABLE "coach_teams" ADD "assignment_date" date NOT NULL DEFAULT ('now'::text)::date`);
+        await queryRunner.query(`ALTER TABLE "clusters" DROP COLUMN "creation_date"`);
+        await queryRunner.query(`ALTER TABLE "clusters" ADD "creation_date" date NOT NULL DEFAULT ('now'::text)::date`);
+        await queryRunner.query(`ALTER TABLE "training_progress" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "training_plans" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "training_assignments" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "teams" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "teams" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "players" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "players" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "player_clusters" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "player_clusters" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "credentials" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "credentials" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "coaches" DROP COLUMN "updated_at"`);
+        await queryRunner.query(`ALTER TABLE "coaches" DROP COLUMN "created_at"`);
+        await queryRunner.query(`ALTER TABLE "credentials" ADD "createdAt" TIMESTAMP NOT NULL DEFAULT now()`);
+    }
+
+}

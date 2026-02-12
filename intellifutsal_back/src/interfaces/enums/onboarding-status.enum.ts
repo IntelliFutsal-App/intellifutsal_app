@@ -1,0 +1,6 @@
+export enum OnboardingStatus {
+    REGISTERED = "REGISTERED",
+    PROFILE_CREATED = "PROFILE_CREATED",
+    TEAM_PENDING = "TEAM_PENDING",
+    ACTIVE = "ACTIVE"
+}

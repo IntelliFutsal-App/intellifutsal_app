@@ -1,0 +1,9 @@
+dotenv
+flask
+numpy
+pandas
+scikit-learn
+imbalanced-learn
+gunicorn
+flasgger
+openai==0.28

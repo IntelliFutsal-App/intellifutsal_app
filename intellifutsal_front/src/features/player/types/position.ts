@@ -1,0 +1,1 @@
+export type Position = "PIVOT" | "WINGER" | "FIXO" | "GOALKEEPER";

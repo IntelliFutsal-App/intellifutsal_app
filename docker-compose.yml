@@ -1,0 +1,150 @@
+version: '3.8'
+
+services:
+  # Database
+  postgres:
+    image: postgres:14-alpine
+    container_name: intellifutsal_postgres
+    restart: always
+    ports:
+      - "127.0.0.1:5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=${DB_PROD_PASSWORD}
+      - POSTGRES_USER=${DB_PROD_USERNAME}
+      - POSTGRES_DB=${DB_PROD_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./intellifutsal_back/init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - intellifutsal-network
+
+  # Backend Flask (AI Services) - PRIVADO, solo accesible internamente
+  flask-backend:
+    build:
+      context: ./intellifutsal_ai_back
+      dockerfile: Dockerfile
+    container_name: intellifutsal_flask_backend
+    restart: always
+    environment:
+      # Model and Scaler Paths
+      - POSITIONS_MODEL_PATH=${POSITIONS_MODEL_PATH}
+      - PHYSICAL_CONDITIONS_MODEL_PATH=${PHYSICAL_CONDITIONS_MODEL_PATH}
+      - POSITIONS_SCALER_PATH=${POSITIONS_SCALER_PATH}
+      - PHYSICAL_CONDITIONS_SCALER_PATH=${PHYSICAL_CONDITIONS_SCALER_PATH}
+      
+      # App Config
+      - DEBUG=${DEBUG}
+      - HOST=${HOST}
+      - PORT=${PORT}
+      
+      # API Keys
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      
+      # Timeouts
+      - REQUEST_TIMEOUT=10
+      - MAX_CONTENT_LENGTH=1024000
+    volumes:
+      - ./intellifutsal_ai_back/app:/app/app
+      - ./intellifutsal_ai_back/static:/static
+      - ./intellifutsal_ai_back/main.py:/app/main.py
+      - ./intellifutsal_ai_back/.env:/app/.env
+    networks:
+      - intellifutsal-network
+    depends_on:
+      - postgres
+
+  # Backend Node.js (Gateway) - ÚNICO PUNTO DE ENTRADA EXTERNO
+  nodejs-backend:
+    build: 
+      context: ./intellifutsal_back
+      dockerfile: Dockerfile
+    container_name: intellifutsal_nodejs_backend
+    restart: always
+    ports:
+      - "127.0.0.1:${APP_PORT}:${APP_PORT}"
+    environment:
+      # Database configs (Development - Docker)
+      - DB_DEV_TYPE=${DB_DEV_TYPE}
+      - DB_DEV_HOST=${DB_DEV_HOST}
+      - DB_DEV_PORT=${DB_DEV_PORT}
+      - DB_DEV_USERNAME=${DB_DEV_USERNAME}
+      - DB_DEV_PASSWORD=${DB_DEV_PASSWORD}
+      - DB_DEV_NAME=${DB_DEV_NAME}
+      
+      # Production DB (Azure)
+      - DB_PROD_TYPE=${DB_PROD_TYPE}
+      - DB_PROD_HOST=${DB_PROD_HOST}
+      - DB_PROD_PORT=${DB_PROD_PORT}
+      - DB_PROD_USERNAME=${DB_PROD_USERNAME}
+      - DB_PROD_PASSWORD=${DB_PROD_PASSWORD}
+      - DB_PROD_NAME=${DB_PROD_NAME}
+
+      # Mail
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
+
+      # SendGrid
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL}
+      
+      # JWT
+      - TOKEN_TYPE=${TOKEN_TYPE}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      
+      # General
+      - APP_PORT=${APP_PORT}
+      
+      # Development
+      - NODE_ENV=${NODE_ENV}
+
+      # Migrations
+      - RUN_MIGRATIONS=true
+
+      # AI API URL
+      - AI_API_URL=${AI_API_URL}
+      
+      # Flask backend URL
+      - FLASK_BACKEND_URL=http://flask-backend:5000
+    volumes:
+      - ./intellifutsal_back:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - intellifutsal-network
+    depends_on:
+      - postgres
+      - flask-backend
+
+  # Frontend React/Vite
+  react-frontend:
+    build:
+      context: ./intellifutsal_front  
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: intellifutsal_react_frontend
+    restart: always
+    ports:
+      - "127.0.0.1:5173:80"  
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    volumes:
+      - ./intellifutsal_front:/app  
+      - /app/node_modules
+      - /app/dist  
+    networks:
+      - intellifutsal-network
+    depends_on:
+      - nodejs-backend
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  intellifutsal-network:
+    driver: bridge
+    name: intellifutsal-network

@@ -1,0 +1,1 @@
+export type OnboardingStatus = "REGISTERED" | "PROFILE_CREATED" | "TEAM_PENDING" | "ACTIVE";
