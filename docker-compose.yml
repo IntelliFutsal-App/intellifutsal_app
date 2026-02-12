@@ -56,7 +56,7 @@ services:
     container_name: intellifutsal_nodejs_backend
     restart: always
     ports:
-      - "127.0.0.1:${APP_PORT}:3000"
+      - "127.0.0.1:${APP_PORT}:3001"
     environment:
       DB_DEV_TYPE: ${DB_DEV_TYPE}
       DB_DEV_HOST: postgres
@@ -108,7 +108,7 @@ services:
     container_name: intellifutsal_react_frontend
     restart: always
     ports:
-      - "127.0.0.1:5173:80"
+      - "127.0.0.1:5173:90"
     environment:
       VITE_API_URL: ${VITE_API_URL}
     networks:

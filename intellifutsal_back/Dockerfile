@@ -17,7 +17,7 @@ COPY run-migrations.sh /run-migrations.sh
 RUN chmod +x /run-migrations.sh
 
 # Expose the port your app listens on
-EXPOSE 3000
+EXPOSE 1
 
 # Entrypoint will wait for DB and run migrations, then exec the CMD
 ENTRYPOINT ["/run-migrations.sh"]
