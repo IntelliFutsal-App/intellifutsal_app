@@ -1,30 +1,26 @@
-# Dockerfile for a Node.js application
 FROM node:18-alpine
 
-# Download PostgreSQL client
-RUN apk add --no-cache postgresql-client
+# Install psql client for health checks / scripts
+RUN apk add --no-cache postgresql-client bash
 
-# Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
+# Copy only package files first for faster rebuilds
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code to the working directory
+# Copy app source
 COPY . .
 
-# Copy and make the migration script executable
+# Make migrations runner executable (ya lo llevas)
 COPY run-migrations.sh /run-migrations.sh
 RUN chmod +x /run-migrations.sh
 
-# Build the application (if applicable)
+# Expose the port your app listens on
 EXPOSE 3000
 
-# Use run-migrations.sh as the entrypoint
+# Entrypoint will wait for DB and run migrations, then exec the CMD
 ENTRYPOINT ["/run-migrations.sh"]
 
-# Start the application
-CMD ["npm", "start"]
+# By default start the app in dev mode via nodemon (you can change to `npm start`)
+CMD ["npm", "run", "dev"]

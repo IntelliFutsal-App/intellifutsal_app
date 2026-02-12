@@ -15,6 +15,7 @@ const DB_NAME = NODE_ENV === "production" ? process.env.DB_PROD_NAME : process.e
 const DB_TYPE = NODE_ENV === "production" ? process.env.DB_PROD_TYPE : process.env.DB_DEV_TYPE;
 const DEFAULT_PORT = "5432";
 const DEFAULT_SYNCHRONIZE = false;
+const DEFAULT_LOGGING = false;
 
 export const AppDataSource = new DataSource({
     type: DB_TYPE as any,
@@ -24,7 +25,7 @@ export const AppDataSource = new DataSource({
     password: DB_PASSWORD,
     database: DB_NAME,
     synchronize: DEFAULT_SYNCHRONIZE,
-    logging:  false,
+    logging:  DEFAULT_LOGGING,
     entities: [
         Cluster,
         CoachTeam,
