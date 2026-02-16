@@ -3,10 +3,10 @@ version: '3.8'
 services:
   postgres:
     image: postgres:14-alpine
-    container_name: intellifutsal_postgres
+    container_name: intellifutsal_postgres_db
     restart: always
     ports:
-      - "127.0.0.1:5433:5432"
+      - "5433:5432"
     environment:
       POSTGRES_USER: ${DB_PROD_USERNAME}
       POSTGRES_PASSWORD: ${DB_PROD_PASSWORD}
@@ -56,7 +56,7 @@ services:
     container_name: intellifutsal_nodejs_backend
     restart: always
     ports:
-      - "127.0.0.1:${APP_PORT}:9042"
+      - "${APP_PORT}:9042"
     environment:
       DB_DEV_TYPE: ${DB_DEV_TYPE}
       DB_DEV_HOST: postgres
@@ -108,7 +108,7 @@ services:
     container_name: intellifutsal_react_frontend
     restart: always
     ports:
-      - "127.0.0.1:5173:90"
+      - "5173:90"
     environment:
       VITE_API_URL: ${VITE_API_URL}
     networks:
