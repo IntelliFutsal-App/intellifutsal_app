@@ -39,7 +39,7 @@ class Config:
 
     DEBUG = get_env("DEBUG", "false").lower() == "true"
     HOST = get_env("HOST", "0.0.0.0")
-    PORT = int(get_env("PORT", "5001"))
+    PORT = int(get_env("PORT", "9041"))
 
     OPENAI_API_KEY = get_env("OPENAI_API_KEY")
 

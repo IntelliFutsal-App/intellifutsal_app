@@ -15,6 +15,6 @@ RUN mkdir -p /static/models
 
 COPY . .
 
-EXPOSE 5001
+EXPOSE 9041
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--timeout", "90", "main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:9041", "--timeout", "90", "main:app"]

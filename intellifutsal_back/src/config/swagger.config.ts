@@ -3,7 +3,7 @@ import swaggerUi from "swagger-ui-express";
 import { Application } from "express";
 
 
-const DEV_BASE_URL = process.env.SWAGGER_DEV_URL ?? "http://localhost:3001/api/v1";
+const DEV_BASE_URL = process.env.SWAGGER_DEV_URL ?? "http://localhost:9042/api/v1";
 const PROD_BASE_URL = process.env.SWAGGER_PROD_URL ?? "https://intellifutsal.duckdns.org/api/v1";
 
 const servers = [
