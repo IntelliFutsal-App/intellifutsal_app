@@ -17,6 +17,7 @@ export const COACH_UPDATE_ERROR: string = "No fue posible actualizar el entrenad
 export const COACH_NOT_FOUND: string = "No se encontró el entrenador con el ID: ";
 export const COACH_NOT_FOUND_CREDENTIAL: string = "No se encontró el entrenador con la credencial con el ID: ";
 export const COACH_ROLE_NOT_VALID: string = "El rol de la credencial no es válido para un entrenador";
+export const COACH_PENDING_APPROVAL: string = "Tu cuenta de COACH está pendiente de aprobación por un ADMIN.";
 
 export const CREDENTIAL_NOT_FOUND: string = "No se encontró la credencial con el ID: ";
 export const CREDENTIAL_ALREADY_ASSIGNED_PLAYER: string = "La credencial ya está asignada a otro jugador";
@@ -108,3 +109,4 @@ export const FROM_EMAIL_MISSING: string = "El email del remitente no está confi
 export const SENDGRID_API_KEY_MISSING: string = "La clave de API de SendGrid no está configurada";
 
 export const ROLE_NOT_SUPPORTED: string = "El rol proporcionado no es soportado para el estado del perfil";
+export const UNAUTHORIZED_RESOURCE_ACCESS: string = "No estás autorizado para acceder a este recurso";

@@ -1,3 +1,12 @@
+export const formatStringDate = (date: Date | string | null | undefined) => {
+    if (!date) return "—";
+
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "—";
+
+    return d.toLocaleDateString("es-CO", { day: "2-digit", month: "short", year: "numeric" });
+};
+
 export const formatDate = (date: Date) => {
     return date.toLocaleDateString('es-ES', {
         year: 'numeric',

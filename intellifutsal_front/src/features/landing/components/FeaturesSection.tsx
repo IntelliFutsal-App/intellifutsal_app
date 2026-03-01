@@ -1,6 +1,6 @@
 import { SectionHeader, FeatureCard, ProcessStep } from "@shared/components";
 import { GrTechnology } from "react-icons/gr";
-import { features, processSteps } from "../data/landingData";
+import { features, processSteps } from "../data";
 
 interface FeaturesSectionProps {
     currentFeature: number;

@@ -2,6 +2,7 @@ import { CreateTrainingAssignmentRequest, TrainingAssignmentResponse } from "../
 
 
 export interface ITrainingAssignmentService {
+    findAll(): Promise<TrainingAssignmentResponse[]>;
     findByPlayer(credentialId: number): Promise<TrainingAssignmentResponse[]>;
     findByTeam(teamId: number): Promise<TrainingAssignmentResponse[]>;
     findById(id: number): Promise<TrainingAssignmentResponse>;

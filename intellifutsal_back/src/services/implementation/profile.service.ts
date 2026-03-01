@@ -53,6 +53,12 @@ export class ProfileService implements IProfileService {
                 profile: CoachMapper.toResponse(coach),
                 teams,
             };
+        } if (credential.role === Role.ADMIN) {
+            return {
+                type: Role.ADMIN,
+                profile: null,
+                teams: [],
+            };
         }
 
         throw new UnauthorizedException(ROLE_NOT_SUPPORTED);

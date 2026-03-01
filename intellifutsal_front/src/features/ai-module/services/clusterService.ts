@@ -1,5 +1,5 @@
 import { AxiosService } from "@shared/lib";
-import type { ClusterResponse } from "../types";
+import type { ClusterResponse, CreateClusterRequest, UpdateClusterRequest } from "../types";
 
 class ClusterService {
     private static instance: ClusterService;
@@ -22,10 +22,30 @@ class ClusterService {
         return response.data;
     }
 
-    async findById(id: string): Promise<ClusterResponse> {
+    async findById(id: number): Promise<ClusterResponse> {
         const response = await this.axios.get<ClusterResponse>(`${this.BASE_PATH}/${id}`);
 
         return response.data;
+    }
+
+    async create(data: CreateClusterRequest): Promise<ClusterResponse> {
+        const response = await this.axios.post<ClusterResponse>(`${this.BASE_PATH}`, {
+            ...data,
+        });
+
+        return response.data;
+    }
+
+    async update(data: UpdateClusterRequest): Promise<ClusterResponse> {
+        const response = await this.axios.patch<ClusterResponse>(`${this.BASE_PATH}`, {
+            ...data,
+        });
+
+        return response.data;
+    }
+
+    async delete(id: number): Promise<void> {
+        await this.axios.delete(`${this.BASE_PATH}/${id}`);
     }
 }
 

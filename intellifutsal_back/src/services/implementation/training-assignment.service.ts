@@ -24,6 +24,12 @@ export class TrainingAssignmentService implements ITrainingAssignmentService {
         this.coachRepository = new CoachRepository();
     }
 
+    public findAll = async (): Promise<TrainingAssignmentResponse[]> => {
+        const assignments = await this.assignmentRepository.findAll();
+
+        return TrainingAssignmentMapper.toResponseList(assignments);
+    };
+
     public findByPlayer = async (credentialId: number): Promise<TrainingAssignmentResponse[]> => {
         const player = await this.playerRepository.findByCredentialId(credentialId);
         if (!player) throw new NotFoundException(`${ PLAYER_NOT_FOUND_CREDENTIAL }${ credentialId }`);

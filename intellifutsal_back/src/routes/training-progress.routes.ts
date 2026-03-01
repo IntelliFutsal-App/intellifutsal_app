@@ -1,11 +1,11 @@
 import express from "express";
 import { TrainingProgressController } from "../controllers/training-progress.controller";
-import { authMiddleware, roleMiddleware } from "../middlewares";
+import { authMiddleware, coachApprovedMiddleware, roleMiddleware } from "../middlewares";
 
 
 export const trainingProgressRouter = express.Router();
 const trainingProgressController = new TrainingProgressController();
 
-trainingProgressRouter.get("/assignment/:assignmentId", [authMiddleware, roleMiddleware(["ADMIN", "COACH", "PLAYER"])], trainingProgressController.findByAssignment);
+trainingProgressRouter.get("/assignment/:assignmentId", [authMiddleware, roleMiddleware(["ADMIN", "COACH", "PLAYER"]), coachApprovedMiddleware], trainingProgressController.findByAssignment);
 trainingProgressRouter.post("/player", [authMiddleware, roleMiddleware(["PLAYER"])], trainingProgressController.createByPlayer);
-trainingProgressRouter.patch("/verify/:id", [authMiddleware, roleMiddleware(["COACH"])], trainingProgressController.verifyByCoach);
+trainingProgressRouter.patch("/verify/:id", [authMiddleware, roleMiddleware(["COACH"]), coachApprovedMiddleware], trainingProgressController.verifyByCoach);

@@ -1,4 +1,5 @@
-import { AxiosService } from "@shared/lib";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AxiosService, type AxiosMeta } from "@shared/lib";
 import type { AuthResponse, Role, ValidateTokenResponse } from "../types";
 import { TokenManager } from "./tokenManager";
 
@@ -22,7 +23,7 @@ class AuthService {
             email,
             password,
             role,
-        });
+        }, { meta: { skipToast: true } as AxiosMeta } as any);
 
         return response.data;
     }

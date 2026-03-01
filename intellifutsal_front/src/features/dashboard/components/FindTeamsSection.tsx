@@ -1,9 +1,8 @@
 import { useState, useMemo } from "react";
-import { FaSearch, FaUsers, FaClipboardList } from "react-icons/fa";
-import { InlineLoading, Input } from "@shared/components";
-import { TeamSearchCard } from "./TeamSearchCard";
-import { useFindTeams } from "../hooks/useFindTeams";
+import { FaSearch, FaUsers, FaClipboardList, FaTimes } from "react-icons/fa";
+import { Button, InlineLoading, Input, Select, type SelectOption } from "@shared/components";
 import { StatCard, type ColorType } from "./StatCard";
+import { TeamSearchCard, useFindTeams } from "@features/team";
 
 export const FindTeamsSection = () => {
     const { teams, myRequests, loading, loadingRequests, sendJoinRequest, cancelRequest, getRequestForTeam } =
@@ -30,6 +29,14 @@ export const FindTeamsSection = () => {
         return uniqueCategories.sort();
     }, [teams]);
 
+    const categoryOptions: SelectOption[] = useMemo(
+        () => categories.map((category) => ({
+            value: category,
+            label: category,
+        })),
+        [categories]
+    );
+
     const stats = useMemo(() => {
         const pendingRequests = myRequests.filter((r) => r.status === "PENDING").length;
         const approvedRequests = myRequests.filter((r) => r.status === "APPROVED").length;
@@ -39,7 +46,7 @@ export const FindTeamsSection = () => {
                 icon: FaUsers,
                 label: "Equipos Disponibles",
                 value: teams.length.toString(),
-                color: "blue" as ColorType,
+                color: "orange" as ColorType,
             },
             {
                 icon: FaClipboardList,
@@ -105,31 +112,30 @@ export const FindTeamsSection = () => {
 
                     {/* Category Filter */}
                     <div className="sm:w-64">
-                        <select
+                        <Select
                             value={categoryFilter}
                             onChange={(e) => setCategoryFilter(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                        >
-                            <option value="">Todas las categorías</option>
-                            {categories.map((category) => (
-                                <option key={category} value={category}>
-                                    {category}
-                                </option>
-                            ))}
-                        </select>
+                            placeholder="Todas las categorías"
+                            options={categoryOptions}
+                        />
                     </div>
 
                     {/* Clear Filters */}
                     {(searchTerm || categoryFilter) && (
-                        <button
+                        <Button
                             onClick={() => {
                                 setSearchTerm("");
                                 setCategoryFilter("");
                             }}
-                            className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors whitespace-nowrap"
+                            variant="secondary"
+                            icon={FaTimes}
+                            iconPosition="left"
+                            size="sm"
+                            fullWidth
+                            className="sm:w-auto"
                         >
-                            Limpiar filtros
-                        </button>
+                            Limpiar
+                        </Button>
                     )}
                 </div>
             </div>
@@ -159,15 +165,20 @@ export const FindTeamsSection = () => {
                     </p>
 
                     {(searchTerm || categoryFilter) && (
-                        <button
+                        <Button
                             onClick={() => {
                                 setSearchTerm("");
                                 setCategoryFilter("");
                             }}
-                            className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                            variant="secondary"
+                            icon={FaTimes}
+                            iconPosition="left"
+                            size="sm"
+                            fullWidth
+                            className="sm:w-auto"
                         >
-                            Limpiar filtros
-                        </button>
+                            Limpiar
+                        </Button>
                     )}
                 </div>
             ) : (

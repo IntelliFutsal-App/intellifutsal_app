@@ -1,6 +1,6 @@
-import { normalizeTrainingPlanDates } from "@shared/utils/trainingUtils";
 import type { CreateTrainingPlanRequest, TrainingPlanResponse, UpdateTrainingPlanStatusRequest } from "../types";
 import { AxiosService } from "@shared/lib";
+import { normalizeTrainingPlanDates } from "../utils";
 
 class TrainingPlanService {
     private static instance: TrainingPlanService;
@@ -25,8 +25,14 @@ class TrainingPlanService {
 
     async findById(id: number): Promise<TrainingPlanResponse> {
         const res = await this.axios.get<TrainingPlanResponse>(`${this.BASE_PATH}/${id}`);
-        
+
         return normalizeTrainingPlanDates(res.data);
+    }
+
+    async findMyPlans(): Promise<TrainingPlanResponse[]> {
+        const res = await this.axios.get<TrainingPlanResponse[]>(`${this.BASE_PATH}/my-plans`);
+
+        return res.data.map(normalizeTrainingPlanDates);
     }
 
     async createManual(data: CreateTrainingPlanRequest): Promise<TrainingPlanResponse> {
@@ -41,7 +47,7 @@ class TrainingPlanService {
         const res = await this.axios.post<TrainingPlanResponse>(
             `${this.BASE_PATH}/player/ai/${playerId}`,
             undefined,
-            { timeout: 60000 },
+            { timeout: 60000 }
         );
 
         return normalizeTrainingPlanDates(res.data);
@@ -51,7 +57,7 @@ class TrainingPlanService {
         const res = await this.axios.post<TrainingPlanResponse>(
             `${this.BASE_PATH}/team/ai/${teamId}`,
             undefined,
-            { timeout: 60000 },
+            { timeout: 60000 }
         );
 
         return normalizeTrainingPlanDates(res.data);
@@ -76,7 +82,9 @@ class TrainingPlanService {
     }
 
     async archive(id: number): Promise<TrainingPlanResponse> {
-        const res = await this.axios.patch<TrainingPlanResponse>(`${this.BASE_PATH}/archive/${id}`);
+        const res = await this.axios.patch<TrainingPlanResponse>(
+            `${this.BASE_PATH}/archive/${id}`
+        );
 
         return normalizeTrainingPlanDates(res.data);
     }

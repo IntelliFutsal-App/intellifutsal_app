@@ -1,13 +1,12 @@
 import { useMemo } from "react";
 import { FaBrain, FaChartLine, FaCheck, FaTimes } from "react-icons/fa";
-import type { SelectOption } from "@shared/components";
-import { Button, Select } from "@shared/components";
+import { Button, Select, type SelectOption } from "@shared/components";
 import { useProfile } from "@shared/hooks";
-import { TrainingRecommendationsCard } from "./TrainingRecommendationsCard";
+import { useAIPlayerAnalysis } from "@features/ai-module";
+import { PhysicalProfileCard, PositionComparisonCard, useTeamPlayers } from "@features/player";
+import { TrainingRecommendationsCard } from "@features/training";
 import { PerformanceMetricsCard } from "./PerformanceMetricsCard";
-import { PhysicalProfileCard } from "./PhysicalProfileCard";
-import { PositionComparisonCard } from "./PositionComparisonCard";
-import { useAIPlayerAnalysis, useTeamPlayers } from "../hooks";
+import { mapPositionToEs } from '../../../shared/utils/positionUtils';
 
 export const AIAnalysisSection = () => {
     const { activeTeamId } = useProfile();
@@ -128,7 +127,7 @@ export const AIAnalysisSection = () => {
                                         {selectedPlayer.firstName} {selectedPlayer.lastName}
                                     </h3>
                                     <p className="text-orange-100 text-sm truncate">
-                                        Posición Actual: {selectedPlayer.position}
+                                        Posición Actual: {mapPositionToEs(selectedPlayer.position)}
                                     </p>
                                 </div>
                             </div>
@@ -140,7 +139,7 @@ export const AIAnalysisSection = () => {
                         </div>
                     </div>
 
-                    <PositionComparisonCard currentPosition={selectedPlayer.position} aiPosition={analysisData.positionName} />
+                    <PositionComparisonCard currentPosition={mapPositionToEs(selectedPlayer.position)} aiPosition={analysisData.positionName} />
 
                     <PhysicalProfileCard
                         physicalName={analysisData.physicalName}

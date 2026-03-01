@@ -1,70 +1,64 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
-import type { PositionDistributionResponse } from "@features/dashboard/types";
+import type { PositionDistributionResponse } from "@features/dashboard";
 
 interface PositionPieChartProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: PositionDistributionResponse[] | any[];
     title: string;
+    labelMap?: Record<string, string>;
 }
 
-const COLORS = [
-    "#ea580c", // orange-600
-    "#2563eb", // blue-600
-    "#16a34a", // green-600
-    "#9333ea", // purple-600
-    "#dc2626", // red-600
-    "#ca8a04", // yellow-600
-    "#0891b2", // cyan-600
-    "#db2777", // pink-600
-];
+const COLORS = ["#ea580c", "#2563eb", "#16a34a", "#9333ea", "#dc2626", "#ca8a04", "#0891b2", "#db2777"];
 
-const CustomTooltip = ({ active, payload, total }: any) => {
-    if (active && payload && payload.length) {
-        const percentage = ((payload[0].value / total) * 100).toFixed(1);
-
-        return (
-            <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-gray-200">
-                <p className="text-xs font-semibold text-gray-600">{payload[0].name}</p>
-                <p className="text-sm font-bold text-gray-800 mt-1">
-                    {payload[0].value} jugadores ({percentage}%)
-                </p>
-            </div>
-        );
-    }
-    
-    return null;
+const DEFAULT_POSITION_LABELS: Record<string, string> = {
+    PIVOT: "Pívot",
+    WINGER: "Ala",
+    FIXO: "Cierre (Fixo)",
+    GOALKEEPER: "Portero",
 };
 
-export const PositionPieChart = ({ data, title }: PositionPieChartProps) => {
-    const formattedData = data.map((item) => ({
-        name: item.position,
-        value: item.count,
-    }));
+type Row = {
+    key: string;
+    name: string;
+    value: number;
+};
 
-    const total = formattedData.reduce((sum, item) => sum + item.value, 0);
+const normalizeKey = (raw: string): string => raw.trim().replace(/\s+/g, "_").toUpperCase();
 
-    const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
-        const RADIAN = Math.PI / 180;
-        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+const prettifyFallback = (raw: string): string => {
+    const s = raw.trim();
+    if (!s) return "Sin posición";
+    return s
+        .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+        .replace(/[_-]+/g, " ")
+        .toLowerCase()
+        .replace(/(^|\s)\S/g, (c) => c.toUpperCase());
+};
 
-        if (percent < 0.05) return null;
+const CustomTooltip = ({
+    active,
+    payload,
+    total,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+}: any) => {
+    if (!active || !payload || payload.length === 0) return null;
 
-        return (
-            <text
-                x={x}
-                y={y}
-                fill="white"
-                textAnchor={x > cx ? "start" : "end"}
-                dominantBaseline="central"
-                className="font-bold text-xs"
-            >
-                {`${(percent * 100).toFixed(0)}%`}
-            </text>
-        );
-    };
+    const row = payload[0]?.payload as Row | undefined;
+    if (!row) return null;
 
+    const percentage = total > 0 ? ((row.value / total) * 100).toFixed(1) : "0.0";
+
+    return (
+        <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-gray-200">
+            <p className="text-xs font-semibold text-gray-600">{row.name}</p>
+            <p className="text-sm font-bold text-gray-800 mt-1">
+                {row.value} jugadores ({percentage}%)
+            </p>
+        </div>
+    );
+};
+
+export const PositionPieChart = ({ data, title, labelMap }: PositionPieChartProps) => {
     if (!data || data.length === 0) {
         return (
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-gray-100 shadow-xl">
@@ -82,9 +76,21 @@ export const PositionPieChart = ({ data, title }: PositionPieChartProps) => {
         );
     }
 
+    const labels = { ...DEFAULT_POSITION_LABELS, ...(labelMap ?? {}) };
+
+    const formattedData: Row[] = data.map((item) => {
+        const raw = String(item.position ?? "");
+        const key = normalizeKey(raw);
+        const name = labels[key] ?? prettifyFallback(raw);
+        return { key, name, value: item.count };
+    });
+
+    const total = formattedData.reduce((sum, item) => sum + item.value, 0);
+
     return (
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-gray-100 shadow-xl">
             <h3 className="text-lg font-bold text-gray-800 mb-4">{title}</h3>
+
             <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                     <Pie
@@ -92,25 +98,26 @@ export const PositionPieChart = ({ data, title }: PositionPieChartProps) => {
                         cx="50%"
                         cy="50%"
                         labelLine={false}
-                        label={renderCustomLabel}
                         outerRadius={100}
-                        fill="#8884d8"
                         dataKey="value"
+                        nameKey="name"
                     >
-                        {formattedData.map((_, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        {formattedData.map((row, index) => (
+                            <Cell key={`cell-${row.key}-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
+
                     <Tooltip content={<CustomTooltip total={total} />} />
+
                     <Legend
                         verticalAlign="bottom"
                         height={36}
                         iconType="circle"
-                        formatter={(value, entry: any) => (
-                            <span className="text-sm text-gray-700">
-                                {value} ({entry.payload.value})
-                            </span>
-                        )}
+                        formatter={(value: string | number, entry) => {
+                            const payload = entry?.payload as Row | undefined;
+                            const v = payload?.value ?? 0;
+                            return <span className="text-sm text-gray-700">{String(value)} ({v})</span>;
+                        }}
                     />
                 </PieChart>
             </ResponsiveContainer>

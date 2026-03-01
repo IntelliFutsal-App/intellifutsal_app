@@ -3,12 +3,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { createTeamSchema, type CreateTeamSchema } from "../schemas/createTeamSchema";
+import { useAuth, useProfile } from "@shared/hooks";
+import { createTeamSchema, type CreateTeamSchema } from "../schemas";
 import { coachTeamService, teamService } from "../services";
 
 export type CategoryOption = { value: string; label: string };
 
 export const useCreateTeamForm = () => {
+    const { syncSession } = useAuth();
+    const { refreshProfile } = useProfile();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -46,6 +49,9 @@ export const useCreateTeamForm = () => {
                     assignmentDate: new Date().toISOString().split("T")[0],
                 });
 
+                await syncSession();
+                await refreshProfile();
+
                 toast.update(loadingToastId, {
                     render: "¡Equipo creado exitosamente!",
                     type: "success",
@@ -53,7 +59,7 @@ export const useCreateTeamForm = () => {
                     autoClose: 2500,
                 });
 
-                navigate("/dashboard");
+                navigate("/dashboard", { replace: true });
             } catch (error) {
                 const message =
                     error instanceof Error ? error.message : "Error al crear el equipo";
@@ -68,7 +74,7 @@ export const useCreateTeamForm = () => {
                 setIsLoading(false);
             }
         },
-        [isLoading, navigate]
+        [isLoading, navigate, refreshProfile, syncSession]
     );
 
     return {

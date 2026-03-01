@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Role } from '../types/role';
+import type { Role } from '../types';
 
 export const baseAuthSchema = z.object({
     email: z

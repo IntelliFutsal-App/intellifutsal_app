@@ -1,3 +1,4 @@
+import type { AuthResponse } from "./auth.response";
 import type { Role } from "./role";
 import type { User } from "./user";
 
@@ -6,8 +7,9 @@ export interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
-    register: (email: string, password: string, role: Role) => Promise<void>;
+    register: (email: string, password: string, role: Role) => Promise<AuthResponse>;
     logout: () => Promise<void>;
     hasRole: (roles: Role | Role[]) => boolean;
     updateUser: (user: User) => void;
+    syncSession: () => Promise<void>;
 }

@@ -5,6 +5,6 @@ import { TeamResponse } from "../team";
 
 export class ProfileStateResponse {
     type!: Role;
-    profile!: PlayerResponse | CoachResponse;
+    profile!: PlayerResponse | CoachResponse | null;
     teams!: TeamResponse[];
 }

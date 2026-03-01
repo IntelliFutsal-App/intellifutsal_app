@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { FiMail, FiLock, FiLogIn } from "react-icons/fi";
 import { Button, Checkbox, Input } from "@shared/components";
-import { loginSchema, type LoginFormData } from "../schemas/loginSchema";
-import { useLoginForm } from "../hooks/useLoginForm";
+import { useLoginForm } from "../hooks";
+import { loginSchema, type LoginFormData } from "../schemas";
 
 export const LoginForm = () => {
     const { isLoading, onSubmit } = useLoginForm();

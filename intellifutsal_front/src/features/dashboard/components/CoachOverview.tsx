@@ -2,11 +2,28 @@ import { useMemo } from "react";
 import { FaBrain, FaCheck, FaClipboardList, FaDumbbell, FaTrophy, FaUsers } from "react-icons/fa";
 import { useActiveTeam } from "@shared/hooks";
 import { DonutChart, FunnelChart, HeatmapChart, HorizontalBarChart, InlineLoading, PositionPieChart, StatusBarChart, TrendChart } from "@shared/components";
-import { PlayerCard } from "./PlayerCard";
 import { StatCard, type ColorType } from "./StatCard";
-import { useTeamPlayers } from "../hooks";
-import { useCoachDashboard } from "../hooks/useCoachDashboard";
-import { TeamActivityCards } from "./TeamActivityCards";
+import { TeamActivityCards } from "@features/team";
+import { useCoachDashboard } from "../hooks";
+import { PlayerCard, useTeamPlayers } from "@features/player";
+
+type RawCount = { key?: string; status?: string; count: number };
+type KeyCount = { key: string; count: number };
+
+const toKeyCounts = (arr?: RawCount[] | null): KeyCount[] =>
+    (arr ?? []).map((x) => ({ key: String(x.key ?? x.status ?? "unknown"), count: x.count }));
+
+const ORIGIN_LABEL_MAP: Record<string, string> = {
+    ai: "IA",
+    manual: "Manual",
+};
+
+const FOCUS_AREA_LABEL_MAP: Record<string, string> = {
+    team_tactical: "Táctico de equipo",
+    physical_and_tactical: "Físico y táctico",
+    physical_and_positional: "Físico y posicional",
+    physical: "Físico",
+};
 
 export const CoachOverview = () => {
     const { activeTeamId } = useActiveTeam();
@@ -33,14 +50,14 @@ export const CoachOverview = () => {
                 icon: FaClipboardList,
                 label: "Solicitudes Pendientes",
                 value: String(dashboardData?.pendingJoinRequestsCount ?? 0),
-                color: "purple" as ColorType,
+                color: "green" as ColorType,
             },
             {
                 icon: FaTrophy,
                 label: "Tasa de Verificación",
                 value: `${((dashboardData?.coachVerificationRate ?? 0)).toFixed(0)}%`,
                 trend: `${dashboardData?.coachVerifiedCount ?? 0} verificados`,
-                color: "green" as ColorType,
+                color: "purple" as ColorType,
             },
         ],
         [dashboardData]
@@ -180,12 +197,10 @@ export const CoachOverview = () => {
                     )}
                     {dashboardData.trainingPlansByOrigin.length > 0 && (
                         <DonutChart
-                            data={dashboardData.trainingPlansByOrigin}
+                            data={toKeyCounts(dashboardData.trainingPlansByOrigin)}
                             title="Origen de Planes"
-                            colorMap={{
-                                AI: "#ea580c",
-                                MANUAL: "#2563eb",
-                            }}
+                            colorMap={{ AI: "#ea580c", MANUAL: "#2563eb", ai: "#ea580c", manual: "#2563eb" }}
+                            labelMap={ORIGIN_LABEL_MAP}
                         />
                     )}
                 </div>
@@ -195,9 +210,10 @@ export const CoachOverview = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {dashboardData.trainingPlansByFocusArea.length > 0 && (
                         <HorizontalBarChart
-                            data={dashboardData.trainingPlansByFocusArea}
+                            data={toKeyCounts(dashboardData.trainingPlansByFocusArea)}
                             title="Planes por Área de Enfoque"
                             color="#9333ea"
+                            labelMap={FOCUS_AREA_LABEL_MAP}
                         />
                     )}
                     {dashboardData.trainingPlansByDifficulty.length > 0 && (

@@ -1,5 +1,5 @@
-import { ProfileContext } from "@app/contexts/ProfileContext";
-import type { ProfileContextType } from "@features/profile/types";
+import { ProfileContext } from "@app/contexts";
+import type { ProfileContextType } from "@features/profile";
 import { useContext } from "react";
 
 export const useProfile = (): ProfileContextType => {

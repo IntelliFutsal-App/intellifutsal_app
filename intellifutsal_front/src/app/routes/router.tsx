@@ -12,6 +12,7 @@ const LandingPage = lazy(() => import("@features/landing/pages/LandingPage"));
 const CoachTeamSetupPage = lazy(() => import("@features/team/pages/CoachTeamSetupPage"));
 const PlayerTeamSetupPage = lazy(() => import("@features/team/pages/PlayerTeamSetupPage"));
 const PendingApprovalPage = lazy(() => import("@features/team/pages/PendingApprovalPage"));
+const CoachPendingApprovalPage = lazy(() => import("@features/team/pages/CoachPendingApprovalPage"));
 const DashboardPage = lazy(() => import("@features/dashboard/pages/DashboardPage"));
 
 export const AppRouter = () => {
@@ -33,14 +34,20 @@ export const AppRouter = () => {
                         </Route>
 
                         <Route path="/dashboard" element={
-                            <ProtectedRoute allowedRoles={["COACH", "PLAYER"]}>
+                            <ProtectedRoute allowedRoles={["ADMIN", "COACH", "PLAYER"]}>
                                 <DashboardPage/>
                             </ProtectedRoute> 
                         } />  
 
                         <Route path="/pending-approval" element={
-                            <ProtectedRoute allowedRoles={["PLAYER"]}>
+                            <ProtectedRoute allowedRoles={["PLAYER"]} requiresOnboarding={false}>
                                 <PendingApprovalPage />
+                            </ProtectedRoute>
+                        } />
+
+                        <Route path="/coach-pending-approval" element={
+                            <ProtectedRoute allowedRoles={["COACH"]} requiresOnboarding={false}>
+                                <CoachPendingApprovalPage />
                             </ProtectedRoute>
                         } />
 

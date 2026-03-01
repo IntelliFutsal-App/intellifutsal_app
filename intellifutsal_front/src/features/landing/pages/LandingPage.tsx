@@ -1,6 +1,6 @@
 import { Footer, Navbar } from "@shared/components";
 import { CTASection, FeaturesSection, HeroSection, StatsSection, TestimonialsSection } from "../components";
-import { useLandingAnimations } from "../hooks/useLandingAnimation";
+import { useLandingAnimations } from "../hooks";
 
 export const LandingPage = () => {
     const { isVisible, currentFeature, currentTestimonial } = useLandingAnimations();

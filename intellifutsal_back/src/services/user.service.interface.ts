@@ -1,4 +1,4 @@
-import { UserResponse, UpdateUserRequest, CreateUserRequest, UpdateStatusRequest, CoachResponse, PlayerResponse } from "../interfaces";
+import { UserResponse, UpdateUserRequest, CreateUserRequest, UpdateStatusRequest, CoachResponse, PlayerResponse, ApproveCoachRequest } from "../interfaces";
 
 
 export interface IUserService {
@@ -12,4 +12,5 @@ export interface IUserService {
     update(updateUserRequest: UpdateUserRequest): Promise<UserResponse>;
     delete(id: number): Promise<void>;
     updateStatus(id: number, updateStatusRequest: UpdateStatusRequest): Promise<UserResponse>;
+    approveCoach(credentialId: number, request: ApproveCoachRequest): Promise<UserResponse>;
 }

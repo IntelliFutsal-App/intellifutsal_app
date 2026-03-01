@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { HttpStatus } from "../utilities/status.utility";
 import { UserService } from "../services/implementation/user.service";
 import { ErrorHandler } from "../middlewares/error-handler.middleware";
+import { AuthRequest } from "../interfaces";
 
 
 export class UserController {
@@ -121,6 +122,19 @@ export class UserController {
             const data = req.body;
 
             const user = await this.userService.updateStatus(+id, data);
+
+            return res.status(HttpStatus.OK).json(user);
+        } catch (error) {
+            return ErrorHandler.handleAnyError(res, error);
+        }
+    }
+
+    public approveCoach = async (req: AuthRequest, res: Response) => {
+        try {
+            const credentialId = req.user!.id;
+            const data = req.body;
+
+            const user = await this.userService.approveCoach(+credentialId, data);
 
             return res.status(HttpStatus.OK).json(user);
         } catch (error) {

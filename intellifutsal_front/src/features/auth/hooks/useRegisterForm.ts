@@ -2,13 +2,19 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "@shared/hooks";
-import { coachService } from "@features/coach/services/coachService";
-import { playerService } from "@features/player/services/playerService";
 import type { RegisterFormData } from "../schemas";
-import { toCoachPayload, toPlayerPayload } from "@shared/utils/registerUtils";
+import { coachService } from "@features/coach";
+import { playerService } from "@features/player";
+import { toCoachPayload, toPlayerPayload } from "../utils";
+
+const isHttpConflict = (err: unknown) =>
+    typeof err === "object" &&
+    err !== null &&
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ((err as any).response?.status === 409);
 
 export const useRegisterForm = () => {
-    const { register: registerUser } = useAuth();
+    const { register: registerUser, logout } = useAuth();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -17,38 +23,57 @@ export const useRegisterForm = () => {
             if (isLoading) return;
 
             setIsLoading(true);
-            const loadingToast = toast.loading("Creando tu cuenta...");
+            const loadingToast = toast.loading("Creando su cuenta...");
 
             try {
                 await registerUser(data.email, data.password, data.role);
 
-                if (data.role === "COACH") {
-                    await coachService.create(toCoachPayload(data));
+                try {
+                    if (data.role === "COACH") {
+                        await coachService.create(toCoachPayload(data));
+                        toast.dismiss(loadingToast);
+                        toast.success("¡Cuenta creada exitosamente!");
+                        navigate("/coach-pending-approval", { replace: true });
+                        return;
+                    }
+
+                    if (data.role === "PLAYER") {
+                        await playerService.create(toPlayerPayload(data));
+                        toast.dismiss(loadingToast);
+                        toast.success("¡Cuenta creada exitosamente!");
+                        navigate("/auth/team-setup-player", { replace: true });
+                        return;
+                    }
+
+                    throw new Error("Rol inválido");
+                } catch (profileError) {
+                    await logout();
+
                     toast.dismiss(loadingToast);
-                    toast.success("¡Cuenta creada exitosamente!");
-                    navigate("/auth/team-setup-coach", { replace: true });
+                    toast.error(
+                        "Se creó su credencial, pero falló la creación del perfil. Intenta de nuevo. Si persiste, contacta soporte."
+                    );
+
+                    console.error("Error creando perfil:", profileError);
                     return;
                 }
-
-                if (data.role === "PLAYER") {
-                    await playerService.create(toPlayerPayload(data));
-                    toast.dismiss(loadingToast);
-                    toast.success("¡Cuenta creada exitosamente!");
-                    navigate("/auth/team-setup-player", { replace: true });
-                    return;
-                }
-
-                throw new Error("Rol inválido");
-            } catch (error) {
+            } catch (authError) {
                 toast.dismiss(loadingToast);
-                const errorMessage =
-                    error instanceof Error ? error.message : "Error al crear la cuenta";
-                toast.error(errorMessage);
+
+                if (isHttpConflict(authError)) {
+                    toast.error("Ya existe un usuario con ese correo. Intenta iniciar sesión.");
+                } else {
+                    const msg =
+                        authError instanceof Error ? authError.message : "Error al crear la cuenta";
+                    toast.error(msg);
+                }
+
+                console.error("Error creando credencial:", authError);
             } finally {
                 setIsLoading(false);
             }
         },
-        [isLoading, navigate, registerUser]
+        [isLoading, navigate, registerUser, logout]
     );
 
     return { isLoading, onSubmit };

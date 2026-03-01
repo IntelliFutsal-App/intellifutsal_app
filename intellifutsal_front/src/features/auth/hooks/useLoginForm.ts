@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "@shared/hooks";
-import type { LoginFormData } from "../schemas/loginSchema";
+import type { LoginFormData } from "../schemas";
 
 export const useLoginForm = () => {
     const { login } = useAuth();
@@ -19,13 +19,10 @@ export const useLoginForm = () => {
             try {
                 await login(data.email, data.password);
                 toast.dismiss(loadingToast);
-                toast.success("¡Bienvenido de vuelta!");
                 navigate("/dashboard", { replace: true });
             } catch (error) {
                 toast.dismiss(loadingToast);
-                const errorMessage =
-                    error instanceof Error ? error.message : "Error al iniciar sesión";
-                toast.error(errorMessage);
+                toast.error(error as string);
             } finally {
                 setIsLoading(false);
             }

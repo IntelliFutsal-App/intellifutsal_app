@@ -54,9 +54,9 @@ export class CoachService implements ICoachService {
 
         const coach = CoachMapper.toEntity(validatedRequest, credential);
         const savedCoach = await this.coachRepository.save(coach);
-        if (!savedCoach) throw new InternalServerException(`${ INTERNAL_SERVER_ERROR }${ COACH_SAVE_ERROR }`);
+        if (!savedCoach) throw new InternalServerException(`${INTERNAL_SERVER_ERROR}${COACH_SAVE_ERROR}`);
 
-        await this.credentialRepository.updateOnboardingStatus(credential.id, OnboardingStatus.PROFILE_CREATED);
+        await this.credentialRepository.updateOnboardingStatus(credential.id, OnboardingStatus.COACH_PENDING_APPROVAL);
 
         this.sendWelcomeMailAsync(savedCoach, credential);
 
@@ -66,11 +66,11 @@ export class CoachService implements ICoachService {
     public update = async (updateCoachRequest: UpdateCoachRequest): Promise<CoachResponse> => {
         await this.findCoachOrThrow(updateCoachRequest.id);
         const validatedRequest = validateRequest(updateCoachSchema, updateCoachRequest);
-        
+
         const coach = CoachMapper.toUpdateEntity(validatedRequest);
         const updatedCoach = await this.coachRepository.update(coach);
-        if (!updatedCoach) throw new InternalServerException(`${ INTERNAL_SERVER_ERROR }${ COACH_UPDATE_ERROR }`);
-        
+        if (!updatedCoach) throw new InternalServerException(`${INTERNAL_SERVER_ERROR}${COACH_UPDATE_ERROR}`);
+
         return CoachMapper.toResponse(updatedCoach);
     }
 
@@ -85,7 +85,7 @@ export class CoachService implements ICoachService {
 
         coach.status = validatedRequest.status;
         const updatedCoach = await this.coachRepository.update(coach);
-        if (!updatedCoach) throw new InternalServerException(`${ INTERNAL_SERVER_ERROR }${ COACH_UPDATE_ERROR }`);
+        if (!updatedCoach) throw new InternalServerException(`${INTERNAL_SERVER_ERROR}${COACH_UPDATE_ERROR}`);
 
         return CoachMapper.toResponse(updatedCoach);
     }
@@ -93,7 +93,7 @@ export class CoachService implements ICoachService {
     private findCoachOrThrow = async (id: number): Promise<Coach> => {
         const coach = await this.coachRepository.findById(id);
 
-        if (!coach) throw new NotFoundException(`${ COACH_NOT_FOUND }${ id }`);
+        if (!coach) throw new NotFoundException(`${COACH_NOT_FOUND}${id}`);
 
         return coach;
     }
@@ -101,29 +101,29 @@ export class CoachService implements ICoachService {
     private findCoachIncludingInactiveOrThrow = async (id: number): Promise<Coach> => {
         const coach = await this.coachRepository.findByIdIncludingInactive(id);
 
-        if (!coach) throw new NotFoundException(`${ COACH_NOT_FOUND }${ id }`);
+        if (!coach) throw new NotFoundException(`${COACH_NOT_FOUND}${id}`);
 
         return coach;
     }
 
     private findCredentialOrThrow = async (id: number): Promise<Credential> => {
         const credential = await this.credentialRepository.findById(id);
-        if (!credential) throw new NotFoundException(`${ CREDENTIAL_NOT_FOUND }${ id }`);
-        if (credential.role !== Role.COACH) throw new ConflictException(`${ COACH_ROLE_NOT_VALID }`);
+        if (!credential) throw new NotFoundException(`${CREDENTIAL_NOT_FOUND}${id}`);
+        if (credential.role !== Role.COACH) throw new ConflictException(`${COACH_ROLE_NOT_VALID}`);
 
         const isAlreadyAssignedToCoach = await this.coachRepository.isAssignedToCoach(id);
         if (isAlreadyAssignedToCoach) throw new ConflictException(CREDENTIAL_ALREADY_ASSIGNED_COACH);
-        
+
         const isAlreadyAssignedToPlayer = await this.playerRepository.isAssignedToPlayer(id);
         if (isAlreadyAssignedToPlayer) throw new ConflictException(CREDENTIAL_ALREADY_ASSIGNED_PLAYER);
-        
+
         return credential;
     }
 
     private sendWelcomeMailAsync = (coach: Coach, credential: Credential): void => {
         this.mailService.sendMailAsync(
-            [credential.email], 
-            "welcome", 
+            [credential.email],
+            "welcome",
             {
                 name: `${coach.firstName} ${coach.lastName}`,
                 email: credential.email,

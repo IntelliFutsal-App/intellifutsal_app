@@ -36,33 +36,41 @@ export class TrainingPlanService implements ITrainingPlanService {
 
     public findById = async (id: number): Promise<TrainingPlanResponse> => {
         const plan = await this.trainingPlanRepository.findById(id);
-        if (!plan) throw new NotFoundException(`${ TRAINING_PLAN_NOT_FOUND }${ id }`);
+        if (!plan) throw new NotFoundException(`${TRAINING_PLAN_NOT_FOUND}${id}`);
 
         return TrainingPlanMapper.toResponse(plan);
+    };
+
+    public findMyPlans = async (credentialId: number): Promise<TrainingPlanResponse[]> => {
+        const coach = await this.coachRepository.findByCredentialId(credentialId);
+        if (!coach) throw new UnauthorizedException(`${COACH_NOT_FOUND_CREDENTIAL}${credentialId}`);
+
+        const plans = await this.trainingPlanRepository.findByCreatedByCoachId(coach.id);
+        return TrainingPlanMapper.toResponseList(plans);
     };
 
     public createManual = async (credentialId: number, createRequest: CreateTrainingPlanRequest): Promise<TrainingPlanResponse> => {
         const validated = validateRequest(createTrainingPlanSchema, createRequest);
 
         const coach = await this.coachRepository.findByCredentialId(credentialId);
-        if (!coach) throw new UnauthorizedException(`${ COACH_NOT_FOUND_CREDENTIAL }${ credentialId }`);
+        if (!coach) throw new UnauthorizedException(`${COACH_NOT_FOUND_CREDENTIAL}${credentialId}`);
 
         let cluster = undefined;
         if (validated.clusterId) cluster = await this.clusterRepository.findById(validated.clusterId);
 
         const entity = TrainingPlanMapper.toEntityManual(validated, coach, cluster!);
         const saved = await this.trainingPlanRepository.save(entity);
-        if (!saved) throw new InternalServerException(`${ INTERNAL_SERVER_ERROR }${ TRAINING_PLAN_SAVE_ERROR }`);
+        if (!saved) throw new InternalServerException(`${INTERNAL_SERVER_ERROR}${TRAINING_PLAN_SAVE_ERROR}`);
 
         return TrainingPlanMapper.toResponse(saved);
     };
 
     public createFromAiForPlayer = async (playerId: number, credentialId: number): Promise<TrainingPlanResponse> => {
         const player = await this.playerRepository.findById(playerId);
-        if (!player) throw new NotFoundException(`${ PLAYER_NOT_FOUND }${ playerId }`);
+        if (!player) throw new NotFoundException(`${PLAYER_NOT_FOUND}${playerId}`);
 
         const coach = await this.coachRepository.findByCredentialId(credentialId);
-        if (!coach) throw new UnauthorizedException(`${ COACH_NOT_FOUND_CREDENTIAL }${ credentialId }`);
+        if (!coach) throw new UnauthorizedException(`${COACH_NOT_FOUND_CREDENTIAL}${credentialId}`);
 
         const aiResponse = await this.aiApiService.analyzePrediction(playerId);
         const entity = TrainingPlanMapper.fromAiPlayerAnalyze(`${player.firstName} ${player.lastName}`, aiResponse, coach);
@@ -75,24 +83,24 @@ export class TrainingPlanService implements ITrainingPlanService {
 
     public createFromAiForTeam = async (teamId: number, credentialId: number): Promise<TrainingPlanResponse> => {
         const team = await this.teamRepository.findById(teamId);
-        if (!team) throw new NotFoundException(`${ TEAM_NOT_FOUND }${ teamId }`);
+        if (!team) throw new NotFoundException(`${TEAM_NOT_FOUND}${teamId}`);
 
         const coach = await this.coachRepository.findByCredentialId(credentialId);
-        if (!coach) throw new UnauthorizedException(`${ COACH_NOT_FOUND_CREDENTIAL }${ credentialId }`);
+        if (!coach) throw new UnauthorizedException(`${COACH_NOT_FOUND_CREDENTIAL}${credentialId}`);
 
         const aiResponse = await this.aiApiService.analyzeTeamPrediction(teamId);
         const entity = TrainingPlanMapper.fromAiTeamAnalysis(team.name, aiResponse.teamAnalysis, coach);
 
         const saved = await this.trainingPlanRepository.save(entity);
-        if (!saved) throw new InternalServerException(`${ INTERNAL_SERVER_ERROR }${ TRAINING_PLAN_SAVE_ERROR }`);
+        if (!saved) throw new InternalServerException(`${INTERNAL_SERVER_ERROR}${TRAINING_PLAN_SAVE_ERROR}`);
 
         return TrainingPlanMapper.toResponse(saved);
     };
 
     public approve = async (id: number, updateRequest: UpdateTrainingPlanStatusRequest): Promise<TrainingPlanResponse> => {
         const plan = await this.trainingPlanRepository.findById(id);
-        if (!plan) throw new NotFoundException(`${ TRAINING_PLAN_NOT_FOUND }${ id }`);
-        if (plan.status !== TrainingPlanStatus.PENDING_APPROVAL) throw new BadRequestException(`${ TRAINING_PLAN_NOT_PENDING_APPROVAL }${ plan.status }`);
+        if (!plan) throw new NotFoundException(`${TRAINING_PLAN_NOT_FOUND}${id}`);
+        if (plan.status !== TrainingPlanStatus.PENDING_APPROVAL) throw new BadRequestException(`${TRAINING_PLAN_NOT_PENDING_APPROVAL}${plan.status}`);
 
         const updated = await this.trainingPlanRepository.updateStatus(plan.id, TrainingPlanStatus.APPROVED, updateRequest.approvalComment);
 
@@ -101,8 +109,8 @@ export class TrainingPlanService implements ITrainingPlanService {
 
     public reject = async (id: number, updateRequest: UpdateTrainingPlanStatusRequest): Promise<TrainingPlanResponse> => {
         const plan = await this.trainingPlanRepository.findById(id);
-        if (!plan) throw new NotFoundException(`${ TRAINING_PLAN_NOT_FOUND }${ id }`);
-        if (plan.status !== TrainingPlanStatus.PENDING_APPROVAL) throw new BadRequestException(`${ TRAINING_PLAN_NOT_PENDING_APPROVAL }${ plan.status }`);
+        if (!plan) throw new NotFoundException(`${TRAINING_PLAN_NOT_FOUND}${id}`);
+        if (plan.status !== TrainingPlanStatus.PENDING_APPROVAL) throw new BadRequestException(`${TRAINING_PLAN_NOT_PENDING_APPROVAL}${plan.status}`);
 
         const updated = await this.trainingPlanRepository.updateStatus(plan.id, TrainingPlanStatus.REJECTED, updateRequest.approvalComment);
 
@@ -111,7 +119,7 @@ export class TrainingPlanService implements ITrainingPlanService {
 
     public archive = async (id: number): Promise<TrainingPlanResponse> => {
         const plan = await this.trainingPlanRepository.findById(id);
-        if (!plan) throw new NotFoundException(`${ TRAINING_PLAN_NOT_FOUND }${ id }`);
+        if (!plan) throw new NotFoundException(`${TRAINING_PLAN_NOT_FOUND}${id}`);
 
         const updated = await this.trainingPlanRepository.updateStatus(plan.id, TrainingPlanStatus.ARCHIVED);
 

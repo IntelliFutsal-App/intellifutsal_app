@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { Position } from "../types";
 
 export const updatePlayerSchema = z.object({
-    id: z.number().positive("ID inválido"),
+    id: z.number().positive("El ID del jugador debe ser un número positivo"),
     firstName: z
         .string()
         .min(2, "El nombre debe tener al menos 2 caracteres")

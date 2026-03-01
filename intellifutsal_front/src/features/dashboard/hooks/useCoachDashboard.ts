@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import type { CoachDashboardResponse } from "../types";
-import { dashboardService } from "../services/dashboardService";
+import { dashboardService } from "../services";
 
 export const useCoachDashboard = () => {
     const [data, setData] = useState<CoachDashboardResponse | null>(null);

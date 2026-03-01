@@ -1,6 +1,6 @@
-import { AxiosService } from "@shared/lib";
 import type { CoachDashboardResponse, PlayerDashboardResponse } from "../types";
-import { normalizeCoachDashboard, normalizePlayerDashboard } from "@shared/utils/dashboardUtils";
+import { AxiosService } from "@shared/lib";
+import { normalizeCoachDashboard, normalizePlayerDashboard } from "../utils";
 
 class DashboardService {
     private static instance: DashboardService;

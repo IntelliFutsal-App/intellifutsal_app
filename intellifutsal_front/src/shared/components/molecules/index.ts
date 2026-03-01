@@ -1,5 +1,6 @@
 export * from "./BaseModal";
 export * from "./BenefitCard";
+export * from "./DataTable";
 export * from "./DonutChart";
 export * from "./FeatureCard";
 export * from "./FloatingStat";
@@ -11,7 +12,9 @@ export * from "./ItemList";
 export * from "./MetricTile";
 export * from "./PositionPieChart";
 export * from "./ProcessStep";
+export * from "./ShowInactiveToggle";
 export * from "./StatTile";
+export * from "./StatusBadge";
 export * from "./StatusBarChart";
 export * from "./TestimonialCard";
 export * from "./TrendChart";

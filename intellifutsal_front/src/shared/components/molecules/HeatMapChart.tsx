@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { DayOfWeekPointResponse } from "@features/dashboard/types";
+import type { DayOfWeekPointResponse } from "@features/dashboard";
 
 interface HeatmapChartProps {
     data: DayOfWeekPointResponse[] | any[];

@@ -1,10 +1,10 @@
-import { createUserSchema, updateStatusSchema, updateUserSchema } from "../../dto"; 
+import { approveCoachSchema, createUserSchema, updateStatusSchema, updateUserSchema } from "../../dto"; 
 import { BadRequestException, ConflictException, InternalServerException, NotFoundException } from "../../exceptions";
-import { CoachResponse, CreateUserRequest, PlayerResponse, UpdateStatusRequest, UpdateUserRequest, UserResponse } from "../../interfaces";
+import { ApproveCoachRequest, CoachResponse, CreateUserRequest, OnboardingStatus, PlayerResponse, UpdateStatusRequest, UpdateUserRequest, UserResponse } from "../../interfaces";
 import { CoachMapper, PlayerMapper, UserMapper } from "../../mappers";
 import { Credential } from "../../models";
-import { CoachRepository, CredentialRepository, PlayerRepository } from "../../repository";
-import { INTERNAL_SERVER_ERROR, REGISTRATION_NOT_COMPLETED, USER_EMAIL_ALREADY_EXISTS, USER_EMAIL_NOT_FOUND, USER_NOT_FOUND, USER_SAVE_ERROR, USER_UPDATE_ERROR } from "../../utilities/messages.utility";
+import { CoachRepository, CoachTeamRepository, CredentialRepository, PlayerRepository } from "../../repository";
+import { COACH_NOT_FOUND, CREDENTIAL_NOT_FOUND, INTERNAL_SERVER_ERROR, REGISTRATION_NOT_COMPLETED, ROLE_NOT_SUPPORTED, USER_EMAIL_ALREADY_EXISTS, USER_EMAIL_NOT_FOUND, USER_NOT_FOUND, USER_SAVE_ERROR, USER_UPDATE_ERROR } from "../../utilities/messages.utility";
 import { validateRequest } from "../../utilities/validations.utility";
 import { IUserService } from "../user.service.interface";
 import * as bcrypt from 'bcryptjs';
@@ -14,11 +14,13 @@ export class UserService implements IUserService {
     private readonly credentialRepository: CredentialRepository;
     private readonly playerRepository: PlayerRepository;
     private readonly coachRepository: CoachRepository;
+    private readonly coachTeamRepository: CoachTeamRepository;
 
     constructor() {
         this.credentialRepository = new CredentialRepository();
         this.playerRepository = new PlayerRepository();
         this.coachRepository = new CoachRepository();
+        this.coachTeamRepository = new CoachTeamRepository();
     }
 
     public findAll = async (): Promise<UserResponse[]> => {
@@ -101,6 +103,38 @@ export class UserService implements IUserService {
         if (!updatedUser) throw new InternalServerException(`${ INTERNAL_SERVER_ERROR }${ USER_UPDATE_ERROR }`);
         
         return UserMapper.toResponse(updatedUser);
+    }
+
+    public approveCoach = async (credentialId: number, request: ApproveCoachRequest): Promise<UserResponse> => {
+        const validated = validateRequest(approveCoachSchema, request);
+
+        const credential = await this.credentialRepository.findById(credentialId);
+        if (!credential) throw new NotFoundException(`${ CREDENTIAL_NOT_FOUND }${ credentialId }`);
+        if (credential.role !== "ADMIN") throw new BadRequestException(ROLE_NOT_SUPPORTED);
+
+        const coachCredential = await this.credentialRepository.findById(validated.coachCredentialId);
+        if (!coachCredential) throw new NotFoundException(`${ COACH_NOT_FOUND }${ validated.coachCredentialId }`);
+        const coach = await this.coachRepository.findByCredentialId(coachCredential.id);
+        if (!coach) throw new NotFoundException(`${ COACH_NOT_FOUND }${ validated.coachCredentialId }`);
+
+        if (validated.approved === true) {
+            const hasActiveTeam = await this.coachTeamRepository.existsActiveTeamForCoach(coach.id);
+            const next: OnboardingStatus = hasActiveTeam
+                ? ("ACTIVE" as OnboardingStatus)
+                : ("PROFILE_CREATED" as OnboardingStatus);
+
+            await this.credentialRepository.updateOnboardingStatus(coachCredential.id, next);
+        } else {
+            await this.credentialRepository.updateOnboardingStatus(
+                coachCredential.id,
+                ("COACH_PENDING_APPROVAL" as OnboardingStatus),
+            );
+        }
+
+        const updated = await this.credentialRepository.findById(coachCredential.id);
+        if (!updated) throw new NotFoundException(`${ COACH_NOT_FOUND }${ coachCredential.id }`);
+
+        return UserMapper.toResponse(updated);
     }
 
     private findUserOrThrow = async (id: number): Promise<Credential> => {

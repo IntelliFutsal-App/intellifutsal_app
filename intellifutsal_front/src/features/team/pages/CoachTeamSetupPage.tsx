@@ -1,8 +1,6 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import type { IconType } from "react-icons";
 import { FiPlus, FiSearch, FiArrowRight } from "react-icons/fi";
-import { Button } from "@shared/components";
 import { CreateTeamForm, JoinExistingTeamList } from "../components";
 
 type Mode = "create" | "join" | null;
@@ -21,7 +19,7 @@ const OptionCard = ({ icon: Icon, title, description, onClick }: OptionCardProps
             onClick={onClick}
             className="group w-full text-left relative p-6 sm:p-8 bg-white border-2 border-gray-200 rounded-2xl hover:border-orange-500 hover:shadow-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-500/20"
         >
-            <div className="flex items-start gap-4">
+            <div className="flex flex-col items-start gap-4">
                 <div className="p-3 bg-orange-50 rounded-xl group-hover:bg-orange-100 transition-colors shrink-0">
                     <Icon className="w-6 h-6 text-orange-600" />
                 </div>
@@ -46,7 +44,6 @@ const OptionCard = ({ icon: Icon, title, description, onClick }: OptionCardProps
 
 export const CoachTeamSetupPage = () => {
     const [mode, setMode] = useState<Mode>(null);
-    const navigate = useNavigate();
 
     const options = useMemo(
         () => [
@@ -98,17 +95,6 @@ export const CoachTeamSetupPage = () => {
                         onClick={() => setMode(opt.key)}
                     />
                 ))}
-            </div>
-
-            <div className="mt-8 flex justify-center">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => navigate("/dashboard")}
-                    className="px-0!"
-                >
-                    Omitir por ahora
-                </Button>
             </div>
         </div>
     );

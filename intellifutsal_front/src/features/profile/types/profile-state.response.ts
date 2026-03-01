@@ -5,6 +5,6 @@ import type { TeamResponse } from "@features/team/types";
 
 export interface ProfileStateResponse {
     type: Role;
-    profile: PlayerResponse | CoachResponse;
+    profile: PlayerResponse | CoachResponse | null;
     teams: TeamResponse[];
 }

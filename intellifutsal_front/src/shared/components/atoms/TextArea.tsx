@@ -1,5 +1,4 @@
-import React, { forwardRef, useState } from "react";
-import type { TextareaHTMLAttributes } from "react";
+import React, { forwardRef, useState, type TextareaHTMLAttributes } from "react";
 import type { IconType } from "react-icons";
 import { FiAlertCircle } from "react-icons/fi";
 

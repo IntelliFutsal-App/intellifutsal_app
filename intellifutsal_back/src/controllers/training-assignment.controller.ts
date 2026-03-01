@@ -12,6 +12,16 @@ export class TrainingAssignmentController {
         this.trainingAssignmentService = new TrainingAssignmentService();
     }
 
+    public findAll = async (req: Request, res: Response) => {
+        try {
+            const assignments = await this.trainingAssignmentService.findAll();
+
+            return res.status(HttpStatus.OK).json(assignments);
+        } catch (error) {
+            return ErrorHandler.handleAnyError(res, error);
+        }
+    };
+
     public findMyAssignments = async (req: AuthRequest, res: Response) => {
         try {
             const credentialId = req.user!.id;

@@ -1,16 +1,11 @@
 import { FaChartLine, FaPlus, FaRunning, FaUsers } from "react-icons/fa";
 import { useMemo, useState } from "react";
-import { TeamCard } from "./TeamCard";
 import { StatCard, type ColorType } from "./StatCard";
-import { CreateTeamModal } from "./CreateTeamModal";
-import { TeamPlayersModal } from "./TeamPlayersModal";
-import { TeamAiAnalysisModal } from "./TeamAiAnalysisModal";
-import type { TeamResponse, CoachTeamResponse } from "@features/team/types";
+import { type TeamResponse, type CoachTeamResponse, TeamCard, useCoachTeams, useTeamsManagement, CreateTeamModal, TeamPlayersModal } from "@features/team";
 import { useAuth, useProfile } from "@shared/hooks";
 import { Button, InlineLoading } from "@shared/components";
-import { useCoachTeams } from "../hooks";
-import { useTeamsManagement } from "../hooks/useTeamsManagement";
-import { useTeamOperations } from "../hooks/useTeamOperations";
+import { TeamAiAnalysisModal } from "@features/ai-module";
+import { useTeamOperations } from "@features/training";
 
 type CoachTeamWithTeam = CoachTeamResponse & { team?: TeamResponse };
 
@@ -151,7 +146,6 @@ export const TeamsSection = () => {
                         <div className="flex flex-wrap gap-3">
                             <Button
                                 variant="primary"
-                                size="sm"
                                 icon={FaPlus}
                                 iconPosition="left"
                                 onClick={() => setIsCreateModalOpen(true)}

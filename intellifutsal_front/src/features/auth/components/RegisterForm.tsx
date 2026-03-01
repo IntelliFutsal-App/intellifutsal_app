@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@shared/components";
 import { FiUserPlus } from "react-icons/fi";
+import { registerSchema, type RegisterFormData } from "../schemas";
+import { useAuth } from "@shared/hooks";
+import { useRegisterForm } from "../hooks";
 import { BaseFields } from "./BaseFields";
 import { CoachFields } from "./CoachFields";
 import { PlayerFields } from "./PlayerFields";
-import { registerSchema, type RegisterFormData } from "../schemas";
-import { useRegisterForm } from "../hooks/useRegisterForm";
-import { useAuth } from "@shared/hooks";
 
 export const RegisterForm = () => {
     const { isLoading, onSubmit } = useRegisterForm();

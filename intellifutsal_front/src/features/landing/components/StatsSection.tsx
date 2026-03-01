@@ -1,5 +1,5 @@
 import { StatCard } from "@shared/components";
-import { stats } from "../data/landingData";
+import { stats } from "../data";
 
 export const StatsSection = () => {
     return (

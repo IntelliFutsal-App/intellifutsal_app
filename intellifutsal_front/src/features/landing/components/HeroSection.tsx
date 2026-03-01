@@ -1,6 +1,6 @@
 import { FaBrain } from "react-icons/fa";
 import { Badge, Button, BenefitCard, FloatingStat } from "@shared/components";
-import { benefits } from "../data/landingData";
+import { benefits } from "../data";
 
 interface HeroSectionProps {
     isVisible: boolean;

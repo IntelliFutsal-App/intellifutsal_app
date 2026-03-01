@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AIAnalysisSection, CoachOverview, FindTeamsSection, JoinRequestsSection, PlayerOverview, PlayersSection, PlayerTrainingsSection, Sidebar, TeamFieldSection, TeamsSection, TopBar, TrainingPlansSection } from "../components";
+import { AdminOverview, AIAnalysisSection, ClustersManagementSection, CoachesManagementSection, CoachOverview, FindTeamsSection, JoinRequestsSection, PlayerAIAnalysisSection, PlayerFieldSection, PlayerOverview, PlayerProgressSection, PlayersManagementSection, PlayersSection, PlayerTrainingsSection, Sidebar, TeamFieldSection, TeamLinksManagementSection, TeamsManagementSection, TeamsSection, TopBar, TrainingPlansSection, TrainingsManagementSection, UsersManagementSection } from "../components";
 import { useAuth, useProfile } from "@shared/hooks";
 
 const Dashboard = () => {
@@ -27,18 +27,43 @@ const Dashboard = () => {
                 default:
                     return <CoachOverview />;
             }
-        } else {
+        } else if (user?.role === 'PLAYER') {
             switch (activeSection) {
                 case 'overview':
                     return <PlayerOverview />;
                 case 'my-training':
                     return <PlayerTrainingsSection />;
+                case 'my-analysis':
+                    return <PlayerAIAnalysisSection />;
                 case 'find-teams':
                     return <FindTeamsSection />;
-                case 'my-analysis':
-                    return <AIAnalysisSection />;
+                case 'my-progress':
+                    return <PlayerProgressSection />;
+                case 'my-team':
+                    return <PlayerFieldSection />;
                 default:
                     return <PlayerOverview />;
+            }
+        } else if (user?.role === 'ADMIN') {
+            switch (activeSection) {
+                case 'overview':
+                    return <AdminOverview />;
+                case 'users':
+                    return <UsersManagementSection />;
+                case 'coaches':
+                    return <CoachesManagementSection />;
+                case 'players':
+                    return <PlayersManagementSection />;
+                case 'teams':
+                    return <TeamsManagementSection />;
+                case 'clusters':
+                    return <ClustersManagementSection />;
+                case 'team-links':
+                    return <TeamLinksManagementSection />;
+                case 'training-plans':
+                    return <TrainingsManagementSection />;    
+                default:
+                    return <AdminOverview />;
             }
         }
     };

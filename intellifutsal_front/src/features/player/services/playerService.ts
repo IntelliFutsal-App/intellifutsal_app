@@ -1,6 +1,7 @@
 import { AxiosService } from "@shared/lib";
-import type { CreatePlayerRequest, PlayerResponse, UpdatePlayerRequest } from "../types";
-import { normalizePlayerDates } from "@shared/utils/playerUtils";
+import type { PlayerResponse, CreatePlayerRequest, UpdatePlayerRequest } from "../types";
+import { normalizePlayerDates } from "../utils";
+import type { UpdateStatusRequest } from "@shared/types";
 
 class PlayerService {
     private static instance: PlayerService;
@@ -17,24 +18,16 @@ class PlayerService {
         return PlayerService.instance;
     }
 
-    async create(data: CreatePlayerRequest): Promise<PlayerResponse> {
-        const response = await this.axios.post<PlayerResponse>(`${this.BASE_PATH}`, {
-            ...data
-        });
-
-        return normalizePlayerDates(response.data);
-    }
-
-    async update(data: UpdatePlayerRequest): Promise<PlayerResponse> {
-        const response = await this.axios.patch<PlayerResponse>(`${this.BASE_PATH}`, {
-            ...data
-        });
-
-        return normalizePlayerDates(response.data);
-    }
-
     async findAll(): Promise<PlayerResponse[]> {
         const response = await this.axios.get<PlayerResponse[]>(`${this.BASE_PATH}`);
+
+        return response.data.map(normalizePlayerDates);
+    }
+
+    async findAllIncludingInactive(): Promise<PlayerResponse[]> {
+        const response = await this.axios.get<PlayerResponse[]>(
+            `${this.BASE_PATH}/inactive`
+        );
 
         return response.data.map(normalizePlayerDates);
     }
@@ -45,10 +38,49 @@ class PlayerService {
         return normalizePlayerDates(response.data);
     }
 
+    async findByIdIncludingInactive(id: number): Promise<PlayerResponse> {
+        const response = await this.axios.get<PlayerResponse>(
+            `${this.BASE_PATH}/inactive/${id}`
+        );
+
+        return normalizePlayerDates(response.data);
+    }
+
     async findByTeamId(teamId: number): Promise<PlayerResponse[]> {
-        const response = await this.axios.get<PlayerResponse[]>(`${this.BASE_PATH}/team/${teamId}`);
+        const response = await this.axios.get<PlayerResponse[]>(
+            `${this.BASE_PATH}/team/${teamId}`
+        );
 
         return response.data.map(normalizePlayerDates);
+    }
+
+    async create(data: CreatePlayerRequest): Promise<PlayerResponse> {
+        const response = await this.axios.post<PlayerResponse>(`${this.BASE_PATH}`, {
+            ...data,
+        });
+
+        return normalizePlayerDates(response.data);
+    }
+
+    async update(data: UpdatePlayerRequest): Promise<PlayerResponse> {
+        const response = await this.axios.patch<PlayerResponse>(`${this.BASE_PATH}`, {
+            ...data,
+        });
+
+        return normalizePlayerDates(response.data);
+    }
+
+    async updateStatus(id: number, data: UpdateStatusRequest): Promise<PlayerResponse> {
+        const response = await this.axios.patch<PlayerResponse>(
+            `${this.BASE_PATH}/status/${id}`,
+            { ...data }
+        );
+
+        return normalizePlayerDates(response.data);
+    }
+
+    async delete(id: number): Promise<void> {
+        await this.axios.delete(`${this.BASE_PATH}/${id}`);
     }
 }
 

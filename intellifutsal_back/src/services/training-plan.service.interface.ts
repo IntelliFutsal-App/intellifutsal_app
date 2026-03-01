@@ -4,6 +4,7 @@ import { CreateTrainingPlanRequest, TrainingPlanResponse, UpdateTrainingPlanStat
 export interface ITrainingPlanService {
     findAll(): Promise<TrainingPlanResponse[]>;
     findById(id: number): Promise<TrainingPlanResponse>;
+    findMyPlans(credentialId: number): Promise<TrainingPlanResponse[]>;
     createManual(credentialId: number, createRequest: CreateTrainingPlanRequest): Promise<TrainingPlanResponse>;
     createFromAiForPlayer(playerId: number, credentialId: number): Promise<TrainingPlanResponse>;
     createFromAiForTeam(teamId: number, credentialId: number): Promise<TrainingPlanResponse>;

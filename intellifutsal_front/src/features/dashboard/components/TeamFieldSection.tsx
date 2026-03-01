@@ -2,12 +2,9 @@ import { useState } from "react";
 import { FaChartBar, FaFutbol, FaPlay } from "react-icons/fa";
 import { useActiveTeam } from "@shared/hooks";
 import { Button, InlineLoading } from "@shared/components";
-import { useTeamPlayers } from "../hooks";
-import { useTeamFieldAnalysis } from "../hooks/useTeamFieldAnalysis";
-import type { PlayerFieldData } from "../hooks/useTeamFieldAnalysis";
-import { ClusterAnalysis } from "./ClusterAnalysis";
-import { FutsalField } from "./FutsalField";
-import { PlayerInfoPanel } from "./PlayerInfoPanel";
+import { ClusterAnalysis, useTeamFieldAnalysis, type PlayerFieldData } from "@features/ai-module";
+import { FutsalField } from "@features/coach";
+import { PlayerInfoPanel, useTeamPlayers } from "@features/player";
 
 export const TeamFieldSection = () => {
     const { activeTeamId, activeTeam } = useActiveTeam();
@@ -51,6 +48,7 @@ export const TeamFieldSection = () => {
                                 `}
                                 icon={FaChartBar}
                                 variant="outline"
+                                iconPosition="left"
                             >
                                 {showAnalysis ? 'Ver Campo' : 'Ver Análisis'}
                             </Button>
@@ -61,6 +59,7 @@ export const TeamFieldSection = () => {
                             disabled={isAnalyzing || !activeTeamId || players.length === 0}
                             icon={FaPlay}
                             variant="primary"
+                            iconPosition="left"
                         >
                             {isAnalyzing ? 'Analizando...' : hasAnalysis ? 'Reanalizar' : 'Iniciar Análisis'}
                         </Button>
@@ -69,12 +68,12 @@ export const TeamFieldSection = () => {
             </div>
 
             {!activeTeamId ? (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 text-center">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 text-center group overflow-hidden relative">
                     <p className="text-yellow-800 font-medium">No tienes un equipo activo seleccionado.</p>
                 </div>
             ) : players.length === 0 ? (
-                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 text-center">
-                    <p className="text-gray-700 font-medium">Este equipo aún no tiene jugadores asignados.</p>
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 sm:p-10 border border-gray-100 shadow-xl text-center text-gray-600">
+                    Este equipo aún no tiene jugadores asignados.
                 </div>
             ) : isAnalyzing ? (
                 <div className="flex items-center justify-center min-h-[60vh]">
@@ -84,7 +83,7 @@ export const TeamFieldSection = () => {
                     />
                 </div>
             ) : !hasAnalysis ? (
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 sm:p-12 border border-gray-100 shadow-xl text-center overflow-hidden relative">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 sm:p-12 border border-gray-100 shadow-xl text-center group overflow-hidden relative">
                     <div className="bg-linear-to-br from-orange-100 to-orange-50 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                         <FaFutbol className="text-4xl sm:text-5xl text-orange-600" />
                     </div>
@@ -96,9 +95,9 @@ export const TeamFieldSection = () => {
             ) : showAnalysis ? (
                 <ClusterAnalysis players={playersData} />
             ) : (
-                <div className={`grid gap-6 ${selectedPlayer ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
+                <div className={`grid gap-6 ${selectedPlayer ? 'grid-cols-1 lg:grid-cols-5' : 'grid-cols-1'}`}>
                     {/* Field View */}
-                    <div className={selectedPlayer ? 'lg:col-span-2' : ''}>
+                    <div className={selectedPlayer ? 'lg:col-span-3' : ''}>
                         <FutsalField
                             players={playersData}
                             onPlayerClick={setSelectedPlayer}
@@ -107,7 +106,7 @@ export const TeamFieldSection = () => {
 
                     {/* Player Info Panel */}
                     {selectedPlayer && (
-                        <div className="lg:col-span-1">
+                        <div className="lg:col-span-2">
                             <PlayerInfoPanel
                                 player={selectedPlayer}
                                 onClose={() => setSelectedPlayer(null)}

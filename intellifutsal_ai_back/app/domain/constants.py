@@ -45,7 +45,7 @@ PHYSICAL_CONDITIONS_CATEGORIES: Dict[int, str] = {
     PhysicalCondition.BALANCED.value: "Jugador con buen equilibrio físico general",
     PhysicalCondition.RESISTANT.value: "Jugador con mayor resistencia y menor explosividad",
     PhysicalCondition.POWERFUL.value: "Jugador con mayor BMI y potencia física",
-    PhysicalCondition.AGILE.value: "Jugador ágiles con buen rendimiento general"
+    PhysicalCondition.AGILE.value: "Jugador ágil con buen rendimiento general"
 }
 
 POSITION_CHARACTERISTICS: Dict[int, Dict[str, Any]] = {

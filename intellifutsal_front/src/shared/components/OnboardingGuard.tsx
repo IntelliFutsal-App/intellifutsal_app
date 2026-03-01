@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "@shared/hooks";
+import { useAuth, useProfile } from "@shared/hooks";
 import { Loading } from "./atoms";
 
 interface OnboardingGuardProps {
@@ -8,14 +8,14 @@ interface OnboardingGuardProps {
 }
 
 export const OnboardingGuard = ({ children }: OnboardingGuardProps) => {
-    const { user, isAuthenticated, isLoading } = useAuth();
+    const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+    const { profileState, isLoading: profileLoading } = useProfile();
     const navigate = useNavigate();
     const location = useLocation();
-
     const lastRedirectRef = useRef<string | null>(null);
 
     useEffect(() => {
-        if (isLoading) return;
+        if (authLoading) return;
 
         if (!isAuthenticated || !user) {
             lastRedirectRef.current = null;
@@ -54,6 +54,11 @@ export const OnboardingGuard = ({ children }: OnboardingGuardProps) => {
                 break;
             }
 
+            case "COACH_PENDING_APPROVAL": {
+                targetRoute = "/coach-pending-approval";
+                break;
+            }
+
             case "ACTIVE": {
                 if (publicRoutes.has(currentPath) || onboardingRoutes.has(currentPath)) {
                     targetRoute = "/dashboard";
@@ -88,9 +93,14 @@ export const OnboardingGuard = ({ children }: OnboardingGuardProps) => {
 
         lastRedirectRef.current = `${currentPath}->${targetRoute}`;
         navigate(targetRoute, { replace: true });
-    }, [isLoading, isAuthenticated, user, location.pathname, navigate]);
+    }, [authLoading, isAuthenticated, user, location.pathname, navigate]);
 
-    if (isLoading) return <Loading />;
+    if (authLoading) return <Loading />;
+
+    if (isAuthenticated && user?.onboardingStatus === "ACTIVE") {
+        if (profileLoading) return <Loading />;
+        if (!profileState) return <Loading />;
+    }
 
     return <>{children}</>;
 };

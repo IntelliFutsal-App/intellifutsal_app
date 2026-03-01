@@ -16,29 +16,15 @@ class JoinRequestService {
         return JoinRequestService.instance;
     }
 
-    async create(data: CreateJoinRequestRequest): Promise<JoinRequestResponse> {
-        const response = await this.axios.post<JoinRequestResponse>(`${this.BASE_PATH}`, data);
-        
-        return response.data;
-    }
-
-    async findAllPending(teamId: number): Promise<JoinRequestResponse[]> {
-        const response = await this.axios.get<JoinRequestResponse[]>(`${this.BASE_PATH}/team/${teamId}`);
-        
-        return response.data;
-    }
-
-    async approve(id: number): Promise<JoinRequestResponse> {
-        const response = await this.axios.patch<JoinRequestResponse>(`${this.BASE_PATH}/approve/${id}`);
+    async findAll(): Promise<JoinRequestResponse[]> {
+        const response = await this.axios.get<JoinRequestResponse[]>(`${this.BASE_PATH}`);
 
         return response.data;
     }
 
-    async reject(id: number, data?: UpdateJoinRequestStatusRequest): Promise<JoinRequestResponse> {
-        const response = await this.axios.patch<JoinRequestResponse>(`${this.BASE_PATH}/reject/${id}`, {
-            data,
-        });
-        
+    async findById(id: number): Promise<JoinRequestResponse> {
+        const response = await this.axios.get<JoinRequestResponse>(`${this.BASE_PATH}/${id}`);
+
         return response.data;
     }
 
@@ -48,8 +34,46 @@ class JoinRequestService {
         return response.data;
     }
 
+    async findPendingByTeam(teamId: number): Promise<JoinRequestResponse[]> {
+        const response = await this.axios.get<JoinRequestResponse[]>(
+            `${this.BASE_PATH}/team/${teamId}`
+        );
+
+        return response.data;
+    }
+
+    async create(data: CreateJoinRequestRequest): Promise<JoinRequestResponse> {
+        const response = await this.axios.post<JoinRequestResponse>(
+            `${this.BASE_PATH}`,
+            { ...data }
+        );
+
+        return response.data;
+    }
+
     async cancel(id: number): Promise<void> {
         await this.axios.patch(`${this.BASE_PATH}/cancel/${id}`);
+    }
+
+    async approve(id: number): Promise<JoinRequestResponse> {
+        const response = await this.axios.patch<JoinRequestResponse>(
+            `${this.BASE_PATH}/approve/${id}`
+        );
+
+        return response.data;
+    }
+
+    async reject(id: number, data: UpdateJoinRequestStatusRequest): Promise<JoinRequestResponse> {
+        const response = await this.axios.patch<JoinRequestResponse>(
+            `${this.BASE_PATH}/reject/${id}`,
+            { ...data }
+        );
+
+        return response.data;
+    }
+
+    async delete(id: number): Promise<void> {
+        await this.axios.delete(`${this.BASE_PATH}/${id}`);
     }
 }
 

@@ -1,7 +1,7 @@
-import { createCoachSchema } from "@features/coach/schemas/coachSchema";
-import { createPlayerSchema } from "@features/player/schemas/createPlayerSchema";
 import { z } from "zod";
 import { baseAuthSchema } from "./baseAuthSchema";
+import { createCoachSchema } from "@features/coach";
+import { createPlayerSchema } from "@features/player";
 
 export const registerSchema = baseAuthSchema
     .and(

@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { FaBrain, FaChartLine, FaCog, FaDumbbell, FaRunning, FaSearch, FaUsers } from "react-icons/fa";
+import { FaBrain, FaChartLine, FaCog, FaDumbbell, FaRunning, FaSearch, FaTimes, FaUsers } from "react-icons/fa";
 import { useActiveTeam } from "@shared/hooks";
 import { Badge, Button, InlineLoading, Input, Select } from "@shared/components";
-import { DetailedPlayerCard } from "./DetailedPlayerCard";
 import { StatCard, type ColorType } from "./StatCard";
-import { EditPlayerModal } from "./EditPlayerModal";
-import { PlayerAiAnalysisModal } from "./PlayerAiAnalysisModal";
-import type { PlayerResponse } from "@features/player/types";
-import { usePlayerManagement, usePlayersSection, useTeamOperations } from "../hooks";
-import { TeamAiAnalysisModal } from "./TeamAiAnalysisModal";
-import type { TeamResponse } from "@features/team/types";
+import { EditPlayerModal, type PlayerResponse } from "@features/player";
+import { type TeamResponse } from "@features/team";
+import { usePlayersSection } from "../hooks";
+import { PlayerAiAnalysisModal, TeamAiAnalysisModal } from "@features/ai-module";
+import { DetailedPlayerCard, usePlayerManagement } from "@features/coach";
+import { useTeamOperations } from "@features/training";
 
 export const PlayersSection = () => {
     const { activeTeamId, activeTeam } = useActiveTeam();
@@ -80,13 +79,13 @@ export const PlayersSection = () => {
                             icon: FaRunning,
                             label: "Jugadores Activos",
                             value: stats.activeCount.toString(),
-                            color: "green" as ColorType,
+                            color: "blue" as ColorType,
                         },
                         {
                             icon: FaChartLine,
                             label: "Edad Promedio",
                             value: `${stats.avgAge} años`,
-                            color: "blue" as ColorType,
+                            color: "green" as ColorType,
                         },
                         {
                             icon: FaDumbbell,
@@ -114,7 +113,6 @@ export const PlayersSection = () => {
                         <div className="flex flex-wrap gap-3">
                             <Button
                                 variant="primary"
-                                size="sm"
                                 icon={FaBrain}
                                 iconPosition="left"
                                 onClick={handleOpenTeamAiAnalysis}
@@ -334,8 +332,8 @@ export const PlayersSection = () => {
                         <h3 className="text-xl font-bold text-gray-800 mb-2">No se encontraron jugadores</h3>
                         <p className="text-gray-600 mb-6">Intenta ajustar los filtros de búsqueda</p>
 
-                        <Button variant="primary" size="sm" onClick={clearFilters}>
-                            Limpiar filtros
+                        <Button variant="secondary" size="sm" icon={FaTimes} iconPosition="left" fullWidth className="sm:w-auto" onClick={clearFilters}>
+                            Limpiar
                         </Button>
                     </div>
                 )}

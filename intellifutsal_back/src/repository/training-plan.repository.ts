@@ -58,6 +58,16 @@ export class TrainingPlanRepository {
         return this.findById(id);
     }
 
+    public findByCreatedByCoachId = async (coachId: number) => {
+        return this.repository
+            .createQueryBuilder("tp")
+            .leftJoinAndSelect("tp.createdByCoach", "coach")
+            .leftJoinAndSelect("tp.cluster", "cluster")
+            .where("coach.id = :coachId", { coachId })
+            .orderBy("tp.created_at", "DESC")
+            .getMany();
+    };
+
     public delete = async (id: number) => {
         return this.repository.delete(id);
     }

@@ -1,5 +1,5 @@
 import { SectionHeader, TestimonialCard } from "@shared/components";
-import { testimonials } from "../data/landingData";
+import { testimonials } from "../data";
 
 interface TestimonialsSectionProps {
     currentTestimonial: number;

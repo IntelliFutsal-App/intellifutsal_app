@@ -2,15 +2,9 @@ import type { Role } from "@features/auth";
 import { Button, InlineLoading } from "@shared/components";
 import { useCallback, useMemo, useState } from "react";
 import { FaBrain, FaPlus, FaFilter } from "react-icons/fa";
-import { TrainingPlanCard } from "./TrainingPlanCard";
-import { GenerateAiPlanModal } from "./GenerateAiPlanModal";
-import { CreateManualPlanModal } from "./CreateManualPlanModal";
-import { ApproveRejectPlanModal } from "./ApproveRejectPlanModal";
-import { TrainingPlanDetailModal } from "./TrainingPlanDetailModal";
-import { AssignPlanModal } from "./AssignPlanModal";
-import { useTrainingPlans } from "../hooks/useTrainingPlans";
 import { useProfile } from "@shared/hooks";
-import type { ApproveRejectPlanSchema, CreateManualTrainingPlanSchema } from "@features/training/schemas";
+import { ApproveRejectPlanModal, AssignPlanModal, CreateManualPlanModal, TrainingPlanCard, TrainingPlanDetailModal, useTrainingPlans, type ApproveRejectPlanSchema, type CreateManualTrainingPlanSchema } from "@features/training";
+import { GenerateAiPlanModal } from "@features/ai-module";
 
 interface TrainingPlansSectionProps {
     role: Role;

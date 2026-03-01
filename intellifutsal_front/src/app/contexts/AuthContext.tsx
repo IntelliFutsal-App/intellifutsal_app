@@ -109,7 +109,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         setUser(response.user);
         hasValidatedRef.current = false;
-        toast.success("¡Cuenta creada con éxito!");
+
+        return response;
     };
 
     const logout = async () => {
@@ -137,6 +138,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(updatedUser);
     }, []);
 
+    const syncSession = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const accessToken = TokenManager.getAccessToken();
+            const refreshToken = TokenManager.getRefreshToken();
+
+            if (!accessToken && refreshToken) {
+                const refreshed = await authService.refreshToken(refreshToken);
+                TokenManager.setTokens(refreshed.accessToken, refreshed.refreshToken);
+                setUser(refreshed.user);
+                return;
+            }
+
+            if (accessToken) {
+                const { isValid, payload } = await authService.validateToken();
+                if (isValid && payload) {
+                    setUser(payload);
+                    return;
+                }
+                if (refreshToken) {
+                    const refreshed = await authService.refreshToken(refreshToken);
+                    TokenManager.setTokens(refreshed.accessToken, refreshed.refreshToken);
+                    setUser(refreshed.user);
+                    return;
+                }
+            }
+
+            setUser(null);
+        } finally {
+            hasValidatedRef.current = true;
+            isValidatingRef.current = false;
+            setIsInitialized(true);
+            setIsLoading(false);
+        }
+    }, []);
+
     const value: AuthContextType = {
         user,
         isAuthenticated: !!user,
@@ -146,6 +183,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         hasRole,
         updateUser,
+        syncSession,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

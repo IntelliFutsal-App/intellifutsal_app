@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
-import type { TimeSeriesPointResponse } from "@features/dashboard/types";
+import type { TimeSeriesPointResponse } from "@features/dashboard";
 
 interface TrendChartProps {
     data: TimeSeriesPointResponse[] | any[];

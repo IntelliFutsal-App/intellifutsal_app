@@ -1,5 +1,6 @@
 import { AxiosService } from "@shared/lib";
-import type { PlayerTeamResponse } from "../types";
+import type { PlayerTeamResponse, CreatePlayerTeamRequest, UpdatePlayerTeamRequest } from "../types";
+import type { UpdateStatusRequest } from "@shared/types";
 
 class PlayerTeamService {
     private static instance: PlayerTeamService;
@@ -22,10 +23,67 @@ class PlayerTeamService {
         return response.data;
     }
 
-    async findById(id: string): Promise<PlayerTeamResponse> {
-        const response = await this.axios.get<PlayerTeamResponse>(`${this.BASE_PATH}/${id}`);
+    async findAllIncludingInactive(): Promise<PlayerTeamResponse[]> {
+        const response = await this.axios.get<PlayerTeamResponse[]>(
+            `${this.BASE_PATH}/inactive`
+        );
 
         return response.data;
+    }
+
+    async findById(id: number): Promise<PlayerTeamResponse> {
+        const response = await this.axios.get<PlayerTeamResponse>(
+            `${this.BASE_PATH}/${id}`
+        );
+
+        return response.data;
+    }
+
+    async findByIdIncludingInactive(id: number): Promise<PlayerTeamResponse> {
+        const response = await this.axios.get<PlayerTeamResponse>(
+            `${this.BASE_PATH}/inactive/${id}`
+        );
+
+        return response.data;
+    }
+
+    async findByPlayerId(playerId: number): Promise<PlayerTeamResponse[]> {
+        const response = await this.axios.get<PlayerTeamResponse[]>(
+            `${this.BASE_PATH}/player/${playerId}`
+        );
+
+        return response.data;
+    }
+
+    async create(data: CreatePlayerTeamRequest): Promise<PlayerTeamResponse> {
+        const response = await this.axios.post<PlayerTeamResponse>(
+            `${this.BASE_PATH}`,
+            { ...data }
+        );
+
+        return response.data;
+    }
+
+    async update(data: UpdatePlayerTeamRequest): Promise<PlayerTeamResponse> {
+        const response = await this.axios.patch<PlayerTeamResponse>(
+            `${this.BASE_PATH}`,
+            { ...data }
+        );
+
+        return response.data;
+    }
+
+    async updateStatus(id: number, data: UpdateStatusRequest): Promise<PlayerTeamResponse> {
+        const response = await this.axios.patch<PlayerTeamResponse>(
+            `${this.BASE_PATH}/status/${id}`,
+            { ...data }
+        );
+
+        return response.data;
+    }
+
+    async delete(id: number): Promise<void> {
+        await this.axios.delete(`${this.BASE_PATH}/${id}`);
     }
 }
 

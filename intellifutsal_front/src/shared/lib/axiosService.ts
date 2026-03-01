@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { AuthResponse } from "@features/auth";
-import { TokenManager } from "@features/auth/services/tokenManager";
+import { TokenManager, type AuthResponse } from "@features/auth";
 import type { ErrorResponse } from "../types";
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 import axios from "axios";
 import { toast } from "react-toastify";
+
+export type AxiosMeta = { skipToast?: boolean };
 
 export class AxiosService {
     private static instance: AxiosService;
@@ -58,34 +59,41 @@ export class AxiosService {
     private async handleResponseError(error: AxiosError<ErrorResponse>): Promise<any> {
         const originalRequest = error.config as (InternalAxiosRequestConfig & {
             _retry?: boolean;
+            meta?: AxiosMeta;
         });
 
+        const skipToast = !!originalRequest?.meta?.skipToast;
+
         if (error.response) {
+            console.log(error.response)
             const { status, data } = error.response;
             const errorMessage = data?.message || "Ha ocurrido un error inesperado.";
 
             const isRefreshEndpoint = originalRequest.url?.includes("/auth/refresh-token") ?? false;
-            if (status === 401 && !isRefreshEndpoint) return this.handleUnauthorizedError(error, originalRequest);
 
-            this.showHttpErrorToast(status, errorMessage, isRefreshEndpoint);
+            if (status === 401 && !isRefreshEndpoint) {
+                return this.handleUnauthorizedError(errorMessage, originalRequest);
+            } if (!skipToast) {
+                this.showHttpErrorToast(status, errorMessage, isRefreshEndpoint);
+            }
         } else if (error.request) {
-            toast.error("Error de red. Por favor, compruebe su conexión.");
+            if (!skipToast) toast.error("Error de red. Por favor, compruebe su conexión.");
         } else {
-            toast.error("Ocurrió un error inesperado.");
+            if (!skipToast) toast.error("Ocurrió un error inesperado.");
         }
 
         return Promise.reject(error);
     }
 
-    private async handleUnauthorizedError(error: AxiosError<ErrorResponse>, originalRequest: InternalAxiosRequestConfig & { _retry?: boolean }): Promise<any> {
+    private async handleUnauthorizedError(error: AxiosError<ErrorResponse> | string, originalRequest: InternalAxiosRequestConfig & { _retry?: boolean }): Promise<any> {
         const hasRefreshToken = !!TokenManager.getRefreshToken();
 
-        if (!hasRefreshToken) {
+        if (!hasRefreshToken || typeof error === "string") {
             TokenManager.clearTokens();
             return Promise.reject(error);
         }
 
-        if (originalRequest._retry) {
+        if (originalRequest._retry && typeof error === "string") {
             TokenManager.clearTokens();
             return Promise.reject(error);
         }

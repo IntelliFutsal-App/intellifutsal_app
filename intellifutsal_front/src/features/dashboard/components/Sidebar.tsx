@@ -1,6 +1,6 @@
 import type { Role } from "@features/auth";
 import { Logo, Button } from "@shared/components";
-import { FaBrain, FaChartLine, FaClipboardList, FaDumbbell, FaHome, FaRunning, FaSearch, FaSignOutAlt, FaUsers, FaBars, FaTimes } from "react-icons/fa";
+import { FaBrain, FaChartLine, FaClipboardList, FaDumbbell, FaHome, FaRunning, FaSearch, FaSignOutAlt, FaUsers, FaBars, FaTimes, FaChalkboardTeacher } from "react-icons/fa";
 import { useAuth } from "@shared/hooks";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
@@ -37,13 +37,27 @@ export const Sidebar = ({ activeSection, setActiveSection, role }: SidebarProps)
             { id: "my-training", label: "Mis Entrenamientos", icon: FaDumbbell },
             { id: "my-progress", label: "Mi Progreso", icon: FaChartLine },
             { id: "my-team", label: "Mi Equipo", icon: FaUsers },
-            { id: "my-analysis", label: "Mi Análisis IA", icon: FaBrain },
+            { id: "my-analysis", label: "Análisis IA", icon: FaBrain },
             { id: "find-teams", label: "Buscar Equipos", icon: FaSearch },
         ],
         []
     );
 
-    const menuItems = role === "COACH" ? coachMenuItems : playerMenuItems;
+    const adminMenuItems = useMemo(
+        () => [
+            { id: "overview", label: "Panel de Control", icon: FaHome },
+            { id: "users", label: "Usuarios", icon: FaUsers },
+            { id: "coaches", label: "Entrenadores", icon: FaChalkboardTeacher },
+            { id: "players", label: "Jugadores", icon: FaRunning },
+            { id: "teams", label: "Equipos", icon: FaUsers },
+            { id: "clusters", label: "Clústeres IA", icon: FaBrain },
+            { id: "team-links", label: "Vínculos de Equipos", icon: FaClipboardList },
+            { id: "training-plans", label: "Planes de Entrenamiento", icon: FaDumbbell },
+        ],
+        []
+    );
+
+    const menuItems = role === "COACH" ? coachMenuItems : role === "ADMIN" ? adminMenuItems : playerMenuItems;
 
     const handleLogout = async () => {
         if (isLoggingOut) return;

@@ -34,6 +34,18 @@ export class TrainingPlanController {
         }
     };
 
+    public findMyPlans = async (req: AuthRequest, res: Response) => {
+        try {
+            const credentialId = req.user!.id;
+
+            const plans = await this.trainingPlanService.findMyPlans(+credentialId);
+
+            return res.status(HttpStatus.OK).json(plans);
+        } catch (error) {
+            return ErrorHandler.handleAnyError(res, error);
+        }
+    }
+
     public createManual = async (req: AuthRequest, res: Response) => {
         try {
             const credentialId = req.user!.id;

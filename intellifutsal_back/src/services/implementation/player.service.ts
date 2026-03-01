@@ -117,7 +117,7 @@ export class PlayerService implements IPlayerService {
     private findPlayersByTeamIdOrThrow = async (teamId: number): Promise<Player[]> => {
         const players = await this.playerRepository.findByTeamId(teamId);
 
-        if (!players || players.length === 0) throw new NotFoundException(`${ PLAYERS_NOT_FOUND_TEAM }${ teamId }`);
+        if (!players || players.length === 0) return [];
 
         return players;
     }

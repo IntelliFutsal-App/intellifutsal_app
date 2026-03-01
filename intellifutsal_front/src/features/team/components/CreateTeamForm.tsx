@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import { FiArrowLeft, FiCheck, FiUsers } from "react-icons/fi";
 import { Button, Input, Select } from "@shared/components";
-import { useCreateTeamForm } from "../hooks/useCreateTeamForm";
+import { useCreateTeamForm } from "../hooks";
 
 interface CreateTeamFormProps {
     onBack: () => void;

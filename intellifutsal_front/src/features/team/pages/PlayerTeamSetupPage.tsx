@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FiSearch, FiSend, FiUsers } from "react-icons/fi";
 import { Button, InlineLoading, Input } from "@shared/components";
 import type { TeamResponse } from "../types";
-import { usePlayerTeamSetup } from "../hooks/usePlayerTeamSetup";
+import { usePlayerTeamSetup } from "../hooks";
 
 const TeamRow = ({
     team,
@@ -112,18 +112,6 @@ export const PlayerTeamSetupPage = () => {
                     ))}
                 </div>
             )}
-
-            {/* Skip */}
-            <div className="mt-8 flex justify-center">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => navigate("/dashboard")}
-                    className="px-0!"
-                >
-                    Omitir por ahora
-                </Button>
-            </div>
         </div>
     );
 };

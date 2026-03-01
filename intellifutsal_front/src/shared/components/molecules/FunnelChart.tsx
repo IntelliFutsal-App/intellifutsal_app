@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { CountByKeyResponse } from "@features/dashboard/types";
+import type { CountByKeyResponse } from "@features/dashboard";
 
 interface FunnelChartProps {
     data: CountByKeyResponse[] | any[];
@@ -46,6 +46,7 @@ export const FunnelChart = ({ data, title, conversionRate }: FunnelChartProps) =
         APPROVED: { label: "Aprobadas", color: "from-green-500 to-green-600", order: 2 },
         REJECTED: { label: "Rechazadas", color: "from-red-500 to-red-600", order: 3 },
         JOINED: { label: "Completadas", color: "from-orange-500 to-orange-600", order: 4 },
+        CANCELLED: { label: "Canceladas", color: "from-gray-500 to-gray-600", order: 5 },
     };
 
     const stageData = data

@@ -1,1 +1,1 @@
-export type OnboardingStatus = "REGISTERED" | "PROFILE_CREATED" | "TEAM_PENDING" | "ACTIVE";
+export type OnboardingStatus = "REGISTERED" | "PROFILE_CREATED" | "COACH_PENDING_APPROVAL" | "TEAM_PENDING" | "ACTIVE";

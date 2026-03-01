@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import type { PlayerResponse } from "@features/player/types";
-import { playerService } from "@features/player/services/playerService";
 import type { SelectOption } from "@shared/components";
+import { playerService, type PlayerResponse } from "@features/player";
 
 type ViewMode = "grid" | "table";
 

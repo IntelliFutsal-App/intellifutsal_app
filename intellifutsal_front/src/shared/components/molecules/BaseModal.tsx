@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { FaTimes } from "react-icons/fa";
 import type { IconType } from "react-icons";
+import { createPortal } from "react-dom";
 
 export type IconColorType = "orange" | "blue" | "green" | "red" | "purple" | "amber";
 
@@ -15,6 +16,7 @@ interface BaseModalProps {
     children: ReactNode;
     footer?: ReactNode;
     position?: "center" | "top";
+    usePortal?: boolean;
 }
 
 const ICON_COLORS = {
@@ -46,10 +48,11 @@ export const BaseModal = ({
     children,
     footer,
     position = "center",
+    usePortal = false,
 }: BaseModalProps) => {
     if (!isOpen) return null;
 
-    return (
+    const content = (
         <Fragment>
             {/* Overlay */}
             <div
@@ -64,7 +67,8 @@ export const BaseModal = ({
                     } p-4 pointer-events-none`}
             >
                 <div
-                    className={`bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 ${MAX_WIDTHS[maxWidth]} w-full max-h-[90vh] overflow-y-auto pointer-events-auto animate-slide-down`}
+                    className={`bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 ${MAX_WIDTHS[maxWidth]
+                        } w-full max-h-[90vh] overflow-y-auto pointer-events-auto animate-slide-down`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Header */}
@@ -77,9 +81,16 @@ export const BaseModal = ({
                             )}
                             <div className="min-w-0 flex-1">
                                 <h2 className="text-xl font-bold text-gray-800 truncate">{title}</h2>
-                                {subtitle ? <p className="text-xs text-gray-500 mt-0.5 truncate">{subtitle}</p> : subtitle}
+                                {subtitle ? (
+                                    typeof subtitle === "string" || typeof subtitle === "number" ? (
+                                        <p className="text-xs text-gray-500 mt-0.5 truncate">{subtitle}</p>
+                                    ) : (
+                                        <div className="text-xs text-gray-500 mt-0.5">{subtitle}</div>
+                                    )
+                                ) : null}
                             </div>
                         </div>
+
                         <button
                             onClick={onClose}
                             className="p-2 hover:bg-gray-100 rounded-lg transition-colors shrink-0 cursor-pointer"
@@ -93,11 +104,7 @@ export const BaseModal = ({
                     <div className="p-6">{children}</div>
 
                     {/* Footer */}
-                    {footer && (
-                        <div className="p-6 border-t border-gray-200 bg-gray-50/50">
-                            {footer}
-                        </div>
-                    )}
+                    {footer && <div className="p-6 border-t border-gray-200 bg-gray-50/50">{footer}</div>}
                 </div>
             </div>
 
@@ -129,4 +136,9 @@ export const BaseModal = ({
             `}</style>
         </Fragment>
     );
+
+    if (!usePortal) return content;
+    if (typeof document === "undefined") return content;
+
+    return createPortal(content, document.body);
 };

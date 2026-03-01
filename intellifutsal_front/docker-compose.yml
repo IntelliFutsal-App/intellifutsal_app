@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  react-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: intellifutsal_react_frontend_standalone
+    restart: always
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
+    name: intellifutsal-frontend-network

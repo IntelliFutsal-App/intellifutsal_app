@@ -2,13 +2,16 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiCheck, FiSearch, FiUsers, FiArrowLeft } from "react-icons/fi";
 import { Button, Input, Badge, InlineLoading } from "@shared/components";
-import { useJoinExistingTeamList } from "../hooks/useJoinExistingTeamList";
+import { useJoinExistingTeamList } from "../hooks";
+import { useAuth, useProfile } from "@shared/hooks";
 
 interface JoinExistingTeamListProps {
     onBack: () => void;
 }
 
 export const JoinExistingTeamList = ({ onBack }: JoinExistingTeamListProps) => {
+    const { syncSession } = useAuth();
+    const { refreshProfile } = useProfile();
     const navigate = useNavigate();
 
     const {
@@ -23,9 +26,14 @@ export const JoinExistingTeamList = ({ onBack }: JoinExistingTeamListProps) => {
     const handleJoin = useCallback(
         async (teamId: number) => {
             const res = await joinTeam(teamId);
-            if (res?.ok) navigate("/dashboard");
+
+            if (res?.ok) {
+                await syncSession();
+                await refreshProfile();
+                navigate("/dashboard", { replace: true });
+            }
         },
-        [joinTeam, navigate]
+        [joinTeam, navigate, refreshProfile, syncSession]
     );
 
     const hasTeams = filteredTeams.length > 0;

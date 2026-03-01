@@ -1,6 +1,6 @@
 import { AxiosService } from "@shared/lib";
-import { normalizeTrainingProgressDates } from "@shared/utils/trainingUtils";
 import type { CreateTrainingProgressRequest, TrainingProgressResponse, VerifyTrainingProgressRequest } from "../types";
+import { normalizeTrainingProgressDates } from "../utils";
 
 class TrainingProgressService {
     private static instance: TrainingProgressService;

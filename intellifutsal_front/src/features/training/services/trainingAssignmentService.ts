@@ -1,6 +1,6 @@
 import { AxiosService } from "@shared/lib";
 import type { CreateTrainingAssignmentRequest, TrainingAssignmentResponse } from "../types";
-import { normalizeTrainingAssignmentDates } from "@shared/utils/trainingUtils";
+import { normalizeTrainingAssignmentDates } from "../utils";
 
 class TrainingAssignmentService {
     private static instance: TrainingAssignmentService;
@@ -13,8 +13,14 @@ class TrainingAssignmentService {
 
     public static getInstance(): TrainingAssignmentService {
         if (!TrainingAssignmentService.instance) TrainingAssignmentService.instance = new TrainingAssignmentService();
-        
+
         return TrainingAssignmentService.instance;
+    }
+
+    async findAll(): Promise<TrainingAssignmentResponse[]> {
+        const res = await this.axios.get<TrainingAssignmentResponse[]>(`${this.BASE_PATH}`);
+        
+        return res.data.map(normalizeTrainingAssignmentDates);
     }
 
     async findMyAssignments(): Promise<TrainingAssignmentResponse[]> {
@@ -41,10 +47,11 @@ class TrainingAssignmentService {
         return normalizeTrainingAssignmentDates(res.data);
     }
 
-    async create(data: CreateTrainingAssignmentRequest): Promise<TrainingAssignmentResponse> {
-        const res = await this.axios.post<TrainingAssignmentResponse>(`${this.BASE_PATH}`, {
-            ...data,
-        });
+    async create(request: CreateTrainingAssignmentRequest): Promise<TrainingAssignmentResponse> {
+        const res = await this.axios.post<TrainingAssignmentResponse>(
+            `${this.BASE_PATH}`,
+            { ...request }
+        );
 
         return normalizeTrainingAssignmentDates(res.data);
     }

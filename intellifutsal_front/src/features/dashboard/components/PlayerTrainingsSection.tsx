@@ -1,11 +1,7 @@
 import { useState, useMemo } from "react";
 import { FaChartLine, FaDumbbell, FaFire, FaTrophy } from "react-icons/fa";
 import { InlineLoading, Select } from "@shared/components";
-import { PlayerTrainingCard } from "./PlayerTrainingCard";
-import { RecordProgressModal } from "./RecordProgressModal";
-import { TrainingDetailsModal } from "./TrainingDetailsModal";
-import { usePlayerTrainings } from "../hooks/usePlayerTrainings";
-import type { TrainingAssignmentResponse } from "@features/training/types";
+import { PlayerTrainingCard, RecordProgressModal, TrainingDetailsModal, usePlayerTrainings, type TrainingAssignmentResponse } from "@features/training";
 import { StatCard, type ColorType } from "./StatCard";
 
 export const PlayerTrainingsSection = () => {
@@ -27,7 +23,6 @@ export const PlayerTrainingsSection = () => {
 
     const statusOptions = useMemo(
         () => [
-            { value: "", label: "Todos los estados" },
             { value: "ACTIVE", label: "Activos" },
             { value: "COMPLETED", label: "Completados" },
             { value: "CANCELLED", label: "Cancelados" },
@@ -57,13 +52,13 @@ export const PlayerTrainingsSection = () => {
                 icon: FaFire,
                 label: "Activos",
                 value: active.toString(),
-                color: "green" as ColorType,
+                color: "blue" as ColorType,
             },
             {
                 icon: FaTrophy,
                 label: "Completados",
                 value: completed.toString(),
-                color: "blue" as ColorType,
+                color: "green" as ColorType,
             },
             {
                 icon: FaChartLine,
@@ -105,6 +100,7 @@ export const PlayerTrainingsSection = () => {
                                     value={filterStatus}
                                     onChange={(e) => setFilterStatus(e.target.value)}
                                     options={statusOptions}
+                                    placeholder="Todos los estados"
                                 />
                             </div>
                         </div>
