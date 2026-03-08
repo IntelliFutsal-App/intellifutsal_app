@@ -22,7 +22,6 @@ export const useCoachesManagement = () => {
         } catch (error) {
             if (reqId !== requestIdRef.current) return;
             console.error("Error cargando coaches:", error);
-            toast.error("Error al cargar entrenadores");
         } finally {
             if (reqId === requestIdRef.current) setLoading(false);
         }
@@ -40,7 +39,6 @@ export const useCoachesManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error creando coach:", error);
-                toast.error("Error al crear entrenador");
                 throw error;
             }
         },
@@ -55,7 +53,6 @@ export const useCoachesManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error actualizando coach:", error);
-                toast.error("Error al actualizar entrenador");
                 throw error;
             }
         },
@@ -70,7 +67,6 @@ export const useCoachesManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error cambiando estado:", error);
-                toast.error("Error al cambiar estado");
                 throw error;
             }
         },
@@ -85,7 +81,6 @@ export const useCoachesManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error eliminando coach:", error);
-                toast.error("Error al eliminar entrenador");
                 throw error;
             }
         },

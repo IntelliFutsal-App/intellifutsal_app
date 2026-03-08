@@ -1,5 +1,5 @@
 import type { Role } from "@features/auth";
-import { Logo, Button } from "@shared/components";
+import { Logo, Button } from "@shared/ui";
 import { FaBrain, FaChartLine, FaClipboardList, FaDumbbell, FaHome, FaRunning, FaSearch, FaSignOutAlt, FaUsers, FaBars, FaTimes, FaChalkboardTeacher } from "react-icons/fa";
 import { useAuth } from "@shared/hooks";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,7 @@ export const Sidebar = ({ activeSection, setActiveSection, role }: SidebarProps)
             { id: "teams", label: "Mis Equipos", icon: FaUsers },
             { id: "players", label: "Jugadores", icon: FaRunning },
             { id: "training-plans", label: "Entrenamientos", icon: FaDumbbell },
+            { id: "training-progress", label: "Verificación de Progreso", icon: FaClipboardList },
             { id: "ai-analysis", label: "Análisis IA", icon: FaBrain },
             { id: "field-analysis", label: "Análisis de Campo", icon: FaChartLine },
             { id: "join-requests", label: "Solicitudes", icon: FaClipboardList },

@@ -1,4 +1,4 @@
-import { BaseModal, Select } from "@shared/components";
+import { BaseModal, Select } from "@shared/ui";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import { Field } from "./Field";
 import { ModalFooter } from "./ModalFooter";

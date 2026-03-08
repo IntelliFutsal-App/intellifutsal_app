@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FaUsers, FaChalkboardTeacher, FaRunning, FaDumbbell, FaClock, FaCheckCircle, FaBrain, FaShieldAlt } from "react-icons/fa";
-import { DonutChart, InlineLoading } from "@shared/components";
+import { DonutChart, InlineLoading } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { useAdminDashboard } from "../hooks";
 

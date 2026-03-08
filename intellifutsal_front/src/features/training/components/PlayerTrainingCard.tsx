@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FaBrain, FaCalendarAlt, FaClock, FaDumbbell, FaFire, FaCheckCircle } from "react-icons/fa";
-import { Badge, Button } from "@shared/components";
+import { Badge, Button } from "@shared/ui";
 import { formatDate, daysBetween } from "@shared/utils";
 import type { TrainingAssignmentResponse } from "../types";
 

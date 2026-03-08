@@ -1,4 +1,4 @@
-import { SectionHeader, TestimonialCard } from "@shared/components";
+import { SectionHeader, TestimonialCard } from "@shared/ui";
 import { testimonials } from "../data";
 
 interface TestimonialsSectionProps {
@@ -10,8 +10,8 @@ export const TestimonialsSection = ({ currentTestimonial }: TestimonialsSectionP
         <section className="py-24 bg-white/50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <SectionHeader
-                    title="Historias de Éxito Reales"
-                    subtitle="Descubre cómo IntelliFutsal está transformando el fútbol sala"
+                    title="¿Para Quién es IntelliFutsal?"
+                    subtitle="Diseñado para cada rol dentro del fútbol sala"
                 />
 
                 <div className="grid lg:grid-cols-3 gap-8">

@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import { FiArrowLeft, FiCheck, FiUsers } from "react-icons/fi";
-import { Button, Input, Select } from "@shared/components";
+import { Button, Input, Select } from "@shared/ui";
 import { useCreateTeamForm } from "../hooks";
 
 interface CreateTeamFormProps {

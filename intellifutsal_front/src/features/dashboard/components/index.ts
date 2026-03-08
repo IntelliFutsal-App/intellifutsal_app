@@ -13,6 +13,7 @@ export * from "./PlayerProgressSection";
 export * from "./PlayersManagementSection";
 export * from "./PlayersSection";
 export * from "./PlayerTrainingsSection";
+export * from "./ProgressVerificationSection";
 export * from "./Sidebar";
 export * from "./StatCard";
 export * from "./TeamFieldSection";

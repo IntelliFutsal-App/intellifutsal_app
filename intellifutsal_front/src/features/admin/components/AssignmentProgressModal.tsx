@@ -1,4 +1,4 @@
-import { BaseModal, Badge, InlineLoading } from "@shared/components";
+import { BaseModal, Badge, InlineLoading } from "@shared/ui";
 import type { TrainingProgressResponse } from "@features/training/types";
 import { formatStringDate } from "@shared/utils";
 import { FaClipboardCheck } from "react-icons/fa";

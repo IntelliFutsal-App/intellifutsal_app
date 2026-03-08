@@ -1,6 +1,6 @@
 import type { IconType } from "react-icons";
 import { FaChartLine, FaDumbbell, FaRunning, FaTrophy, FaUserCircle } from "react-icons/fa";
-import { MetricTile } from "@shared/components";
+import { MetricTile } from "@shared/ui";
 import type { ColorType } from "./StatCard";
 
 interface PerformanceMetricsCardProps {

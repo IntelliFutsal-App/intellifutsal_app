@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { AiApiPhysicalResponse, AiApiPositionResponse } from "../types";
 import { aiApiService } from "../services";
+import type { PlayerResponse } from "@features/player";
+import { isPlayerProfileCompleteForAI, getMissingPlayerAIFields } from "@features/player";
+import { toast } from "react-toastify";
 
 export interface PlayerSelfAnalysis {
     position: AiApiPositionResponse | null;
@@ -18,6 +21,7 @@ export interface TeammateSummary {
 
 export const usePlayerFieldView = (
     currentPlayerId: number | null,
+    currentPlayer?: PlayerResponse | null,
 ) => {
     const [selfAnalysis, setSelfAnalysis] = useState<PlayerSelfAnalysis>({
         position: null,
@@ -29,6 +33,12 @@ export const usePlayerFieldView = (
 
     const analyzeMyself = async () => {
         if (!currentPlayerId) return;
+
+        if (currentPlayer && !isPlayerProfileCompleteForAI(currentPlayer)) {
+            const missing = getMissingPlayerAIFields(currentPlayer);
+            toast.warn(`Completa tu perfil para el análisis de campo. Faltan: ${missing.join(", ")}`);
+            return;
+        }
 
         setSelfAnalysis({ position: null, physical: null, loading: true, analyzed: false, error: null });
 

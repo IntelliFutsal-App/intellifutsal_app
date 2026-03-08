@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiCheck, FiSearch, FiUsers, FiArrowLeft } from "react-icons/fi";
-import { Button, Input, Badge, InlineLoading } from "@shared/components";
+import { Button, Input, Badge, InlineLoading } from "@shared/ui";
 import { useJoinExistingTeamList } from "../hooks";
 import { useAuth, useProfile } from "@shared/hooks";
 

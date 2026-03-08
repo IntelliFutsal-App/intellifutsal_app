@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaBrain, FaCalendarAlt, FaChartLine, FaCheckCircle, FaClock, FaDumbbell, FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { Badge } from "@shared/components";
+import { Badge } from "@shared/ui";
 import type { EnrichedAssignment } from "../hooks";
 
 interface ProgressAssignmentCardProps {

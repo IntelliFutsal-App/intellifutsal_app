@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FaClipboardList, FaTrophy } from "react-icons/fa";
-import { Button } from "@shared/components";
+import { Button } from "@shared/ui";
 import type { ReactNode } from "react";
 
 interface TrainingRecommendationsCardProps {

@@ -1,6 +1,6 @@
 import { type UseFormRegister, type FieldErrors } from "react-hook-form";
 import { FiUser, FiCalendar, FiTrendingUp, FiActivity } from "react-icons/fi";
-import { Input } from "@shared/components";
+import { Input } from "@shared/ui";
 import type { RegisterFormData } from "../schemas";
 
 interface CoachFieldsProps {

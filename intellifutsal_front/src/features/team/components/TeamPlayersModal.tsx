@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaUsers, FaChartLine, FaRunning, FaDumbbell } from "react-icons/fa";
-import { BaseModal, Button, InlineLoading } from "@shared/components";
+import { BaseModal, Button, InlineLoading } from "@shared/ui";
 import type { TeamResponse } from "@features/team";
 import { playerService, type PlayerResponse } from "@features/player";
-import { mapPositionToEs } from '../../../shared/utils/positionUtils';
+import { mapPositionToEs } from "@shared/utils";
 
 interface TeamPlayersModalProps {
     isOpen: boolean;

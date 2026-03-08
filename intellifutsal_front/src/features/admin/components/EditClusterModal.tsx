@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { BaseModal, Input, Select } from "@shared/components";
+import { BaseModal, Input, Select } from "@shared/ui";
 import { Field } from "./Field";
 import { ModalFooter } from "./ModalFooter";
 import type { UseFormReturn } from "react-hook-form";

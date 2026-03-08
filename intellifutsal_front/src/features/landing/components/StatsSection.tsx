@@ -1,4 +1,4 @@
-import { StatCard } from "@shared/components";
+import { StatCard } from "@shared/ui";
 import { stats } from "../data";
 
 export const StatsSection = () => {

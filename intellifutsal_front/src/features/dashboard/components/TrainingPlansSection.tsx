@@ -1,5 +1,5 @@
 import type { Role } from "@features/auth";
-import { Button, InlineLoading } from "@shared/components";
+import { Button, InlineLoading } from "@shared/ui";
 import { useCallback, useMemo, useState } from "react";
 import { FaBrain, FaPlus, FaFilter } from "react-icons/fa";
 import { useProfile } from "@shared/hooks";

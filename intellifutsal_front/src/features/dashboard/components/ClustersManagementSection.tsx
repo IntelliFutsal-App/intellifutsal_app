@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { FaLayerGroup, FaLink, FaPlus, FaSearch } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button, DataTable, Input, InlineLoading } from "@shared/components";
+import { Button, DataTable, Input, InlineLoading } from "@shared/ui";
 import { StatCard } from "./StatCard";
 import { formatStringDate } from "@shared/utils";
 import { useClustersManagement } from "../hooks";

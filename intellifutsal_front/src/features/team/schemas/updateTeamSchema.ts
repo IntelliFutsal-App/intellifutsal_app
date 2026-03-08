@@ -5,6 +5,7 @@ export const updateTeamSchema = z.object({
     id: z.number().positive("El ID del equipo debe ser un número positivo"),
     name: z
         .string()
+        .trim()
         .min(3, "El nombre debe tener al menos 3 caracteres")
         .max(50, "El nombre debe tener máximo 50 caracteres")
         .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s"-]+$/, "Solo letras, espacios, apóstrofes y guiones"),

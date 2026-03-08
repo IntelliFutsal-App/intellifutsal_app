@@ -20,9 +20,9 @@ export const useLoginForm = () => {
                 await login(data.email, data.password);
                 toast.dismiss(loadingToast);
                 navigate("/dashboard", { replace: true });
-            } catch (error) {
+            } catch {
                 toast.dismiss(loadingToast);
-                toast.error(error as string);
+                toast.error("Credenciales inválidas. Por favor, inténtalo de nuevo.");
             } finally {
                 setIsLoading(false);
             }

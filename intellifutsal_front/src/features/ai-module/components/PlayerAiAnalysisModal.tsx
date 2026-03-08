@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FaBrain, FaChartLine, FaDumbbell, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
-import { BaseModal, Button } from "@shared/components";
+import { BaseModal, Button } from "@shared/ui";
 import type { PlayerResponse } from "@features/player";
-import { mapPositionToEs } from '../../../shared/utils/positionUtils';
+import { mapPositionToEs } from "@shared/utils";
 
 interface PlayerAiAnalysisModalProps {
     isOpen: boolean;
@@ -36,11 +36,17 @@ export const PlayerAiAnalysisModal = ({
     if (!player) return null;
 
     const fullName = `${player.firstName} ${player.lastName}`;
-    const bmi = Number(player.bmi);
+    const bmi = player.bmi != null ? Number(player.bmi) : null;
 
-    const speedAnalysis = player.thirtyMetersTime < 4.5 ? "excelente" : player.thirtyMetersTime < 5.0 ? "buena" : "necesita mejorar";
-    const enduranceAnalysis = player.thousandMetersTime < 240 ? "excelente" : player.thousandMetersTime < 300 ? "buena" : "necesita mejorar";
-    const bmiAnalysis = bmi >= 18.5 && bmi <= 24.9 ? "óptimo" : bmi < 18.5 ? "bajo peso" : "sobrepeso";
+    const speedAnalysis = player.thirtyMetersTime != null
+        ? (player.thirtyMetersTime < 4.5 ? "excelente" : player.thirtyMetersTime < 5.0 ? "buena" : "necesita mejorar")
+        : null;
+    const enduranceAnalysis = player.thousandMetersTime != null
+        ? (player.thousandMetersTime < 240 ? "excelente" : player.thousandMetersTime < 300 ? "buena" : "necesita mejorar")
+        : null;
+    const bmiAnalysis = bmi != null
+        ? (bmi >= 18.5 && bmi <= 24.9 ? "óptimo" : bmi < 18.5 ? "bajo peso" : "sobrepeso")
+        : null;
 
     return (
         <BaseModal
@@ -72,15 +78,15 @@ export const PlayerAiAnalysisModal = ({
                     <div className="grid grid-cols-3 gap-3">
                         <div className="bg-white rounded-lg p-3 text-center">
                             <p className="text-xs text-gray-600 mb-1">Altura</p>
-                            <p className="text-sm font-bold text-gray-800">{player.height}m</p>
+                            <p className="text-sm font-bold text-gray-800">{player.height != null ? `${player.height}m` : "—"}</p>
                         </div>
                         <div className="bg-white rounded-lg p-3 text-center">
                             <p className="text-xs text-gray-600 mb-1">Peso</p>
-                            <p className="text-sm font-bold text-gray-800">{player.weight}kg</p>
+                            <p className="text-sm font-bold text-gray-800">{player.weight != null ? `${player.weight}kg` : "—"}</p>
                         </div>
                         <div className="bg-white rounded-lg p-3 text-center">
                             <p className="text-xs text-gray-600 mb-1">IMC</p>
-                            <p className="text-sm font-bold text-gray-800">{bmi.toFixed(1)}</p>
+                            <p className="text-sm font-bold text-gray-800">{bmi != null ? bmi.toFixed(1) : "—"}</p>
                         </div>
                     </div>
                 </div>
@@ -93,6 +99,7 @@ export const PlayerAiAnalysisModal = ({
                     </h3>
 
                     <div className="space-y-2">
+                        {speedAnalysis != null && (
                         <div className="flex items-start gap-3 bg-white rounded-lg p-3 border border-gray-200">
                             <div className={`mt-0.5 ${speedAnalysis === "excelente" ? "text-green-500" : speedAnalysis === "buena" ? "text-amber-500" : "text-red-500"}`}>
                                 {speedAnalysis === "excelente" ? <FaCheckCircle /> : <FaExclamationTriangle />}
@@ -104,7 +111,9 @@ export const PlayerAiAnalysisModal = ({
                                 </p>
                             </div>
                         </div>
+                        )}
 
+                        {enduranceAnalysis != null && (
                         <div className="flex items-start gap-3 bg-white rounded-lg p-3 border border-gray-200">
                             <div className={`mt-0.5 ${enduranceAnalysis === "excelente" ? "text-green-500" : enduranceAnalysis === "buena" ? "text-amber-500" : "text-red-500"}`}>
                                 {enduranceAnalysis === "excelente" ? <FaCheckCircle /> : <FaExclamationTriangle />}
@@ -116,7 +125,9 @@ export const PlayerAiAnalysisModal = ({
                                 </p>
                             </div>
                         </div>
+                        )}
 
+                        {bmiAnalysis != null && bmi != null && (
                         <div className="flex items-start gap-3 bg-white rounded-lg p-3 border border-gray-200">
                             <div className={`mt-0.5 ${bmiAnalysis === "óptimo" ? "text-green-500" : "text-amber-500"}`}>
                                 {bmiAnalysis === "óptimo" ? <FaCheckCircle /> : <FaExclamationTriangle />}
@@ -128,6 +139,11 @@ export const PlayerAiAnalysisModal = ({
                                 </p>
                             </div>
                         </div>
+                        )}
+
+                        {speedAnalysis == null && enduranceAnalysis == null && bmiAnalysis == null && (
+                            <p className="text-sm text-gray-500 italic">No hay métricas suficientes para el análisis rápido.</p>
+                        )}
                     </div>
                 </div>
 

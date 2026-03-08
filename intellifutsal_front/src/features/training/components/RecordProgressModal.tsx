@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaDumbbell } from "react-icons/fa";
-import { BaseModal, Button, Input, TextArea } from "@shared/components";
+import { BaseModal, Button, Input, TextArea } from "@shared/ui";
 import type { TrainingAssignmentResponse } from "../types";
 import { recordProgressSchema, type RecordProgressSchema } from "../schemas";
 

@@ -17,7 +17,6 @@ export const usePlayerManagement = ({ onPlayerUpdated, onPlanGenerated }: UsePla
                 onPlayerUpdated?.();
             } catch (error) {
                 console.error("Error al actualizar jugador:", error);
-                toast.error("Error al actualizar el jugador");
                 throw error;
             }
         },
@@ -50,7 +49,6 @@ export const usePlayerManagement = ({ onPlayerUpdated, onPlanGenerated }: UsePla
                 onPlanGenerated?.();
             } catch (error) {
                 console.error("Error al generar plan con IA:", error);
-                toast.error("Error al generar el plan de entrenamiento");
                 throw error;
             }
         },

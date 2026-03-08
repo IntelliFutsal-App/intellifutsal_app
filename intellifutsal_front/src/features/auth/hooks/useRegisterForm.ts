@@ -50,9 +50,6 @@ export const useRegisterForm = () => {
                     await logout();
 
                     toast.dismiss(loadingToast);
-                    toast.error(
-                        "Se creó su credencial, pero falló la creación del perfil. Intenta de nuevo. Si persiste, contacta soporte."
-                    );
 
                     console.error("Error creando perfil:", profileError);
                     return;
@@ -61,12 +58,8 @@ export const useRegisterForm = () => {
                 toast.dismiss(loadingToast);
 
                 if (isHttpConflict(authError)) {
-                    toast.error("Ya existe un usuario con ese correo. Intenta iniciar sesión.");
-                } else {
-                    const msg =
-                        authError instanceof Error ? authError.message : "Error al crear la cuenta";
-                    toast.error(msg);
-                }
+                    toast.error("El correo electrónico ya está en uso");
+                } 
 
                 console.error("Error creando credencial:", authError);
             } finally {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { BaseModal, Button, TextArea } from "@shared/components";
+import { BaseModal, Button, TextArea } from "@shared/ui";
 import { approveRejectPlanSchema, type ApproveRejectPlanSchema } from "../schemas";
 
 interface ApproveRejectPlanModalProps {

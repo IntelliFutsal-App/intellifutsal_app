@@ -24,7 +24,6 @@ export const useTrainingPlans = () => {
         } catch (error) {
             if (requestId !== requestIdRef.current) return;
             console.error("Error al cargar planes:", error);
-            toast.error("Error al cargar planes de entrenamiento");
             setPlans([]);
         } finally {
             if (requestId === requestIdRef.current) setLoading(false);
@@ -72,7 +71,6 @@ export const useTrainingPlans = () => {
                 await fetchPlans();
             } catch (error) {
                 console.error("Error al asignar plan:", error);
-                toast.error("Error al asignar el plan");
                 throw error;
             }
         },
@@ -88,7 +86,6 @@ export const useTrainingPlans = () => {
                 await fetchPlans();
             } catch (error) {
                 console.error("Error al aprobar plan:", error);
-                toast.error("Error al aprobar el plan");
             } finally {
                 setActingPlanId(null);
             }
@@ -105,7 +102,6 @@ export const useTrainingPlans = () => {
                 await fetchPlans();
             } catch (error) {
                 console.error("Error al rechazar plan:", error);
-                toast.error("Error al rechazar el plan");
             } finally {
                 setActingPlanId(null);
             }
@@ -122,7 +118,6 @@ export const useTrainingPlans = () => {
                 await fetchPlans();
             } catch (error) {
                 console.error("Error al archivar plan:", error);
-                toast.error("Error al archivar el plan");
             } finally {
                 setActingPlanId(null);
             }
@@ -144,7 +139,6 @@ export const useTrainingPlans = () => {
                 await fetchPlans();
             } catch (error) {
                 console.error("Error al crear plan:", error);
-                toast.error("Error al crear el plan");
                 throw error;
             }
         },
@@ -159,7 +153,6 @@ export const useTrainingPlans = () => {
                 await fetchPlans();
             } catch (error) {
                 console.error("Error al generar plan con IA:", error);
-                toast.error("Error al generar plan con IA");
                 throw error;
             }
         },
@@ -174,7 +167,6 @@ export const useTrainingPlans = () => {
                 await fetchPlans();
             } catch (error) {
                 console.error("Error al generar plan con IA:", error);
-                toast.error("Error al generar plan con IA");
                 throw error;
             }
         },

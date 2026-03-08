@@ -1,4 +1,4 @@
-import { BaseModal, Input, Select, type SelectOption } from "@shared/components";
+import { BaseModal, Input, Select, type SelectOption } from "@shared/ui";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import type { CreateTeamSchema } from "@features/team";
 import { Field } from "./Field";

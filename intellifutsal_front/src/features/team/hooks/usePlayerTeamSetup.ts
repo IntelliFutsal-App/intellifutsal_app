@@ -16,7 +16,6 @@ export const usePlayerTeamSetup = () => {
             setTeams(data);
         } catch (error) {
             console.error("Error al cargar equipos:", error);
-            toast.error("Error al cargar equipos");
             setTeams([]);
         } finally {
             setIsLoading(false);
@@ -54,10 +53,8 @@ export const usePlayerTeamSetup = () => {
             toast.dismiss(loadingToast);
             toast.success("¡Solicitud enviada exitosamente!");
             return { ok: true as const };
-        } catch (error) {
+        } catch {
             toast.dismiss(loadingToast);
-            const message = error instanceof Error ? error.message : "Error al enviar solicitud";
-            toast.error(message);
             return { ok: false as const };
         } finally {
             setSendingRequestTeamId(null);

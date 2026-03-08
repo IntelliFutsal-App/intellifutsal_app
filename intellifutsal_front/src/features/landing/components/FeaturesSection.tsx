@@ -1,4 +1,4 @@
-import { SectionHeader, FeatureCard, ProcessStep } from "@shared/components";
+import { SectionHeader, FeatureCard, ProcessStep } from "@shared/ui";
 import { GrTechnology } from "react-icons/gr";
 import { features, processSteps } from "../data";
 

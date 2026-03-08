@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { FiMail, FiLock, FiLogIn } from "react-icons/fi";
-import { Button, Checkbox, Input } from "@shared/components";
+import { Button, Checkbox, Input } from "@shared/ui";
 import { useLoginForm } from "../hooks";
 import { loginSchema, type LoginFormData } from "../schemas";
 

@@ -1,7 +1,7 @@
 import { FaBrain } from "react-icons/fa";
-import { Button, StatTile } from "@shared/components";
+import { Button, StatTile } from "@shared/ui";
 import type { PlayerResponse } from "../types";
-import { mapPositionToEs } from '../../../shared/utils/positionUtils';
+import { mapPositionToEs } from "@shared/utils";
 
 interface PlayerCardProps {
     player: PlayerResponse;

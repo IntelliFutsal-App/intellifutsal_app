@@ -1,4 +1,4 @@
-import { BaseModal, Input, Select, type SelectOption } from "@shared/components";
+import { BaseModal, Input, Select, type SelectOption } from "@shared/ui";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import type { CreatePlayerSchema } from "@features/player";
 import { Field } from "./Field";
@@ -58,7 +58,7 @@ export const CreatePlayerModal = ({
                         control={control}
                         name="position"
                         render={({ field }) => (
-                            <Field label="Posición" required error={(errors).position?.message}>
+                            <Field label="Posición" error={(errors).position?.message}>
                                 <Select
                                     options={POSITION_OPTIONS as SelectOption[]}
                                     placeholder="Seleccionar"
@@ -74,42 +74,42 @@ export const CreatePlayerModal = ({
                     />
                 </div>
 
-                <SectionHeader title="Métricas Básicas" tone="green" />
+                <SectionHeader title="Métricas Básicas (Opcional)" tone="green" />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Field label="Altura (cm)" required error={errors.height?.message}>
+                    <Field label="Altura (cm)" error={errors.height?.message}>
                         <Input type="number" step="0.1" {...register("height", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
 
-                    <Field label="Peso (kg)" required error={errors.weight?.message}>
+                    <Field label="Peso (kg)" error={errors.weight?.message}>
                         <Input type="number" step="0.1" {...register("weight", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
                 </div>
 
-                <SectionHeader title="Métricas Físicas" tone="purple" />
+                <SectionHeader title="Métricas Físicas (Opcional)" tone="purple" />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Field label="Salto Alto (cm)" required error={errors.highJump?.message}>
+                    <Field label="Salto Alto (cm)" error={errors.highJump?.message}>
                         <Input type="number" step="0.1" {...register("highJump", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
 
-                    <Field label="Salto Bipodal (cm)" required error={errors.bipodalJump?.message}>
+                    <Field label="Salto Bipodal (cm)" error={errors.bipodalJump?.message}>
                         <Input type="number" step="0.1" {...register("bipodalJump", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
 
-                    <Field label="Salto Unipodal Der. (cm)" required error={errors.rightUnipodalJump?.message}>
+                    <Field label="Salto Unipodal Der. (cm)" error={errors.rightUnipodalJump?.message}>
                         <Input type="number" step="0.1" {...register("rightUnipodalJump", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
 
-                    <Field label="Salto Unipodal Izq. (cm)" required error={errors.leftUnipodalJump?.message}>
+                    <Field label="Salto Unipodal Izq. (cm)" error={errors.leftUnipodalJump?.message}>
                         <Input type="number" step="0.1" {...register("leftUnipodalJump", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
 
-                    <Field label="Tiempo 30m (s)" required error={errors.thirtyMetersTime?.message}>
+                    <Field label="Tiempo 30m (s)" error={errors.thirtyMetersTime?.message}>
                         <Input type="number" step="0.01" {...register("thirtyMetersTime", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
 
-                    <Field label="Tiempo 1000m (s)" required error={errors.thousandMetersTime?.message}>
+                    <Field label="Tiempo 1000m (s)" error={errors.thousandMetersTime?.message}>
                         <Input type="number" step="0.1" {...register("thousandMetersTime", { valueAsNumber: true })} disabled={isLoading} />
                     </Field>
                 </div>

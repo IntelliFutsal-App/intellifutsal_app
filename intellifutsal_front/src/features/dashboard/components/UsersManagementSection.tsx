@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaPlus, FaSearch, FaUsers } from "react-icons/fa";
-import { Button, DataTable, Input, ShowInactiveToggle, StatusBadge, Badge } from "@shared/components";
+import { Button, DataTable, Input, ShowInactiveToggle, StatusBadge, Badge } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { createCredentialSchema, updateCredentialSchema, type CreateCredentialSchema, type UpdateCredentialSchema, type UserResponse } from "@features/profile";
 import { formatStringDate } from "@shared/utils";

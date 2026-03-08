@@ -1,6 +1,5 @@
 import { playerService, type PlayerResponse } from "@features/player";
 import { useEffect, useMemo, useState } from "react";
-import { toast } from "react-toastify";
 
 export const useTeamPlayers = (activeTeamId?: number | null) => {
     const [players, setPlayers] = useState<PlayerResponse[]>([]);
@@ -24,7 +23,6 @@ export const useTeamPlayers = (activeTeamId?: number | null) => {
                 setPlayers(data);
             } catch (error) {
                 console.error("Error al cargar players por team:", error);
-                toast.error("Error al cargar jugadores del equipo");
                 if (!mounted) return;
                 setPlayers([]);
             } finally {

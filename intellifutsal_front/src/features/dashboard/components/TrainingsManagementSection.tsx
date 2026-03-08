@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { FaClipboardList, FaDumbbell, FaSearch } from "react-icons/fa";
-import { Button, DataTable, Input, Badge, InlineLoading } from "@shared/components";
+import { Button, DataTable, Input, Badge, InlineLoading } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { formatStringDate } from "@shared/utils";
 import { useForm } from "react-hook-form";
@@ -378,7 +378,7 @@ export const TrainingsManagementSection = () => {
                                     {p.status !== "ARCHIVED" ? (
                                         <Button
                                             size="xs"
-                                            variant="outline"
+                                            variant="primary"
                                             disabled={isActing}
                                             onClick={() => void archivePlan(p.id)}
                                         >

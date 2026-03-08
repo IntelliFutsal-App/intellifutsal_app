@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaBrain, FaUser, FaCheckCircle, FaTimesCircle, FaArchive, FaInfoCircle, FaClock, FaDumbbell } from "react-icons/fa";
 import type { Role } from "@features/auth";
-import { Badge, BaseModal, Button, type BadgeVariant, type IconColorType } from "@shared/components";
+import { Badge, BaseModal, Button, type BadgeVariant, type IconColorType } from "@shared/ui";
 import type { IconType } from "react-icons";
 import type { TrainingPlanResponse } from "../types";
 import { trainingPlanService } from "../services";

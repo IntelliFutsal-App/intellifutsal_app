@@ -21,7 +21,6 @@ export const usePlayerTrainings = () => {
         } catch (error) {
             if (requestId !== requestIdRef.current) return;
             console.error("Error al cargar asignaciones:", error);
-            toast.error("Error al cargar tus entrenamientos");
             setAssignments([]);
         } finally {
             if (requestId === requestIdRef.current) setLoading(false);
@@ -49,7 +48,6 @@ export const usePlayerTrainings = () => {
                 await fetchAssignments();
             } catch (error) {
                 console.error("Error al registrar progreso:", error);
-                toast.error("Error al registrar el progreso");
                 throw error;
             }
         },

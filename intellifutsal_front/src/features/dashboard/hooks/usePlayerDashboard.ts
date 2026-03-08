@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
 import type { PlayerDashboardResponse } from "../types";
 import { dashboardService } from "../services";
 
@@ -20,7 +19,6 @@ export const usePlayerDashboard = () => {
         } catch (error) {
             if (requestId !== requestIdRef.current) return;
             console.error("Error al cargar dashboard:", error);
-            toast.error("Error al cargar los datos del panel");
         } finally {
             if (requestId === requestIdRef.current) setLoading(false);
         }

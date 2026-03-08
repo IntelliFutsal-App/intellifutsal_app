@@ -6,6 +6,7 @@ export * from "./usePlayerClustersManagement";
 export * from "./usePlayerDashboard";
 export * from "./usePlayersManagement";
 export * from "./usePlayersSection";
+export * from "./useProgressVerification";
 export * from "./useTeamsManagement";
 export * from "./useTrainingsManagement";
 export * from "./useUsersManagement";

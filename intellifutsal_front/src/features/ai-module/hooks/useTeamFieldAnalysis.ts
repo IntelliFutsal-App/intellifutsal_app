@@ -1,7 +1,8 @@
 import { useState } from "react";
 import type { AiApiPhysicalResponse, AiApiPositionResponse } from "../types";
-import type { PlayerResponse } from "@features/player";
+import { type PlayerResponse, isPlayerProfileCompleteForAI } from "@features/player";
 import { aiApiService } from "../services";
+import { toast } from "react-toastify";
 
 export interface PlayerFieldData {
     id: number;
@@ -19,6 +20,13 @@ export const useTeamFieldAnalysis = (teamId: number | null, players: PlayerRespo
 
     const analyzeTeam = async () => {
         if (!teamId || players.length === 0) return;
+
+        const incompletePlayers = players.filter(p => !isPlayerProfileCompleteForAI(p));
+        if (incompletePlayers.length > 0) {
+            const names = incompletePlayers.map(p => `${p.firstName} ${p.lastName}`).join(", ");
+            toast.warn(`Los siguientes jugadores tienen perfil incompleto para IA: ${names}`);
+            return;
+        }
 
         setLoading(true);
         setError(null);

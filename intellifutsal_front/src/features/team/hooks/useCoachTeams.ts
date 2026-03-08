@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { toast } from "react-toastify";
 import { coachTeamService, teamService, type CoachTeamResponse, type TeamResponse } from "@features/team";
 import type { Role } from "@features/auth";
 import type { ProfileStateResponse } from "@features/profile";
@@ -63,7 +62,6 @@ export const useCoachTeams = ({
                 }
             } catch (e) {
                 console.error("Error al cargar coachTeams/teams:", e);
-                toast.error("Error al cargar tus equipos");
                 if (mounted) setCoachTeamsData([]);
             } finally {
                 if (mounted) setIsLoading(false);

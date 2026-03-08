@@ -1,5 +1,5 @@
 import type { Role } from "@features/auth";
-import { Badge, Button, StatTile, type BadgeVariant } from "@shared/components";
+import { Badge, Button, StatTile, type BadgeVariant } from "@shared/ui";
 import { FaBrain, FaCheck, FaTimes } from "react-icons/fa";
 import type { TrainingPlanResponse } from "../types";
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { FaBrain, FaFutbol, FaPlay, FaUsers } from "react-icons/fa";
-import { Button, InlineLoading } from "@shared/components";
+import { FaBrain, FaFutbol, FaPlay, FaUsers, FaExclamationTriangle } from "react-icons/fa";
+import { Button, InlineLoading } from "@shared/ui";
 import { useProfile, useActiveTeam } from "@shared/hooks";
-import { PlayerFieldView, PlayerInfoPanel, useTeamPlayers, type PlayerResponse } from "@features/player";
+import { PlayerFieldView, PlayerInfoPanel, useTeamPlayers, type PlayerResponse, isPlayerProfileCompleteForAI, getMissingPlayerAIFields } from "@features/player";
 import { usePlayerFieldView } from "@features/ai-module";
 
 export const PlayerFieldSection = () => {
@@ -11,6 +11,8 @@ export const PlayerFieldSection = () => {
 
     const currentPlayer = profileState?.profile as PlayerResponse ?? null;
     const currentPlayerId = currentPlayer?.id ?? null;
+    const profileComplete = currentPlayer ? isPlayerProfileCompleteForAI(currentPlayer) : false;
+    const missingFields = currentPlayer ? getMissingPlayerAIFields(currentPlayer) : [];
 
     const { players: allPlayers, loading: isLoadingPlayers } = useTeamPlayers(activeTeamId);
 
@@ -18,6 +20,7 @@ export const PlayerFieldSection = () => {
 
     const { selfAnalysis, analyzeMyself, reset } = usePlayerFieldView(
         currentPlayerId,
+        currentPlayer,
     );
 
     const [showAnalysisPanel, setShowAnalysisPanel] = useState(false);
@@ -112,6 +115,15 @@ export const PlayerFieldSection = () => {
                 </div>
             ) : !hasAnalysis ? (
                 <div className="space-y-4">
+                    {!profileComplete && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-start gap-3">
+                            <FaExclamationTriangle className="text-amber-500 shrink-0 mt-0.5" />
+                            <div className="text-sm text-amber-800">
+                                <p className="font-bold mb-1">Perfil incompleto para análisis IA</p>
+                                <p>Completa los siguientes campos desde tu perfil: {missingFields.join(", ")}</p>
+                            </div>
+                        </div>
+                    )}
                     <div className="bg-blue-50 border border-blue-200 rounded-xl px-5 py-3 flex items-center gap-3 group overflow-hidden relative">
                         <FaBrain className="text-blue-500 shrink-0" />
                         <p className="text-sm text-blue-800">

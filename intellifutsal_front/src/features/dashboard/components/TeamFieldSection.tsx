@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { FaChartBar, FaFutbol, FaPlay } from "react-icons/fa";
+import { FaChartBar, FaExclamationTriangle, FaFutbol, FaPlay } from "react-icons/fa";
 import { useActiveTeam } from "@shared/hooks";
-import { Button, InlineLoading } from "@shared/components";
+import { Button, InlineLoading } from "@shared/ui";
 import { ClusterAnalysis, useTeamFieldAnalysis, type PlayerFieldData } from "@features/ai-module";
 import { FutsalField } from "@features/coach";
-import { PlayerInfoPanel, useTeamPlayers } from "@features/player";
+import { PlayerInfoPanel, useTeamPlayers, isPlayerProfileCompleteForAI } from "@features/player";
 
 export const TeamFieldSection = () => {
     const { activeTeamId, activeTeam } = useActiveTeam();
     const { players, loading: isLoadingPlayers } = useTeamPlayers(activeTeamId);
     const { playersData, loading: isAnalyzing, analyzeTeam } = useTeamFieldAnalysis(activeTeamId, players);
+
+    const incompletePlayers = players.filter(p => !isPlayerProfileCompleteForAI(p));
 
     const [selectedPlayer, setSelectedPlayer] = useState<PlayerFieldData | null>(null);
     const [showAnalysis, setShowAnalysis] = useState(false);
@@ -83,7 +85,17 @@ export const TeamFieldSection = () => {
                     />
                 </div>
             ) : !hasAnalysis ? (
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 sm:p-12 border border-gray-100 shadow-xl text-center group overflow-hidden relative">
+                <div className="space-y-4">
+                    {incompletePlayers.length > 0 && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-start gap-3">
+                            <FaExclamationTriangle className="text-amber-500 shrink-0 mt-0.5" />
+                            <div className="text-sm text-amber-800">
+                                <p className="font-bold mb-1">Jugadores con perfil incompleto para IA</p>
+                                <p>{incompletePlayers.map(p => `${p.firstName} ${p.lastName}`).join(", ")}</p>
+                            </div>
+                        </div>
+                    )}
+                    <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 sm:p-12 border border-gray-100 shadow-xl text-center group overflow-hidden relative">
                     <div className="bg-linear-to-br from-orange-100 to-orange-50 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                         <FaFutbol className="text-4xl sm:text-5xl text-orange-600" />
                     </div>
@@ -91,6 +103,7 @@ export const TeamFieldSection = () => {
                     <p className="text-gray-600 mb-6 max-w-2xl mx-auto text-sm sm:text-base">
                         Presiona "Iniciar Análisis" para visualizar a tus jugadores en el campo y obtener insights sobre sus posiciones y capacidades físicas.
                     </p>
+                </div>
                 </div>
             ) : showAnalysis ? (
                 <ClusterAnalysis players={playersData} />

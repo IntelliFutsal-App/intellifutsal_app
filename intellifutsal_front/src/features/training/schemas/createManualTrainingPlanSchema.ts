@@ -3,10 +3,12 @@ import { z } from "zod";
 export const createManualTrainingPlanSchema = z.object({
     title: z
         .string()
+        .trim()
         .min(5, "El título debe tener al menos 5 caracteres")
         .max(200, "El título debe tener máximo 200 caracteres"),
     description: z
         .string()
+        .trim()
         .min(10, "La descripción debe tener al menos 10 caracteres")
         .max(1000, "La descripción debe tener máximo 1000 caracteres"),
     difficulty: z.enum(["EASY", "MEDIUM", "HARD"] as const, {
@@ -19,6 +21,7 @@ export const createManualTrainingPlanSchema = z.object({
         .optional(),
     focusArea: z
         .string()
+        .trim()
         .min(3, "El área de enfoque debe tener al menos 3 caracteres")
         .max(100, "El área de enfoque debe tener máximo 100 caracteres")
         .optional(),

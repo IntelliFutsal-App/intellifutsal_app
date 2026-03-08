@@ -2,6 +2,7 @@ import { authService, TokenManager, type AuthContextType, type Role, type User }
 import { createContext, useCallback, useContext, useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { ProfileContext } from "./ProfileContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -11,6 +12,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isLoading, setIsLoading] = useState(true);
     const [isInitialized, setIsInitialized] = useState(false);
     const profileContext = useContext(ProfileContext);
+    const queryClient = useQueryClient();
 
     const isValidatingRef = useRef(false);
     const hasValidatedRef = useRef(false);
@@ -121,6 +123,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             console.error("Cierre de sesión fallido:", error);
         } finally {
             TokenManager.clearTokens();
+            localStorage.clear();
+            sessionStorage.clear();
+            queryClient.clear();
             setUser(null);
             profileContext?.clearProfile();
             hasValidatedRef.current = false;

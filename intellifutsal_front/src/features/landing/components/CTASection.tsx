@@ -1,5 +1,5 @@
 import { FaBrain, FaPlay } from "react-icons/fa";
-import { Button } from "@shared/components";
+import { Button } from "@shared/ui";
 
 export const CTASection = () => {
     return (
@@ -16,15 +16,15 @@ export const CTASection = () => {
                         </span>
                     </h2>
                     <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
-                        Únete a miles de jugadores y directores técnicos que ya están potenciando su rendimiento con Inteligencia Artificial
+                        Descubre cómo la Inteligencia Artificial puede potenciar el rendimiento de tu equipo y tus jugadores de fútbol sala
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
                         <Button to="/auth/sign-up" variant="secondary" size="lg" icon={FaBrain} iconPosition="left">
                             Comenzar Entrenamiento IA
                         </Button>
-                        <Button to="/demo" variant="outline" size="lg" icon={FaPlay} iconPosition="left" className="border-white text-white hover:bg-white hover:text-gray-800">
-                            Ver Demo Interactiva
+                        <Button to="/auth/sign-in" variant="outline" size="lg" icon={FaPlay} iconPosition="left" className="border-white text-white hover:bg-white hover:text-gray-800">
+                            Iniciar Sesión
                         </Button>
                     </div>
                 </div>

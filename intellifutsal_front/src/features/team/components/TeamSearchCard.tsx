@@ -1,5 +1,5 @@
 import { FaUsers, FaTrophy, FaCheckCircle, FaClock, FaTimes } from "react-icons/fa";
-import { Badge, Button } from "@shared/components";
+import { Badge, Button } from "@shared/ui";
 import type { TeamResponse, JoinRequestResponse } from "@features/team";
 import { formatDate } from "@shared/utils";
 

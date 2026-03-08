@@ -1,4 +1,4 @@
-import type { PlayerResponse } from "@features/player";
+import { type PlayerResponse, isPlayerProfileCompleteForAI, getMissingPlayerAIFields } from "@features/player";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import type { AiApiAnalyzeResponse } from "../types";
@@ -25,6 +25,13 @@ export const useAIPlayerAnalysis = (players: PlayerResponse[]) => {
 
     const analyzeByPlayerId = useCallback(
         async (playerId: number) => {
+            const player = players.find((p) => p.id === playerId);
+            if (player && !isPlayerProfileCompleteForAI(player)) {
+                const missing = getMissingPlayerAIFields(player);
+                toast.warn(`Perfil incompleto para análisis IA. Faltan: ${missing.join(", ")}`);
+                return;
+            }
+
             const requestId = ++analyzeRequestIdRef.current;
 
             setIsAnalyzing(true);
@@ -47,7 +54,6 @@ export const useAIPlayerAnalysis = (players: PlayerResponse[]) => {
                 if (requestId !== analyzeRequestIdRef.current) return;
 
                 console.error("Error al analizar jugador con IA:", error);
-                toast.error("Error al generar el análisis IA");
                 setAnalysisData(null);
             } finally {
                 if (requestId === analyzeRequestIdRef.current) {
@@ -55,7 +61,7 @@ export const useAIPlayerAnalysis = (players: PlayerResponse[]) => {
                 }
             }
         },
-        []
+        [players]
     );
 
     return {

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { FaCalendarAlt, FaChartLine, FaCheckCircle, FaDumbbell, FaFilter, FaTrophy } from "react-icons/fa";
-import { InlineLoading, TrendChart } from "@shared/components";
+import { InlineLoading, TrendChart } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { ProgressAssignmentCard, usePlayerProgress } from "@features/training";
 

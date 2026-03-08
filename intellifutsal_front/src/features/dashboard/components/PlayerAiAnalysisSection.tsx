@@ -1,19 +1,21 @@
-import { FaBrain, FaCheck, FaChartLine, FaRedo } from "react-icons/fa";
-import { Button, InlineLoading } from "@shared/components";
+import { FaBrain, FaCheck, FaChartLine, FaRedo, FaExclamationTriangle } from "react-icons/fa";
+import { Button, InlineLoading } from "@shared/ui";
 import { useProfile } from "@shared/hooks";
-import { PhysicalProfileCard, PositionComparisonCard, type PlayerResponse } from "@features/player";
+import { PhysicalProfileCard, PositionComparisonCard, type PlayerResponse, isPlayerProfileCompleteForAI, getMissingPlayerAIFields } from "@features/player";
 import { usePlayerSelfAnalysis } from "@features/ai-module";
 import { TrainingRecommendationsCard } from "@features/training";
 import { PerformanceMetricsCard } from "./PerformanceMetricsCard";
-import { mapPositionToEs } from '../../../shared/utils/positionUtils';
+import { mapPositionToEs } from "@shared/utils";
 
 export const PlayerAIAnalysisSection = () => {
     const { profileState } = useProfile();
 
     const player = profileState?.profile as PlayerResponse ?? null;
     const playerId = player?.id ?? null;
+    const profileComplete = player ? isPlayerProfileCompleteForAI(player) : false;
+    const missingFields = player ? getMissingPlayerAIFields(player) : [];
 
-    const { isAnalyzing, analysisData, analyze, clear } = usePlayerSelfAnalysis(playerId);
+    const { isAnalyzing, analysisData, analyze, clear } = usePlayerSelfAnalysis(playerId, player);
 
     return (
         <div className="space-y-6">
@@ -150,6 +152,16 @@ export const PlayerAIAnalysisSection = () => {
                     {!playerId && (
                         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 max-w-md mx-auto">
                             No se encontró tu perfil de jugador. Asegúrate de tener un perfil completo.
+                        </div>
+                    )}
+
+                    {playerId && !profileComplete && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 max-w-lg mx-auto flex items-start gap-3">
+                            <FaExclamationTriangle className="text-amber-500 shrink-0 mt-0.5" />
+                            <div>
+                                <p className="font-bold mb-1">Perfil incompleto para análisis IA</p>
+                                <p>Completa los siguientes campos desde tu perfil: {missingFields.join(", ")}</p>
+                            </div>
                         </div>
                     )}
                 </div>

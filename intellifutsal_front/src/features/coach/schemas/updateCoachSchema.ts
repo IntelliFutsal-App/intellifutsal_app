@@ -4,11 +4,13 @@ export const updateCoachSchema = z.object({
     id: z.number().positive("El ID del coach debe ser un número positivo"),
     firstName: z
         .string()
+        .trim()
         .min(2, "El nombre debe tener al menos 2 caracteres")
         .max(100, "El nombre debe tener máximo 100 caracteres")
         .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/, "Solo letras y espacios"),
     lastName: z
         .string()
+        .trim()
         .min(2, "El apellido debe tener al menos 2 caracteres")
         .max(100, "El apellido debe tener máximo 100 caracteres")
         .regex(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/, "Solo letras y espacios"),
@@ -23,6 +25,7 @@ export const updateCoachSchema = z.object({
         .max(80, "No puede exceder 80 años"),
     specialty: z
         .string()
+        .trim()
         .min(3, "La especialidad debe tener al menos 3 caracteres")
         .max(100, "La especialidad debe tener máximo 100 caracteres")
 });

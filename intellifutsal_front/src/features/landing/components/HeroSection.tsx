@@ -1,5 +1,5 @@
 import { FaBrain } from "react-icons/fa";
-import { Badge, Button, BenefitCard, FloatingStat } from "@shared/components";
+import { Badge, Button, BenefitCard, FloatingStat } from "@shared/ui";
 import { benefits } from "../data";
 
 interface HeroSectionProps {
@@ -34,8 +34,8 @@ export const HeroSection = ({ isVisible }: HeroSectionProps) => {
                             <Button to="/auth/sign-up" size="lg">
                                 Comenzar Entrenamiento
                             </Button>
-                            <Button to="/demo" variant="tertiary" size="lg">
-                                Ver Demo en Vivo
+                            <Button to="/auth/sign-in" variant="tertiary" size="lg">
+                                Iniciar Sesión
                             </Button>
                         </div>
 
@@ -60,8 +60,8 @@ export const HeroSection = ({ isVisible }: HeroSectionProps) => {
                                     />
 
                                     <div className="absolute top-7 right-4 flex flex-row space-x-3">
-                                        <FloatingStat label="Rendimiento" value="+40%" />
-                                        <FloatingStat label="Precisión IA" value="95%" delay="1s" />
+                                        <FloatingStat label="Entrenamiento" value="IA" />
+                                        <FloatingStat label="Análisis" value="360°" delay="1s" />
                                     </div>
 
                                     <div className="absolute bottom-4 left-4 bg-white/95 text-gray-800 p-3 rounded-xl shadow-lg backdrop-blur-sm">

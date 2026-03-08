@@ -22,7 +22,6 @@ export const usePlayersManagement = () => {
         } catch (error) {
             if (reqId !== requestIdRef.current) return;
             console.error("Error cargando players:", error);
-            toast.error("Error al cargar jugadores");
         } finally {
             if (reqId === requestIdRef.current) setLoading(false);
         }
@@ -40,7 +39,6 @@ export const usePlayersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error creando player:", error);
-                toast.error("Error al crear jugador");
                 throw error;
             }
         },
@@ -55,7 +53,6 @@ export const usePlayersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error actualizando player:", error);
-                toast.error("Error al actualizar jugador");
                 throw error;
             }
         },
@@ -70,7 +67,6 @@ export const usePlayersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error cambiando estado:", error);
-                toast.error("Error al cambiar estado");
                 throw error;
             }
         },
@@ -85,7 +81,6 @@ export const usePlayersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error eliminando player:", error);
-                toast.error("Error al eliminar jugador");
                 throw error;
             }
         },

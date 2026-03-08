@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { AuthLayout } from "@shared/layouts";
-import { Loading, OnboardingGuard, ProtectedRoute } from "@shared/components";
+import { Loading, OnboardingGuard, ProtectedRoute } from "@shared/ui";
 
 
-const NotFoundPage = lazy(() => import("@shared/components/pages/NotFoundPage"));
-const ForbiddenPage = lazy(() => import("@shared/components/pages/ForbiddenPage"));
+const NotFoundPage = lazy(() => import("@shared/ui/pages/NotFoundPage"));
+const ForbiddenPage = lazy(() => import("@shared/ui/pages/ForbiddenPage"));
 const SignInPage = lazy(() => import("@features/auth/pages/SignInPage"));
 const SignUpPage = lazy(() => import("@features/auth/pages/SignUpPage"));
 const LandingPage = lazy(() => import("@features/landing/pages/LandingPage"));

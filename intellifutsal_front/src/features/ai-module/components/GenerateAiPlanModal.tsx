@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaBrain, FaUsers, FaUser } from "react-icons/fa";
-import { BaseModal, Button, Select } from "@shared/components";
+import { BaseModal, Button, Select } from "@shared/ui";
 import { useProfile } from "@shared/hooks";
 import { createAiPlanSchema, type CreateAiPlanSchema } from "@features/training";
 import { useTeamPlayers } from "@features/player";

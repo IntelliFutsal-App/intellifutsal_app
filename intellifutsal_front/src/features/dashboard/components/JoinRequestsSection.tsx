@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { type JoinRequestStatus, type JoinRequestResponse, useJoinRequests, JoinRequestCard } from "@features/team";
 import { useProfile } from "@shared/hooks";
-import { Badge, InlineLoading } from "@shared/components";
+import { Badge, InlineLoading } from "@shared/ui";
 
 type JoinRequestCardVM = {
     id: number;

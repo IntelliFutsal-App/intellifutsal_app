@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FiSearch, FiSend, FiUsers } from "react-icons/fi";
-import { Button, InlineLoading, Input } from "@shared/components";
+import { Button, InlineLoading, Input } from "@shared/ui";
 import type { TeamResponse } from "../types";
 import { usePlayerTeamSetup } from "../hooks";
 

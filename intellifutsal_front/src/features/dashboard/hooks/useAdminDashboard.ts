@@ -4,7 +4,6 @@ import { userService, type UserResponse } from "@features/profile";
 import { teamService, type TeamResponse } from "@features/team";
 import { trainingPlanService, type TrainingPlanResponse } from "@features/training";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "react-toastify";
 
 export interface AdminDashboardData {
     users: UserResponse[];
@@ -44,7 +43,6 @@ export const useAdminDashboard = () => {
         } catch (error) {
             if (reqId !== requestIdRef.current) return;
             console.error("Error cargando dashboard admin:", error);
-            toast.error("Error al cargar datos del sistema");
         } finally {
             if (reqId === requestIdRef.current) setLoading(false);
         }

@@ -1,6 +1,6 @@
 import { type UseFormRegister, type FieldErrors, Controller, type Control } from "react-hook-form";
 import { FiMail, FiLock, FiUser } from "react-icons/fi";
-import { Input, Select } from "@shared/components";
+import { Input, Select } from "@shared/ui";
 import type { RegisterFormData } from "../schemas";
 
 interface BaseFieldsProps {

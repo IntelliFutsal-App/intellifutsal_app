@@ -43,7 +43,6 @@ export const useTeamOperations = ({ onPlanGenerated }: UseTeamOperationsProps = 
                 onPlanGenerated?.();
             } catch (error) {
                 console.error("Error al generar plan grupal con IA:", error);
-                toast.error("Error al generar el plan de entrenamiento");
                 throw error;
             }
         },

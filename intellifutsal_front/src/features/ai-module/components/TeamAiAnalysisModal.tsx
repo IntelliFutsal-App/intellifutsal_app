@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaBrain, FaChartLine, FaCheckCircle, FaExclamationTriangle, FaDumbbell } from "react-icons/fa";
-import { BaseModal, Button, InlineLoading } from "@shared/components";
+import { BaseModal, Button, InlineLoading } from "@shared/ui";
 import type { TeamResponse } from "@features/team";
 import { playerService, type PlayerResponse } from "@features/player";
 
@@ -62,16 +62,20 @@ export const TeamAiAnalysisModal = ({
     const activePlayers = players.filter((p) => p.status);
     const avgAge =
         players.length > 0 ? Math.round(players.reduce((acc, p) => acc + p.age, 0) / players.length) : 0;
+
+    const playersWithSpeed = players.filter(p => p.thirtyMetersTime != null);
     const avgSpeed =
-        players.length > 0
-            ? players.reduce((acc, p) => acc + Number(p.thirtyMetersTime), 0) / players.length
+        playersWithSpeed.length > 0
+            ? playersWithSpeed.reduce((acc, p) => acc + Number(p.thirtyMetersTime), 0) / playersWithSpeed.length
             : 0;
+    const playersWithEndurance = players.filter(p => p.thousandMetersTime != null);
     const avgEndurance =
-        players.length > 0
-            ? players.reduce((acc, p) => acc + Number(p.thousandMetersTime), 0) / players.length
+        playersWithEndurance.length > 0
+            ? playersWithEndurance.reduce((acc, p) => acc + Number(p.thousandMetersTime), 0) / playersWithEndurance.length
             : 0;
+    const playersWithBmi = players.filter(p => p.bmi != null);
     const avgBmi =
-        players.length > 0 ? players.reduce((acc, p) => acc + Number(p.bmi), 0) / players.length : 0;
+        playersWithBmi.length > 0 ? playersWithBmi.reduce((acc, p) => acc + Number(p.bmi), 0) / playersWithBmi.length : 0;
 
     const speedAnalysis = avgSpeed < 4.8 ? "excelente" : avgSpeed < 5.2 ? "buena" : "necesita mejorar";
     const enduranceAnalysis =
@@ -79,7 +83,8 @@ export const TeamAiAnalysisModal = ({
     const bmiAnalysis = avgBmi >= 20 && avgBmi <= 24 ? "óptimo" : "revisar";
 
     const positionCounts = players.reduce((acc, p) => {
-        acc[p.position] = (acc[p.position] || 0) + 1;
+        const pos = p.position ?? "Sin posición";
+        acc[pos] = (acc[pos] || 0) + 1;
         return acc;
     }, {} as Record<string, number>);
 

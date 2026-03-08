@@ -1,6 +1,6 @@
 import { FaCheck, FaUsers } from "react-icons/fa";
 import type { TeamMiniResponse } from "@features/dashboard";
-import { BaseModal } from "@shared/components";
+import { BaseModal } from "@shared/ui";
 import { useAuth } from "@shared/hooks";
 
 interface TeamSelectorModalProps {

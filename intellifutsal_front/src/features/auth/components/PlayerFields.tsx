@@ -1,6 +1,6 @@
 import { type UseFormRegister, type FieldErrors, Controller, type Control } from "react-hook-form";
 import { FiUser, FiCalendar } from "react-icons/fi";
-import { Input, Select } from "@shared/components";
+import { Input, Select } from "@shared/ui";
 import type { RegisterFormData } from "../schemas";
 
 interface PlayerFieldsProps {
@@ -44,10 +44,12 @@ export const PlayerFields = ({ register, control, errors, positionOptions }: Pla
                     error={getFieldError(errors, "birthDate")}
                 />
 
+                <p className="text-xs text-gray-500 italic">Los campos marcados con * son obligatorios. El resto se puede completar después desde tu perfil.</p>
+
                 <div className="grid grid-cols-2 gap-4">
                     <Input
                         {...register("height", { valueAsNumber: true })}
-                        label="Altura (m) *"
+                        label="Altura (m)"
                         type="number"
                         step="0.01"
                         placeholder="1.75"
@@ -55,7 +57,7 @@ export const PlayerFields = ({ register, control, errors, positionOptions }: Pla
                     />
                     <Input
                         {...register("weight", { valueAsNumber: true })}
-                        label="Peso (kg) *"
+                        label="Peso (kg)"
                         type="number"
                         step="0.1"
                         placeholder="70"
@@ -69,7 +71,7 @@ export const PlayerFields = ({ register, control, errors, positionOptions }: Pla
                     render={({ field }) => (
                         <Select
                             {...field}
-                            label="Posición *"
+                            label="Posición"
                             options={positionOptions}
                             placeholder="Selecciona tu posición"
                             error={getFieldError(errors, "position")}
@@ -78,7 +80,7 @@ export const PlayerFields = ({ register, control, errors, positionOptions }: Pla
                 />
 
                 <div className="border-t border-gray-200 pt-4 mt-4">
-                    <p className="text-sm font-semibold text-gray-900 mb-3">Métricas Físicas *</p>
+                    <p className="text-sm font-semibold text-gray-900 mb-3">Métricas Físicas <span className="text-xs font-normal text-gray-500">(opcional)</span></p>
                     <div className="grid grid-cols-2 gap-3">
                         <Input
                             {...register("highJump", { valueAsNumber: true })}

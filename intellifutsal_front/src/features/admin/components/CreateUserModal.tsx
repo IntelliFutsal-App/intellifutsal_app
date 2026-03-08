@@ -1,4 +1,4 @@
-import { BaseModal, Input, Select, type SelectOption } from "@shared/components";
+import { BaseModal, Input, Select, type SelectOption } from "@shared/ui";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import type { CreateCredentialSchema } from "@features/profile";
 import { Field } from "./Field";

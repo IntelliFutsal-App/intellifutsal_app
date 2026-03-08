@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FaLink, FaPlus, FaSearch, FaUsers } from "react-icons/fa";
-import { Button, DataTable, Input, InlineLoading, ShowInactiveToggle, StatusBadge, Badge } from "@shared/components";
+import { Button, DataTable, Input, InlineLoading, ShowInactiveToggle, StatusBadge, Badge } from "@shared/ui";
 import { StatCard } from "./StatCard";
 import { formatStringDate } from "@shared/utils";
 import { coachTeamService, createCoachTeamSchema, createPlayerTeamSchema, playerTeamService, teamService, toCoachOptions, toDateInputValue, toPlayerOptions, toTeamOptions, updateCoachTeamSchema, updatePlayerTeamSchema, type CoachTeamResponse, type CreateCoachTeamSchema, type CreatePlayerTeamSchema, type Option, type PlayerTeamResponse, type TeamResponse, type UpdateCoachTeamSchema, type UpdatePlayerTeamSchema } from "@features/team";

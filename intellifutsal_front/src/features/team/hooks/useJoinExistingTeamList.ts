@@ -16,7 +16,6 @@ export const useJoinExistingTeamList = () => {
             setTeams(data);
         } catch (error) {
             console.error("Error al cargar equipos:", error);
-            toast.error("Error al cargar equipos");
             setTeams([]);
         } finally {
             setIsLoading(false);

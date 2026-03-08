@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { StatCard, type ColorType } from "./StatCard";
 import { type TeamResponse, type CoachTeamResponse, TeamCard, useCoachTeams, useTeamsManagement, CreateTeamModal, TeamPlayersModal } from "@features/team";
 import { useAuth, useProfile } from "@shared/hooks";
-import { Button, InlineLoading } from "@shared/components";
+import { Button, InlineLoading } from "@shared/ui";
 import { TeamAiAnalysisModal } from "@features/ai-module";
 import { useTeamOperations } from "@features/training";
 

@@ -6,9 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/index.ts",
     "dev": "nodemon src/index.ts",
-    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/config/app-source.config.ts",
-    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/config/app-source.config.ts",
-    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/config/app-source.config.ts"
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/core/config/app-source.config.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/core/config/app-source.config.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/core/config/app-source.config.ts"
   },
   "keywords": [],
   "author": "",

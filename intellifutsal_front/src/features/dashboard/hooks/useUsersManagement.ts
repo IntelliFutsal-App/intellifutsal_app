@@ -22,7 +22,6 @@ export const useUsersManagement = () => {
         } catch (error) {
             if (reqId !== requestIdRef.current) return;
             console.error("Error cargando usuarios:", error);
-            toast.error("Error al cargar usuarios");
         } finally {
             if (reqId === requestIdRef.current) setLoading(false);
         }
@@ -40,7 +39,6 @@ export const useUsersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error creando usuario:", error);
-                toast.error("Error al crear usuario");
                 throw error;
             }
         },
@@ -55,7 +53,6 @@ export const useUsersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error actualizando usuario:", error);
-                toast.error("Error al actualizar usuario");
                 throw error;
             }
         },
@@ -70,7 +67,6 @@ export const useUsersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error cambiando estado:", error);
-                toast.error("Error al cambiar estado del usuario");
                 throw error;
             }
         },
@@ -85,7 +81,6 @@ export const useUsersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error eliminando usuario:", error);
-                toast.error("Error al eliminar usuario");
                 throw error;
             }
         },
@@ -100,7 +95,6 @@ export const useUsersManagement = () => {
                 await load();
             } catch (error) {
                 console.error("Error aprobando coach:", error);
-                toast.error("Error al aprobar entrenador");
                 throw error;
             }
         },

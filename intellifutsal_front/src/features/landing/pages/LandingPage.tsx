@@ -1,4 +1,4 @@
-import { Footer, Navbar } from "@shared/components";
+import { Footer, Navbar } from "@shared/ui";
 import { CTASection, FeaturesSection, HeroSection, StatsSection, TestimonialsSection } from "../components";
 import { useLandingAnimations } from "../hooks";
 

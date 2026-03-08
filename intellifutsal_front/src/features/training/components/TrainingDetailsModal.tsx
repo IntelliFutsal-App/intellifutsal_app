@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaBrain, FaCheckCircle, FaChartLine, FaCalendarAlt } from "react-icons/fa";
-import { Button, InlineLoading, Badge, BaseModal } from "@shared/components";
+import { Button, InlineLoading, Badge, BaseModal } from "@shared/ui";
 import { type TrainingAssignmentResponse, type TrainingProgressResponse, type TrainingPlanResponse, trainingPlanService, trainingProgressService } from "@features/training";
 import { formatDate } from "@shared/utils";
 

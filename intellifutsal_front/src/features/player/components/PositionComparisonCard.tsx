@@ -1,5 +1,5 @@
 import { FaArrowRight, FaBrain, FaCheck, FaRunning, FaTrophy } from "react-icons/fa";
-import { Badge, InfoTile } from "@shared/components";
+import { Badge, InfoTile } from "@shared/ui";
 
 interface PositionComparisonCardProps {
     currentPosition: string;

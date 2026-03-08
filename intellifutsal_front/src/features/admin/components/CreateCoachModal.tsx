@@ -1,4 +1,4 @@
-import { BaseModal, Input } from "@shared/components";
+import { BaseModal, Input } from "@shared/ui";
 import type { UseFormReturn } from "react-hook-form";
 import type { CreateCoachSchema } from "@features/coach";
 import { Field } from "./Field";

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { FaSearch, FaUsers, FaClipboardList, FaTimes } from "react-icons/fa";
-import { Button, InlineLoading, Input, Select, type SelectOption } from "@shared/components";
+import { Button, InlineLoading, Input, Select, type SelectOption } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { TeamSearchCard, useFindTeams } from "@features/team";
 
@@ -150,8 +150,8 @@ export const FindTeamsSection = () => {
                 </div>
             ) : filteredTeams.length === 0 ? (
                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-10 sm:p-12 border border-gray-100 shadow-xl text-center">
-                    <div className="bg-linear-to-br from-blue-100 to-blue-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <FaUsers className="text-3xl text-blue-600" />
+                    <div className="bg-linear-to-br from-orange-100 to-orange-50 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <FaUsers className="text-4xl sm:text-5xl text-orange-600" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800 mb-2">
                         {searchTerm || categoryFilter

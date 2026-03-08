@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { AiApiPositionResponse } from "@features/ai-module";
 import type { PlayerResponse } from "../types";
-import { FutsalSvg } from "@shared/components";
+import { FutsalSvg } from "@shared/ui";
 
 interface PlayerFieldViewProps {
     currentPlayer: PlayerResponse | null;

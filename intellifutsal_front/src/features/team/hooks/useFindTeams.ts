@@ -31,7 +31,6 @@ export const useFindTeams = () => {
         } catch (error) {
             if (requestId !== requestIdRef.current) return;
             console.error("Error al cargar equipos:", error);
-            toast.error("Error al cargar equipos disponibles");
             setTeams([]);
         } finally {
             if (requestId === requestIdRef.current) setLoading(false);
@@ -71,7 +70,6 @@ export const useFindTeams = () => {
                 await fetchTeams();
             } catch (error) {
                 console.error("Error al enviar solicitud:", error);
-                toast.error("Error al enviar la solicitud");
                 throw error;
             }
         },
@@ -87,7 +85,6 @@ export const useFindTeams = () => {
                 await fetchMyRequests();
             } catch (error) {
                 console.error("Error al cancelar solicitud:", error);
-                toast.error("Error al cancelar la solicitud");
                 throw error;
             }
         },

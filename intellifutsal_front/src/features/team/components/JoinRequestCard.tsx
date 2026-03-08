@@ -1,5 +1,5 @@
 import type { JoinRequestStatus } from "@features/team/types";
-import { Badge, Button } from "@shared/components";
+import { Badge, Button } from "@shared/ui";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
 type JoinRequestCardVM = {

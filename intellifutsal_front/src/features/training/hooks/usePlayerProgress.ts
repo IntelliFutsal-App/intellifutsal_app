@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "react-toastify";
 import { trainingAssignmentService, trainingPlanService, trainingProgressService } from "../services";
 import type { TrainingAssignmentResponse, TrainingPlanResponse, TrainingProgressResponse } from "../types";
 
@@ -81,7 +80,6 @@ export const usePlayerProgress = () => {
         } catch (error) {
             if (reqId !== requestIdRef.current) return;
             console.error("Error cargando progreso:", error);
-            toast.error("Error al cargar tus datos de progreso");
         } finally {
             if (reqId === requestIdRef.current) setLoading(false);
         }

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FaBrain, FaChartLine, FaCog, FaRunning } from "react-icons/fa";
-import { Button, StatTile } from "@shared/components";
+import { Button, StatTile } from "@shared/ui";
 import { PlayerAiAnalysisModal } from "@features/ai-module";
 import { EditPlayerModal, type PlayerResponse } from "@features/player";
 import { usePlayerManagement } from "../hooks";
-import { mapPositionToEs } from '../../../shared/utils/positionUtils';
+import { mapPositionToEs } from "@shared/utils";
 
 interface DetailedPlayerCardProps {
     player: PlayerResponse;

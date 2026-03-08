@@ -2,7 +2,7 @@ import type { CoachTeamResponse, TeamResponse } from "@features/team";
 import { daysBetween, formatDate } from "@shared/utils";
 import { useMemo } from "react";
 import { FaBrain, FaCalendarAlt, FaTrophy, FaUsers } from "react-icons/fa";
-import { Badge, Button, InfoTile } from "@shared/components";
+import { Badge, Button, InfoTile } from "@shared/ui";
 
 interface TeamCardProps {
     team: TeamResponse;

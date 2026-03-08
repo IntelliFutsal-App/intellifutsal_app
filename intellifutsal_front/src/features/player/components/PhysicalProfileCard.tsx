@@ -1,5 +1,5 @@
 import { FaCheck, FaDumbbell, FaTimes } from "react-icons/fa";
-import { Badge, ItemList } from "@shared/components";
+import { Badge, ItemList } from "@shared/ui";
 
 interface PhysicalProfileCardProps {
     physicalName: string;

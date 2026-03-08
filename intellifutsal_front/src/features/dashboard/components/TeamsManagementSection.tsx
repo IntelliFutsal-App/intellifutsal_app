@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaUsers, FaPlus, FaSearch } from "react-icons/fa";
-import { Button, DataTable, Input, ShowInactiveToggle, StatusBadge } from "@shared/components";
+import { Button, DataTable, Input, ShowInactiveToggle, StatusBadge } from "@shared/ui";
 import { StatCard } from "./StatCard";
 import { useTeamsManagement } from "../hooks";
 import { createTeamSchema, updateTeamSchema, type Category, type CreateTeamSchema, type TeamResponse, type UpdateTeamSchema } from "@features/team";

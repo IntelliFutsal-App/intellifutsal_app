@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaUser, FaLock, FaDumbbell, FaSave, FaChalkboardTeacher, FaEye, FaEyeSlash } from "react-icons/fa";
-import { BaseModal, Button, FieldRow, Input } from "@shared/components";
+import { BaseModal, Button, FieldRow, Input } from "@shared/ui";
 import { useAuth, useProfile } from "@shared/hooks";
 import { useUpdateProfile } from "../hooks";
 import { updateCoachSchema, type CoachResponse, type UpdateCoachSchema } from "@features/coach";
@@ -72,15 +72,15 @@ export const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => 
                 firstName: player.firstName,
                 lastName: player.lastName,
                 birthDate: toInputDate(player.birthDate),
-                position: player.position as Position,
-                height: player.height,
-                weight: player.weight,
-                highJump: player.highJump,
-                rightUnipodalJump: player.rightUnipodalJump,
-                leftUnipodalJump: player.leftUnipodalJump,
-                bipodalJump: player.bipodalJump,
-                thirtyMetersTime: player.thirtyMetersTime,
-                thousandMetersTime: player.thousandMetersTime,
+                position: (player.position as Position) ?? undefined,
+                height: player.height ?? undefined,
+                weight: player.weight ?? undefined,
+                highJump: player.highJump ?? undefined,
+                rightUnipodalJump: player.rightUnipodalJump ?? undefined,
+                leftUnipodalJump: player.leftUnipodalJump ?? undefined,
+                bipodalJump: player.bipodalJump ?? undefined,
+                thirtyMetersTime: player.thirtyMetersTime ?? undefined,
+                thousandMetersTime: player.thousandMetersTime ?? undefined,
             }
             : undefined,
     });
@@ -101,15 +101,15 @@ export const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => 
                 firstName: player.firstName,
                 lastName: player.lastName,
                 birthDate: toInputDate(player.birthDate),
-                position: player.position as Position,
-                height: player.height,
-                weight: player.weight,
-                highJump: player.highJump,
-                rightUnipodalJump: player.rightUnipodalJump,
-                leftUnipodalJump: player.leftUnipodalJump,
-                bipodalJump: player.bipodalJump,
-                thirtyMetersTime: player.thirtyMetersTime,
-                thousandMetersTime: player.thousandMetersTime,
+                position: (player.position as Position) ?? undefined,
+                height: player.height ?? undefined,
+                weight: player.weight ?? undefined,
+                highJump: player.highJump ?? undefined,
+                rightUnipodalJump: player.rightUnipodalJump ?? undefined,
+                leftUnipodalJump: player.leftUnipodalJump ?? undefined,
+                bipodalJump: player.bipodalJump ?? undefined,
+                thirtyMetersTime: player.thirtyMetersTime ?? undefined,
+                thousandMetersTime: player.thousandMetersTime ?? undefined,
             });
         }
     }, [profile]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -242,10 +242,10 @@ export const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => 
                     </FieldRow>
                     <div className="grid grid-cols-2 gap-4">
                         <FieldRow label="Altura (cm)" error={pe.height?.message}>
-                            <Input type="number" step="0.1" {...playerForm.register("height")} />
+                            <Input type="number" step="0.1" {...playerForm.register("height", { valueAsNumber: true })} />
                         </FieldRow>
                         <FieldRow label="Peso (kg)" error={pe.weight?.message}>
-                            <Input type="number" step="0.1" {...playerForm.register("weight")} />
+                            <Input type="number" step="0.1" {...playerForm.register("weight", { valueAsNumber: true })} />
                         </FieldRow>
                     </div>
                     <div className="flex justify-end pt-2">
@@ -267,22 +267,22 @@ export const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => 
 
                     <div className="grid grid-cols-2 gap-4">
                         <FieldRow label="Salto Alto (cm)" error={pe.highJump?.message}>
-                            <Input type="number" step="0.1" min="0" {...playerForm.register("highJump")} />
+                            <Input type="number" step="0.1" min="0" {...playerForm.register("highJump", { valueAsNumber: true })} />
                         </FieldRow>
                         <FieldRow label="Salto Bipodal (cm)" error={pe.bipodalJump?.message}>
-                            <Input type="number" step="0.1" min="0" {...playerForm.register("bipodalJump")} />
+                            <Input type="number" step="0.1" min="0" {...playerForm.register("bipodalJump", { valueAsNumber: true })} />
                         </FieldRow>
                         <FieldRow label="Salto Unipodal Der. (cm)" error={pe.rightUnipodalJump?.message}>
-                            <Input type="number" step="0.1" min="0" {...playerForm.register("rightUnipodalJump")} />
+                            <Input type="number" step="0.1" min="0" {...playerForm.register("rightUnipodalJump", { valueAsNumber: true })} />
                         </FieldRow>
                         <FieldRow label="Salto Unipodal Izq. (cm)" error={pe.leftUnipodalJump?.message}>
-                            <Input type="number" step="0.1" min="0" {...playerForm.register("leftUnipodalJump")} />
+                            <Input type="number" step="0.1" min="0" {...playerForm.register("leftUnipodalJump", { valueAsNumber: true })} />
                         </FieldRow>
                         <FieldRow label="Tiempo 30m (s)" error={pe.thirtyMetersTime?.message}>
-                            <Input type="number" step="0.01" min="0" {...playerForm.register("thirtyMetersTime")} />
+                            <Input type="number" step="0.01" min="0" {...playerForm.register("thirtyMetersTime", { valueAsNumber: true })} />
                         </FieldRow>
                         <FieldRow label="Tiempo 1000m (s)" error={pe.thousandMetersTime?.message}>
-                            <Input type="number" step="0.1" min="0" {...playerForm.register("thousandMetersTime")} />
+                            <Input type="number" step="0.1" min="0" {...playerForm.register("thousandMetersTime", { valueAsNumber: true })} />
                         </FieldRow>
                     </div>
 

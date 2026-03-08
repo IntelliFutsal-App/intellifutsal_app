@@ -23,7 +23,6 @@ export const useUpdateProfile = () => {
                 await refreshProfile?.();
             } catch (error) {
                 console.error("Error actualizando credencial:", error);
-                toast.error("Error al actualizar la credencial");
                 throw error;
             } finally {
                 setIsSavingCredential(false);
@@ -44,7 +43,6 @@ export const useUpdateProfile = () => {
                 await refreshProfile?.();
             } catch (error) {
                 console.error("Error actualizando perfil de coach:", error);
-                toast.error("Error al actualizar el perfil");
                 throw error;
             } finally {
                 setIsSavingProfile(false);
@@ -65,7 +63,6 @@ export const useUpdateProfile = () => {
                 await refreshProfile?.();
             } catch (error) {
                 console.error("Error actualizando perfil de jugador:", error);
-                toast.error("Error al actualizar el perfil");
                 throw error;
             } finally {
                 setIsSavingProfile(false);

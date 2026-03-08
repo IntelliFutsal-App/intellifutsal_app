@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Checkbox } from "@shared/components";
+import { Button, Checkbox } from "@shared/ui";
 import { FiUserPlus } from "react-icons/fi";
 import { registerSchema, type RegisterFormData } from "../schemas";
 import { useAuth } from "@shared/hooks";

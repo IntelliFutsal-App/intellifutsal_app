@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "react-toastify";
-import type { SelectOption } from "@shared/components";
+import type { SelectOption } from "@shared/ui";
 import { playerService, type PlayerResponse } from "@features/player";
 
 type ViewMode = "grid" | "table";
@@ -33,7 +32,6 @@ export const usePlayersSection = (activeTeamId?: number | null) => {
         } catch (error) {
             if (requestId !== requestIdRef.current) return;
             console.error("Error al cargar jugadores:", error);
-            toast.error("Error al cargar jugadores del equipo");
             setPlayers([]);
         } finally {
             if (requestId === requestIdRef.current) setLoading(false);
@@ -53,7 +51,6 @@ export const usePlayersSection = (activeTeamId?: number | null) => {
             setPlayers(data);
         } catch (error) {
             console.error("Error al cargar jugadores:", error);
-            toast.error("Error al cargar jugadores");
             setPlayers([]);
         } finally {
             setLoading(false);
@@ -98,7 +95,7 @@ export const usePlayersSection = (activeTeamId?: number | null) => {
             const matchesSearch =
                 term.length === 0 ||
                 fullName.includes(term) ||
-                player.position.toLowerCase().includes(term);
+                (player.position ?? "").toLowerCase().includes(term);
 
             const matchesPosition =
                 filterPosition === "all" || player.position === filterPosition;

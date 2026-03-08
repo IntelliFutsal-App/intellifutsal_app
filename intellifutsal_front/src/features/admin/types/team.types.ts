@@ -1,4 +1,4 @@
-import type { SelectOption } from "@shared/components";
+import type { SelectOption } from "@shared/ui";
 
 export type TeamCategory = "Junior" | "Senior" | "Amateur" | "Professional";
 

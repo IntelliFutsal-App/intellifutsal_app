@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { FaBrain, FaChartLine, FaCheck, FaTimes } from "react-icons/fa";
-import { Button, Select, type SelectOption } from "@shared/components";
+import { Button, Select, type SelectOption } from "@shared/ui";
 import { useProfile } from "@shared/hooks";
 import { useAIPlayerAnalysis } from "@features/ai-module";
 import { PhysicalProfileCard, PositionComparisonCard, useTeamPlayers } from "@features/player";
 import { TrainingRecommendationsCard } from "@features/training";
 import { PerformanceMetricsCard } from "./PerformanceMetricsCard";
-import { mapPositionToEs } from '../../../shared/utils/positionUtils';
+import { mapPositionToEs } from "@shared/utils";
 
 export const AIAnalysisSection = () => {
     const { activeTeamId } = useProfile();

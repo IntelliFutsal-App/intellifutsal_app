@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { PlayerMarker } from "./PlayerMarker";
 import type { PlayerFieldData } from "@features/ai-module";
-import { FutsalSvg } from "@shared/components";
+import { FutsalSvg } from "@shared/ui";
 
 interface FutsalFieldProps {
     players: PlayerFieldData[];

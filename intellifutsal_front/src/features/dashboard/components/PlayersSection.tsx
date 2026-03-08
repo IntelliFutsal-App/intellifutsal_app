@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBrain, FaChartLine, FaCog, FaDumbbell, FaRunning, FaSearch, FaTimes, FaUsers } from "react-icons/fa";
 import { useActiveTeam } from "@shared/hooks";
-import { Badge, Button, InlineLoading, Input, Select } from "@shared/components";
+import { Badge, Button, InlineLoading, Input, Select } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { EditPlayerModal, type PlayerResponse } from "@features/player";
 import { type TeamResponse } from "@features/team";

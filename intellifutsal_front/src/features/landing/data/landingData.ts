@@ -68,65 +68,65 @@ export const features: Feature[] = [
 // Testimonials Data
 export const testimonials: Testimonial[] = [
     {
-        name: "Carlos Mendoza",
-        role: "Director Técnico - Club Deportivo Unidos",
-        text: "IntelliFutsal transformó completamente mi metodología de entrenamiento. Los análisis de IA me permiten optimizar cada sesión según las características de mis jugadores.",
+        name: "Para Directores Técnicos",
+        role: "Gestión y análisis de equipo",
+        text: "Accede a un panel completo con insights colectivos e individuales. Analiza el rendimiento de tus jugadores y optimiza tus sesiones de entrenamiento con recomendaciones basadas en IA.",
         rating: 5,
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+        image: ""
     },
     {
-        name: "Ana Patricia Silva",
-        role: "Jugadora Profesional - Selección Femenina",
-        text: "Gracias a las recomendaciones personalizadas he mejorado mi rendimiento un 40%. La app identifica exactamente en qué debo enfocarme.",
+        name: "Para Jugadores",
+        role: "Desarrollo personal con IA",
+        text: "Recibe entrenamientos personalizados según tus datos físicos y antropométricos. Descubre tu posición ideal y trabaja en las áreas donde más puedes mejorar.",
         rating: 5,
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+        image: ""
     },
     {
-        name: "Miguel Rodríguez",
-        role: "Preparador Físico - Academia Juvenil",
-        text: "El análisis antropométrico y las recomendaciones de posición han sido revolucionarios para el desarrollo de nuestros jóvenes talentos.",
+        name: "Para Preparadores Físicos",
+        role: "Planificación inteligente",
+        text: "Utiliza el análisis antropométrico y las métricas de rendimiento para crear planes de desarrollo adaptados a cada jugador de tu equipo.",
         rating: 5,
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face"
+        image: ""
     }
 ];
 
 // Benefits Data
 export const benefits: Benefit[] = [
     {
-        title: "Entrenamientos 40% más efectivos",
-        description: "Gracias a la personalización con IA"
+        title: "Entrenamientos con IA",
+        description: "Personalizados según tus datos físicos"
     },
     {
-        title: "95% de precisión",
-        description: "En recomendaciones posicionales"
+        title: "Análisis Posicional",
+        description: "Basado en datos antropométricos reales"
     },
     {
-        title: "Ahorra 60% del tiempo",
-        description: "En planificación de entrenamientos"
+        title: "Gestión de Equipos",
+        description: "Panel integral para entrenadores"
     }
 ];
 
 // Stats Data
 export const stats: Stat[] = [
     {
-        value: "15,000+",
-        label: "Jugadores Entrenando",
-        sublabel: "Con IA Personalizada"
+        value: "IA",
+        label: "Entrenamientos Personalizados",
+        sublabel: "Adaptados a cada jugador"
     },
     {
-        value: "1,200+",
-        label: "Directores Técnicos",
-        sublabel: "Optimizando Entrenamientos"
+        value: "360°",
+        label: "Análisis Antropométrico",
+        sublabel: "Datos físicos completos"
     },
     {
-        value: "95%",
-        label: "Precisión IA",
-        sublabel: "En Recomendaciones"
+        value: "DT",
+        label: "Panel para Entrenadores",
+        sublabel: "Insights de equipo e individuales"
     },
     {
-        value: "40%",
-        label: "Mejora Promedio",
-        sublabel: "En Rendimiento"
+        value: "Pos.",
+        label: "Recomendación Posicional",
+        sublabel: "Basada en datos reales"
     }
 ];
 

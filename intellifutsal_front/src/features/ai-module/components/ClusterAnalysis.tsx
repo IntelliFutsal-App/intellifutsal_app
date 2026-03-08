@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FaDumbbell, FaMapMarkerAlt, FaUsers } from "react-icons/fa";
-import { DonutChart } from "@shared/components";
+import { DonutChart } from "@shared/ui";
 import type { PlayerFieldData } from "../hooks";
 
 interface ClusterAnalysisProps {

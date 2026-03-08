@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FaBrain, FaCalendarAlt, FaChartLine, FaDumbbell, FaFire, FaTrophy, FaUsers, FaClock, FaCheckCircle, FaRunning } from "react-icons/fa";
-import { DonutChart, HeatmapChart, InlineLoading, StatusBarChart, TrendChart } from "@shared/components";
+import { DonutChart, HeatmapChart, InlineLoading, StatusBarChart, TrendChart } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { usePlayerDashboard } from "../hooks";
 

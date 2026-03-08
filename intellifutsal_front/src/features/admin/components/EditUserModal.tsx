@@ -1,4 +1,4 @@
-import { BaseModal, Input } from "@shared/components";
+import { BaseModal, Input } from "@shared/ui";
 import type { UseFormReturn } from "react-hook-form";
 import type { UpdateCredentialSchema, UserResponse } from "@features/profile";
 import { Field } from "./Field";

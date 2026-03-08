@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AdminOverview, AIAnalysisSection, ClustersManagementSection, CoachesManagementSection, CoachOverview, FindTeamsSection, JoinRequestsSection, PlayerAIAnalysisSection, PlayerFieldSection, PlayerOverview, PlayerProgressSection, PlayersManagementSection, PlayersSection, PlayerTrainingsSection, Sidebar, TeamFieldSection, TeamLinksManagementSection, TeamsManagementSection, TeamsSection, TopBar, TrainingPlansSection, TrainingsManagementSection, UsersManagementSection } from "../components";
+import { AdminOverview, AIAnalysisSection, ClustersManagementSection, CoachesManagementSection, CoachOverview, FindTeamsSection, JoinRequestsSection, PlayerAIAnalysisSection, PlayerFieldSection, PlayerOverview, PlayerProgressSection, PlayersManagementSection, PlayersSection, PlayerTrainingsSection, ProgressVerificationSection, Sidebar, TeamFieldSection, TeamLinksManagementSection, TeamsManagementSection, TeamsSection, TopBar, TrainingPlansSection, TrainingsManagementSection, UsersManagementSection } from "../components";
 import { useAuth, useProfile } from "@shared/hooks";
 
 const Dashboard = () => {
@@ -18,6 +18,8 @@ const Dashboard = () => {
                     return <PlayersSection />;
                 case 'training-plans':
                     return <TrainingPlansSection role="COACH" />;
+                case 'training-progress':
+                    return <ProgressVerificationSection />;
                 case 'join-requests':
                     return <JoinRequestsSection />;
                 case 'ai-analysis':

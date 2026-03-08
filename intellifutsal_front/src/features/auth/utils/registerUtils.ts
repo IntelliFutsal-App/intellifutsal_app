@@ -12,15 +12,15 @@ type PlayerCreatePayload = {
     firstName: string;
     lastName: string;
     birthDate: string;
-    height: number;
-    weight: number;
-    highJump: number;
-    rightUnipodalJump: number;
-    leftUnipodalJump: number;
-    bipodalJump: number;
-    thirtyMetersTime: number;
-    thousandMetersTime: number;
-    position: string;
+    height?: number;
+    weight?: number;
+    highJump?: number;
+    rightUnipodalJump?: number;
+    leftUnipodalJump?: number;
+    bipodalJump?: number;
+    thirtyMetersTime?: number;
+    thousandMetersTime?: number;
+    position?: string;
 };
 
 const isCoach = (data: RegisterFormData): data is RegisterFormData & { role: "COACH" } =>
@@ -45,19 +45,28 @@ export const toCoachPayload = (data: RegisterFormData): CoachCreatePayload => {
 export const toPlayerPayload = (data: RegisterFormData): PlayerCreatePayload => {
     if (!isPlayer(data)) throw new Error("Role inválido para player payload");
 
-    const d = data as RegisterFormData & PlayerCreatePayload;
-    return {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const d = data as any;
+    const payload: PlayerCreatePayload = {
         firstName: d.firstName,
         lastName: d.lastName,
         birthDate: d.birthDate,
-        height: d.height,
-        weight: d.weight,
-        highJump: d.highJump,
-        rightUnipodalJump: d.rightUnipodalJump,
-        leftUnipodalJump: d.leftUnipodalJump,
-        bipodalJump: d.bipodalJump,
-        thirtyMetersTime: d.thirtyMetersTime,
-        thousandMetersTime: d.thousandMetersTime,
-        position: d.position,
     };
+
+    const optionalNumeric: (keyof PlayerCreatePayload)[] = [
+        "height", "weight", "highJump", "rightUnipodalJump",
+        "leftUnipodalJump", "bipodalJump", "thirtyMetersTime", "thousandMetersTime",
+    ];
+    for (const key of optionalNumeric) {
+        const val = d[key];
+        if (val != null && !Number.isNaN(val)) {
+            (payload as Record<string, unknown>)[key] = val;
+        }
+    }
+
+    if (d.position && d.position !== "") {
+        payload.position = d.position;
+    }
+
+    return payload;
 };

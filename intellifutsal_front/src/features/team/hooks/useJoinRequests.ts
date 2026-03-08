@@ -33,7 +33,6 @@ export const useJoinRequests = (activeTeamId?: number | null) => {
             if (requestId !== requestIdRef.current) return;
 
             console.error("Error cargando join requests:", e);
-            toast.error("Error al cargar solicitudes de ingreso");
             setRequests([]);
         } finally {
             if (requestId === requestIdRef.current) setLoading(false);
@@ -58,7 +57,6 @@ export const useJoinRequests = (activeTeamId?: number | null) => {
                 toast.success("Solicitud aprobada");
             } catch (e) {
                 console.error("Error aprobando join request:", e);
-                toast.error("No se pudo aprobar la solicitud");
             } finally {
                 setActing(id, false);
             }
@@ -75,7 +73,6 @@ export const useJoinRequests = (activeTeamId?: number | null) => {
                 toast.info("Solicitud rechazada");
             } catch (e) {
                 console.error("Error rechazando join request:", e);
-                toast.error("No se pudo rechazar la solicitud");
             } finally {
                 setActing(id, false);
             }

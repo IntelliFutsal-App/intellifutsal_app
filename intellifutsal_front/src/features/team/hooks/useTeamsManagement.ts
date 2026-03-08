@@ -26,7 +26,6 @@ export const useTeamsManagement = ({ onTeamCreated }: UseTeamsManagementProps = 
                 onTeamCreated?.();
             } catch (error) {
                 console.error("Error al crear equipo:", error);
-                toast.error("Error al crear el equipo");
                 throw error;
             }
         },

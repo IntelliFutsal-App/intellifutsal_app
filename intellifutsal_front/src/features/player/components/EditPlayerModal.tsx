@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaCog } from "react-icons/fa";
-import { BaseModal, Button, Input, Select } from "@shared/components";
+import { BaseModal, Button, Input, Select } from "@shared/ui";
 import { updatePlayerSchema, type PlayerResponse, type Position, type UpdatePlayerSchema } from "@features/player";
 
 interface EditPlayerModalProps {
@@ -37,15 +37,15 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
                 birthDate: player.birthDate instanceof Date
                     ? player.birthDate.toISOString().split('T')[0]
                     : player.birthDate,
-                height: player.height,
-                weight: player.weight,
-                highJump: player.highJump,
-                rightUnipodalJump: player.rightUnipodalJump,
-                leftUnipodalJump: player.leftUnipodalJump,
-                bipodalJump: player.bipodalJump,
-                thirtyMetersTime: player.thirtyMetersTime,
-                thousandMetersTime: player.thousandMetersTime,
-                position: player.position as Position,
+                height: player.height ?? undefined,
+                weight: player.weight ?? undefined,
+                highJump: player.highJump ?? undefined,
+                rightUnipodalJump: player.rightUnipodalJump ?? undefined,
+                leftUnipodalJump: player.leftUnipodalJump ?? undefined,
+                bipodalJump: player.bipodalJump ?? undefined,
+                thirtyMetersTime: player.thirtyMetersTime ?? undefined,
+                thousandMetersTime: player.thousandMetersTime ?? undefined,
+                position: (player.position as Position) ?? undefined,
             }
             : undefined,
     });
@@ -107,7 +107,7 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Posición <span className="text-red-500">*</span>
+                                Posición
                             </label>
                             <Select {...register("position")} options={POSITION_OPTIONS} />
                             {errors.position && (
@@ -119,11 +119,11 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                 {/* Physical Stats */}
                 <div>
-                    <h3 className="text-sm font-bold text-gray-700 mb-3">Estadísticas Físicas</h3>
+                    <h3 className="text-sm font-bold text-gray-700 mb-3">Estadísticas Físicas <span className="text-xs font-normal text-gray-500">(opcional)</span></h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Altura (m) <span className="text-red-500">*</span>
+                                Altura (m)
                             </label>
                             <Input
                                 type="number"
@@ -135,7 +135,7 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Peso (kg) <span className="text-red-500">*</span>
+                                Peso (kg)
                             </label>
                             <Input
                                 type="number"
@@ -149,11 +149,11 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                 {/* Performance Metrics */}
                 <div>
-                    <h3 className="text-sm font-bold text-gray-700 mb-3">Rendimiento</h3>
+                    <h3 className="text-sm font-bold text-gray-700 mb-3">Rendimiento <span className="text-xs font-normal text-gray-500">(opcional)</span></h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Tiempo 30m (s) <span className="text-red-500">*</span>
+                                Tiempo 30m (s)
                             </label>
                             <Input
                                 type="number"
@@ -165,7 +165,7 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Tiempo 1000m (s) <span className="text-red-500">*</span>
+                                Tiempo 1000m (s)
                             </label>
                             <Input
                                 type="number"
@@ -179,11 +179,11 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                 {/* Jump Metrics */}
                 <div>
-                    <h3 className="text-sm font-bold text-gray-700 mb-3">Saltos (cm)</h3>
+                    <h3 className="text-sm font-bold text-gray-700 mb-3">Saltos (cm) <span className="text-xs font-normal text-gray-500">(opcional)</span></h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Salto Alto <span className="text-red-500">*</span>
+                                Salto Alto
                             </label>
                             <Input
                                 type="number"
@@ -195,7 +195,7 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Salto Bipodal <span className="text-red-500">*</span>
+                                Salto Bipodal
                             </label>
                             <Input
                                 type="number"
@@ -207,7 +207,7 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Unipodal Derecho <span className="text-red-500">*</span>
+                                Unipodal Derecho
                             </label>
                             <Input
                                 type="number"
@@ -219,7 +219,7 @@ export const EditPlayerModal = ({ isOpen, onClose, player, onUpdate }: EditPlaye
 
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Unipodal Izquierdo <span className="text-red-500">*</span>
+                                Unipodal Izquierdo
                             </label>
                             <Input
                                 type="number"

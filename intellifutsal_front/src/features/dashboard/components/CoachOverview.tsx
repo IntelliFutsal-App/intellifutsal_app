@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { FaBrain, FaCheck, FaClipboardList, FaDumbbell, FaTrophy, FaUsers } from "react-icons/fa";
 import { useActiveTeam } from "@shared/hooks";
-import { DonutChart, FunnelChart, HeatmapChart, HorizontalBarChart, InlineLoading, PositionPieChart, StatusBarChart, TrendChart } from "@shared/components";
+import { DonutChart, FunnelChart, HeatmapChart, HorizontalBarChart, InlineLoading, PositionPieChart, StatusBarChart, TrendChart } from "@shared/ui";
 import { StatCard, type ColorType } from "./StatCard";
 import { TeamActivityCards } from "@features/team";
 import { useCoachDashboard } from "../hooks";
