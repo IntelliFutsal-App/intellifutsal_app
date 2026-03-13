@@ -34,14 +34,15 @@ export const AIAnalysisSection = () => {
                     ? "Analizando..."
                     : "Seleccionar Jugador";
 
-    const normalizePosition = (position: string) => {
+    const normalizePosition = (position: string | null) => {
+        if (!position) return "Desconocida";
         const pos = position.toLowerCase();
 
         if (pos.includes("pivot")) return "Pívot";
         if (pos.includes("winger")) return "Ala";
         if (pos.includes("fixo")) return "Poste";
         if (pos.includes("goalkeeper")) return "Portero";
-        
+
         return position;
     }
 

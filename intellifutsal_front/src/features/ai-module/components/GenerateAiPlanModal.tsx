@@ -56,9 +56,9 @@ export const GenerateAiPlanModal = ({ isOpen, onClose, onGenerate }: GenerateAiP
     };
 
     const playerOptions = players.map(
-        (p: { id: number; firstName: string; lastName: string; position: string }) => ({
+        (p: { id: number; firstName: string; lastName: string; position: string | null }) => ({
             value: String(p.id),
-            label: `${p.firstName} ${p.lastName} - ${p.position}`,
+            label: `${p.firstName} ${p.lastName} - ${p.position || "Sin posición"}`,
         })
     );
 

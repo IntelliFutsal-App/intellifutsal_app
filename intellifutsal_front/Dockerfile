@@ -1,8 +1,11 @@
-# Dockerfile for frontend application with React/Vite
-FROM node:18-alpine
+# Stage 1: Build the React application
+FROM node:18-slim AS build
 
-# Set the working directory
 WORKDIR /app
+
+# Accept build arguments
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
 # Copy package.json and package-lock.json (if exists)
 COPY package*.json ./
@@ -15,3 +18,15 @@ COPY . .
 
 # Build the application for production
 RUN npm run build
+
+# Stage 2: Serve the application with Nginx
+FROM nginx:stable
+
+# Copy the build output to replace the default nginx contents
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]

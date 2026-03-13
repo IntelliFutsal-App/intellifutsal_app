@@ -1,8 +1,8 @@
 # Dockerfile for a Node.js application
-FROM node:18-alpine
+FROM node:18-slim
 
 # Download PostgreSQL client
-RUN apk add --no-cache postgresql-client
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /usr/src/app

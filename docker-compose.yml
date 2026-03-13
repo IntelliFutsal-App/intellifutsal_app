@@ -108,7 +108,7 @@ services:
     container_name: intellifutsal_react_frontend
     restart: always
     ports:
-      - "5173:90"
+      - "5173:80"
     environment:
       VITE_API_URL: ${VITE_API_URL}
     networks:

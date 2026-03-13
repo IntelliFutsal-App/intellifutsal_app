@@ -73,7 +73,7 @@ export const usePlayersSection = (activeTeamId?: number | null) => {
     }, [refresh]);
 
     const positions = useMemo(() => {
-        const unique = new Set(players.map((p) => p.position).filter(Boolean));
+        const unique = new Set(players.map((p) => p.position).filter((p): p is string => Boolean(p)));
         return ["all", ...Array.from(unique)];
     }, [players]);
 
@@ -82,7 +82,7 @@ export const usePlayersSection = (activeTeamId?: number | null) => {
             { value: "all", label: "Todas las posiciones" },
             ...positions
                 .filter((p) => p !== "all")
-                .map((p) => ({ value: p, label: p })),
+                .map((p) => ({ value: p as string, label: p as string })),
         ];
     }, [positions]);
 
