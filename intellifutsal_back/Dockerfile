@@ -18,9 +18,11 @@ WORKDIR /usr/src/app
 # psql is required by run-migrations.sh to wait for the DB to be ready
 RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 
-# Install only production dependencies (no nodemon / ts-node / typescript)
+# Install all dependencies (dev deps are required by ts-node/typeorm at migration
+# time when the source is volume-mounted in development, and by the TypeScript
+# compiler itself; they do not affect the production binary in dist/).
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm install
 
 # Copy compiled output from builder stage
 COPY --from=builder /usr/src/app/dist ./dist
