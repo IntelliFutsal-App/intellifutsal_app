@@ -42,7 +42,15 @@ echo "PostgreSQL is ready"
 # Run migrations if enabled
 if [ "$RUN_MIGRATIONS" = "true" ]; then
   echo "Running database migrations..."
-  npm run migration:run
+  # If TypeScript is compiled (production image), use the compiled JS config.
+  # If source is volume-mounted (development), fall back to ts-node.
+  if [ -f "dist/core/config/app-source.config.js" ]; then
+    echo "Using compiled migration runner (production)"
+    npx typeorm migration:run -d dist/core/config/app-source.config.js
+  else
+    echo "Using ts-node migration runner (development)"
+    npm run migration:run
+  fi
   echo "Migrations completed successfully"
 fi
 

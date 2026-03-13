@@ -4,12 +4,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL}
     container_name: intellifutsal_react_frontend_standalone
     restart: always
     ports:
       - "3000:80"
-    environment:
-      - VITE_API_URL=${VITE_API_URL}
     networks:
       - frontend-network
 

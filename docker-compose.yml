@@ -46,7 +46,8 @@ services:
     networks:
       - intellifutsal-network
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   nodejs-backend:
     build:
@@ -95,8 +96,11 @@ services:
     networks:
       - intellifutsal-network
     depends_on:
-      - postgres
-      - flask-backend
+      postgres:
+        condition: service_healthy
+      flask-backend:
+        condition: service_started
+    command: ["npm", "start"]
 
   react-frontend:
     build:
@@ -108,8 +112,6 @@ services:
     restart: always
     ports:
       - "5173:80"
-    environment:
-      VITE_API_URL: ${VITE_API_URL}
     networks:
       - intellifutsal-network
     depends_on:
