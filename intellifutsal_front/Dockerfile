@@ -1,5 +1,5 @@
 # Stage 1: Build the React application
-FROM node:18-slim AS build
+FROM node:20-slim AS build
 
 WORKDIR /app
 
@@ -10,8 +10,8 @@ ENV VITE_API_URL=$VITE_API_URL
 # Copy package.json and package-lock.json (if exists)
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies deterministically from lockfile
+RUN npm ci
 
 # Copy the source code
 COPY . .
