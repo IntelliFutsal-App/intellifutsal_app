@@ -55,8 +55,8 @@ services:
       dockerfile: Dockerfile
     container_name: intellifutsal_nodejs_backend
     restart: always
-    ports:
-      - "${APP_PORT}:9042"
+    expose:
+      - "9042"
     environment:
       DB_DEV_TYPE: ${DB_DEV_TYPE}
       DB_DEV_HOST: postgres
@@ -111,15 +111,75 @@ services:
         VITE_API_URL: ${VITE_API_URL}
     container_name: intellifutsal_react_frontend
     restart: always
-    ports:
-      - "5173:80"
+    expose:
+      - "80"
     networks:
       - intellifutsal-network
     depends_on:
       - nodejs-backend
 
+  cert-init:
+    image: alpine:3.20
+    container_name: intellifutsal_cert_init
+    environment:
+      DOMAIN: ${DOMAIN}
+    command: >
+      sh -c "
+      apk add --no-cache openssl >/dev/null 2>&1;
+      if [ ! -f /etc/letsencrypt/live/${DOMAIN}/fullchain.pem ]; then
+        mkdir -p /etc/letsencrypt/live/${DOMAIN};
+        openssl req -x509 -nodes -newkey rsa:2048 -days 1
+          -keyout /etc/letsencrypt/live/${DOMAIN}/privkey.pem
+          -out /etc/letsencrypt/live/${DOMAIN}/fullchain.pem
+          -subj '/CN=${DOMAIN}';
+      fi
+      "
+    volumes:
+      - certbot_conf:/etc/letsencrypt
+    networks:
+      - intellifutsal-network
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: intellifutsal_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./infra/nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    networks:
+      - intellifutsal-network
+    depends_on:
+      cert-init:
+        condition: service_completed_successfully
+      react-frontend:
+        condition: service_started
+      nodejs-backend:
+        condition: service_started
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: intellifutsal_certbot
+    restart: unless-stopped
+    entrypoint: /bin/sh -c
+    command: "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done"
+    volumes:
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+    networks:
+      - intellifutsal-network
+
 volumes:
   postgres_data:
+    driver: local
+  certbot_conf:
+    driver: local
+  certbot_www:
     driver: local
 
 networks:
