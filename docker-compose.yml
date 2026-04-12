@@ -123,22 +123,25 @@ services:
     container_name: intellifutsal_cert_init
     environment:
       DOMAIN: ${DOMAIN}
-    entrypoint: ["/bin/sh", "-ec"]
-    command: |
-      apt-get update
-      apt-get install -y --no-install-recommends openssl ca-certificates
-      rm -rf /var/lib/apt/lists/*
-      if [ -z "${DOMAIN}" ]; then
-        echo "DOMAIN is not set" >&2
-        exit 1
-      fi
-      if [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
-        mkdir -p "/etc/letsencrypt/live/${DOMAIN}"
-        openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
-          -keyout "/etc/letsencrypt/live/${DOMAIN}/privkey.pem" \
-          -out "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" \
-          -subj "/CN=${DOMAIN}"
-      fi
+    command:
+      - /bin/sh
+      - -ec
+      - |
+        set -eux
+        apt-get update
+        apt-get install -y --no-install-recommends openssl ca-certificates
+        rm -rf /var/lib/apt/lists/*
+        if [ -z "${DOMAIN}" ]; then
+          echo "DOMAIN is not set" >&2
+          exit 1
+        fi
+        if [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
+          mkdir -p "/etc/letsencrypt/live/${DOMAIN}"
+          openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
+            -keyout "/etc/letsencrypt/live/${DOMAIN}/privkey.pem" \
+            -out "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" \
+            -subj "/CN=${DOMAIN}"
+        fi
     volumes:
       - certbot_conf:/etc/letsencrypt
     networks:
