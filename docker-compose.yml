@@ -119,13 +119,15 @@ services:
       - nodejs-backend
 
   cert-init:
-    image: alpine:3.20
+    image: debian:bookworm-slim
     container_name: intellifutsal_cert_init
     environment:
       DOMAIN: ${DOMAIN}
     entrypoint: ["/bin/sh", "-ec"]
     command: |
-      apk add --no-cache openssl
+      apt-get update
+      apt-get install -y --no-install-recommends openssl ca-certificates
+      rm -rf /var/lib/apt/lists/*
       if [ -z "${DOMAIN}" ]; then
         echo "DOMAIN is not set" >&2
         exit 1
