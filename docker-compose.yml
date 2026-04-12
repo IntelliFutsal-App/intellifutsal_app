@@ -123,17 +123,20 @@ services:
     container_name: intellifutsal_cert_init
     environment:
       DOMAIN: ${DOMAIN}
-    command: >
-      sh -c "
-      apk add --no-cache openssl >/dev/null 2>&1;
-      if [ ! -f /etc/letsencrypt/live/${DOMAIN}/fullchain.pem ]; then
-        mkdir -p /etc/letsencrypt/live/${DOMAIN};
-        openssl req -x509 -nodes -newkey rsa:2048 -days 1
-          -keyout /etc/letsencrypt/live/${DOMAIN}/privkey.pem
-          -out /etc/letsencrypt/live/${DOMAIN}/fullchain.pem
-          -subj '/CN=${DOMAIN}';
+    entrypoint: ["/bin/sh", "-ec"]
+    command: |
+      apk add --no-cache openssl
+      if [ -z "${DOMAIN}" ]; then
+        echo "DOMAIN is not set" >&2
+        exit 1
       fi
-      "
+      if [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
+        mkdir -p "/etc/letsencrypt/live/${DOMAIN}"
+        openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
+          -keyout "/etc/letsencrypt/live/${DOMAIN}/privkey.pem" \
+          -out "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" \
+          -subj "/CN=${DOMAIN}"
+      fi
     volumes:
       - certbot_conf:/etc/letsencrypt
     networks:
@@ -179,8 +182,10 @@ volumes:
     driver: local
   certbot_conf:
     driver: local
+    name: intellifutsal_certbot_conf
   certbot_www:
     driver: local
+    name: intellifutsal_certbot_www
 
 networks:
   intellifutsal-network:
