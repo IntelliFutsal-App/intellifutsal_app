@@ -18,14 +18,15 @@ export class AiApiService implements IAiApiService {
     private readonly clusterService: ClusterService;
     private readonly playerClusterService: PlayerClusterService;
     private readonly teamService: TeamService;
-    private readonly apiUrl: string | undefined;
+    private readonly apiUrl: string;
 
     constructor() {
         this.playerService = new PlayerService();
         this.clusterService = new ClusterService();
         this.playerClusterService = new PlayerClusterService();
         this.teamService = new TeamService();
-        this.apiUrl = process.env.AI_API_URL;
+        const rawApiUrl = (process.env.AI_API_URL || "http://flask-backend:5000/api").replace(/\/+$/, "");
+        this.apiUrl = rawApiUrl.endsWith("/api") ? rawApiUrl : `${ rawApiUrl }/api`;
     }
 
     public predictPosition = async (playerId: number): Promise<AiApiPositionResponse> => {
