@@ -86,7 +86,7 @@ class OpenAIService:
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.5,
-                max_tokens=150
+                max_tokens=5000
             )
             
             content = response.choices[0].message.content
@@ -289,7 +289,7 @@ class OpenAIService:
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.5,
-                max_tokens=150
+                max_tokens=5000
             )
             
             content = response.choices[0].message.content
