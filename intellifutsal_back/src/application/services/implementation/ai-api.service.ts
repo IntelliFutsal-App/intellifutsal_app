@@ -45,6 +45,7 @@ export class AiApiService implements IAiApiService {
 
             return response.data;
         } catch (error) {
+            console.error(error);
             throw new BadRequestException(AI_SERVICE_POSITION_PREDICTION_ERROR);
         }
     }
@@ -65,6 +66,7 @@ export class AiApiService implements IAiApiService {
 
             return response.data;
         } catch (error) {
+            console.error(error);
             throw new BadRequestException(AI_SERVICE_PHYSICAL_PREDICTION_ERROR);
         }
     }
@@ -83,6 +85,7 @@ export class AiApiService implements IAiApiService {
 
             return response.data;     
         } catch (error) {
+            console.error(error);
             throw new BadRequestException(AI_SERVICE_ANALYTICS_PREDICTION_ERROR);
         }
     }
@@ -102,6 +105,7 @@ export class AiApiService implements IAiApiService {
 
             return response.data;     
         } catch (error) {
+            console.error(error);
             throw new BadRequestException(AI_SERVICE_ANALYTICS_PREDICTION_ERROR);
         }
     }
@@ -120,6 +124,7 @@ export class AiApiService implements IAiApiService {
 
             return response.data;
         } catch (error) {
+            console.error(error);
             throw new BadRequestException(AI_SERVICE_RECOMMENDATIONS_PREDICTION_ERROR);
         }
     }
@@ -141,6 +146,7 @@ export class AiApiService implements IAiApiService {
             
             return response.data;
         } catch (error) {
+            console.error(error);
             throw new BadRequestException(AI_SERVICE_TEAM_POSITION_PREDICTION_ERROR);
         }
     }
@@ -162,6 +168,7 @@ export class AiApiService implements IAiApiService {
 
             return response.data;
         } catch (error) {
+            console.error(error);
             throw new BadRequestException(AI_SERVICE_TEAM_PHYSICAL_PREDICTION_ERROR);
         }            
     }

@@ -120,9 +120,14 @@ class OpenAIService:
             
             performance_section = re.search(r'PERFIL DE RENDIMIENTO:\s*(.*?)', content, re.DOTALL)
             if performance_section:
-                performance_profile = re.findall(r'-\s*(.*?)(?:\n|$)', performance_section.group(1).strip(), re.DOTALL)
-                performance_profile = [item.strip() for item in performance_profile if item.strip()]
-                performance_profile = "\n".join(performance_profile)
+                performance_section_text = performance_section.group(1).strip()
+                performance_profile_items = re.findall(r'-\s*(.*?)(?:\n|$)', performance_section_text, re.DOTALL)
+                if performance_profile_items:
+                    performance_profile = "\n".join(
+                        item.strip() for item in performance_profile_items if item.strip()
+                    )
+                else:
+                    performance_profile = performance_section_text
             
             if not general_analysis:
                 general_match_fallback = re.search(r'^(.*?)(?=\s*\n\s*(?:FORTALEZAS:|PUNTOS FUERTES:|$))', content, re.DOTALL)

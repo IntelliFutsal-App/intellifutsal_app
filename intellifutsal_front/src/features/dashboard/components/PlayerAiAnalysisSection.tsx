@@ -121,7 +121,7 @@ export const PlayerAIAnalysisSection = () => {
                             Perfil de Rendimiento
                         </h3>
                         <div className="bg-linear-to-br from-gray-50 to-orange-50/30 rounded-xl p-5 sm:p-6 border border-gray-200">
-                            <p className="text-gray-700 leading-relaxed">{analysisData.performanceProfile}</p>
+                            <p className="text-gray-700 leading-relaxed whitespace-pre-line">{analysisData.performanceProfile}</p>
                         </div>
                     </div>
                 </div>
