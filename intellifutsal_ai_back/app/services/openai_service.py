@@ -118,7 +118,7 @@ class OpenAIService:
                 training_items = re.findall(r'-\s*(.*?)(?:\n|$)', training_section.group(1).strip(), re.DOTALL)
                 training_recommendations = [item.strip() for item in training_items if item.strip()]
             
-            performance_section = re.search(r'PERFIL DE RENDIMIENTO:\s*(.*?)', content, re.DOTALL)
+            performance_section = re.search(r'PERFIL DE RENDIMIENTO:\s*(.*)$', content, re.DOTALL)
             if performance_section:
                 performance_section_text = performance_section.group(1).strip()
                 performance_profile_items = re.findall(r'-\s*(.*?)(?:\n|$)', performance_section_text, re.DOTALL)
