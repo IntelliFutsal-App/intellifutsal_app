@@ -1,5 +1,5 @@
 import { playerService, type UpdatePlayerSchema } from "@features/player";
-import { trainingAssignmentService, trainingPlanService } from "@features/training";
+import { trainingPlanService } from "@features/training";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
 
@@ -26,26 +26,13 @@ export const usePlayerManagement = ({ onPlayerUpdated, onPlanGenerated }: UsePla
     const generateAiTrainingPlan = useCallback(
         async (playerId: number) => {
             try {
-                const plan = await trainingPlanService.createFromAiForPlayer(playerId);
+                // The AI generates a plan proposal only. It is left in
+                // PENDING_APPROVAL so a coach reviews it before it is approved,
+                // assigned and activated: accountability for training load stays
+                // with the coach, not the model.
+                await trainingPlanService.createFromAiForPlayer(playerId);
 
-                const approvedPlan = await trainingPlanService.approve(plan.id, {
-                    approvalComment: "Plan generado y aprobado automáticamente por IA",
-                });
-
-                const startDate = new Date();
-                const endDate = new Date();
-                endDate.setDate(endDate.getDate() + 30);
-
-                const assignment = await trainingAssignmentService.create({
-                    trainingPlanId: approvedPlan.id,
-                    playerId: playerId,
-                    startDate: startDate,
-                    endDate: endDate,
-                });
-
-                await trainingAssignmentService.activate(assignment.id);
-
-                toast.success("Plan generado, aprobado y asignado con IA");
+                toast.success("Plan generado con IA. Queda pendiente de tu revisión y aprobación.");
                 onPlanGenerated?.();
             } catch (error) {
                 console.error("Error al generar plan con IA:", error);

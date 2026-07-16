@@ -23,7 +23,7 @@ RUN mkdir -p /static/models
 COPY . .
 
 # Expose Flask port
-EXPOSE 5000
+EXPOSE 9041
 
 # Run the app using Gunicorn with main.py as the entry point
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "90", "main:app"]
+CMD gunicorn --bind 0.0.0.0:${PORT:-9041} --timeout 90 main:app

@@ -132,8 +132,7 @@ export class TrainingPlanMapper {
             `Perfil de rendimiento:\n${aiResponse.performanceProfile}\n\n` +
             `Fortalezas:\n- ${strengths.join("\n- ")}\n\n` +
             `Debilidades:\n- ${weaknesses.join("\n- ")}\n\n` +
-            `Recomendaciones de entrenamiento:\n- ${trainingRecommendations.join("\n- ")}\n\n` +
-            `Análisis detallado del modelo:\n${aiResponse.analysis}`;
+            `Recomendaciones de entrenamiento:\n- ${trainingRecommendations.join("\n- ")}`;
 
         trainingPlan.createdByCoach = coach;
         trainingPlan.generatedByAi = true;
